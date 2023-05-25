@@ -28,7 +28,7 @@ A Document Reference is primarily mapped from a Narrative Statement. Where the E
 
 ## JSON FHIR > XML HL7
 
-A Document Reference is mapped to a Narrative Statement and an absent attachment placeholder (is one is created)
+A Document Reference is mapped to a Narrative Statement and an absent attachment placeholder (if one is created)
 
 | Mapped to (XML HL7)                                                          | Mapped from (JSON FHIR / other source )                                                         |
 |------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------|
