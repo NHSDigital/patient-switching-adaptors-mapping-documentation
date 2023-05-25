@@ -48,7 +48,7 @@ filename will be "AbsentAttachment<b>{{narrativeStatementId}}</b>.txt" e.g. Abse
 
 The adaptor will generate a placeholder if:
 * `DocumentReference.content.attachment.contentType` is not supported.
-* `DocumentReference.content.attachment.title` field is not present or contains an empty string.
+* `DocumentReference.content.attachment.title` field is present and doesn't contain empty string.
 * `DocumentReference.content.attachment.url` is missing or there is an error retrieving the document binary. 
 
 The content of the placeholder will be mapped as follows:
