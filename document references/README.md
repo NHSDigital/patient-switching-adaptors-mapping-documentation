@@ -48,8 +48,8 @@ filename will be "AbsentAttachment<b>{{narrativeStatementId}}</b>.txt" e.g. Abse
 ### Placeholder generation
 
 The adaptor will generate a placeholder if:
-* `DocumentReference.content.attachment.contentType` is not supported.
-* `DocumentReference.content.attachment.title` field is present and doesn't contain empty string.
+* `DocumentReference.content.attachment.contentType` MIME type is not supported.
+* `DocumentReference.content.attachment.title` is present and doesn't contain empty string.
 * `DocumentReference.content.attachment.url` is missing or there is an error retrieving the document binary. 
 
 The content of the placeholder will be mapped as follows:
@@ -66,3 +66,8 @@ Where:
 - `{{description}}` = `DocumentReference.description`
 - `{{odsCode}}` = ODS code of the losing practice
 - `{{conversationID}}` = the conversation ID of the migration
+
+## Further documentation
+[GP Connect Document Reference](https://developer.nhs.uk/apis/gpconnect-1-6-0/access_documents_development_documentreference.html)
+
+[MIM 4.2.00](https://data.developer.nhs.uk/dms/mim/4.2.00/Index.htm) 
