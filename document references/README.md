@@ -6,7 +6,7 @@ A Document Reference is primarily mapped from a Narrative Statement. Where the E
 
 | Mapped to (JSON FHIR Document Reference field) | Mapped from (XML HL7 / other source)                                                                             |
 |------------------------------------------------|------------------------------------------------------------------------------------------------------------------|
-| id                                             | `NarrativeStatement / id \[@root]`                                                                               |
+| id                                             | `NarrativeStatement / id [@root]`                                                                                |
 | identifier\[0].system                          | `"https://PSSAdaptor/{{losingOdsCode}}"` - where the `{{losingOdsCode}}` is the ODS code of the losing practice  |
 | status                                         | fixed value = `"current"`                                                                                        |
 | type                                           | `NarrativeStatement / reference / referredToExternalDocument / code`                                             |
@@ -47,7 +47,7 @@ filename will be "AbsentAttachment<b>{{narrativeStatementId}}</b>.txt" e.g. Abse
 ### Placeholder generation
 
 The adaptor will generate a placeholder if:
-`DocumentReference.content.attachment.contentType` is not supported.
+* `DocumentReference.content.attachment.contentType` is not supported.
 * `DocumentReference.content.attachment.title` field is not present or contains an empty string.
 * `DocumentReference.content.attachment.url` is missing or there is an error retrieving the document binary. 
 
