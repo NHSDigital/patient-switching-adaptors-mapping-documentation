@@ -8,6 +8,7 @@ A Document Reference is primarily mapped from a Narrative Statement. Where the E
 |------------------------------------------------|------------------------------------------------------------------------------------------------------------------|
 | id                                             | `NarrativeStatement / id [@root]`                                                                                |
 | identifier\[0].system                          | `"https://PSSAdaptor/{{losingOdsCode}}"` - where the `{{losingOdsCode}}` is the ODS code of the losing practice  |
+| identifier\[0].value                           | `NarrativeStatement / id [@root]`                                                                                |
 | status                                         | fixed value = `"current"`                                                                                        |
 | type                                           | `NarrativeStatement / reference / referredToExternalDocument / code`                                             |
 | subject                                        | reference to the mapped [Patient](../patient/README.md)                                                          |
