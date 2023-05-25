@@ -41,8 +41,8 @@ A Document Reference is mapped to a Narrative Statement and an absent attachment
 
 
 4. If the Adaptor has generated a placeholder the media type will have a fixed value of `plain/text`. 
-5. If the attachment is present, the generated filename will consist of the narrativeStatement ID and a file extension derived from the MIME content type. If the Adaptor has generated a placeholder the 
-filename will be "AbsentAttachment{{narrativeStatementId}}.txt" e.g. AbsentAttachmentB2BAE43C-C540-4A0B-9EB7-D36D2F106F69.txt.
+5. If the attachment is present, the generated filename will consist of the NarrativeStatement ID and a file extension derived from `DocumentReference.content.attachment.contentType`. If the Adaptor has generated a placeholder the 
+filename will be "AbsentAttachment<b>{{narrativeStatementId}}</b>.txt" e.g. AbsentAttachmentB2BAE43C-C540-4A0B-9EB7-D36D2F106F69.txt.
 
 ### Placeholder generation
 
