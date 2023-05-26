@@ -19,7 +19,7 @@ A Document Reference is primarily mapped from a Narrative Statement. Where the E
 | description                                    | `NarrativeStatement / text`                                                                                      |
 | content.attachment.url                         | The URL of the attachment in the Adaptors file storage area (S3 / Blob Storage) <sup>1</sup>                     |
 | content.attachment.size                        | The size of the file in the Adaptors file storage area (S3 / Blob Storage)                                       |
-| content.attachment.title                       | fixed value = "GP2GP generated placeholder. Original document not available. See notes for details" <sup>2</sup> |
+| content.attachment.title                       | fixed value = `"GP2GP generated placeholder. Original document not available. See notes for details"` <sup>2</sup> |
 | content.attachment.contentType                 | `NarrativeStatement / referredToExternalDocument / text [@mediaType]`                                            |                                                                                                                    |
 | context.encounter                              | reference to the associated [Encounter](../encounters/README.md) <sup>3</sup>                                    |                                                                                                                    |
 
