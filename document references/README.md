@@ -27,6 +27,14 @@ A Document Reference is primarily mapped from a Narrative Statement. Where the E
 2. The `content.title` field will only be populated if a GP2GP absent attachment placeholder has been sent.  
 3. The Encounter referenced in `context.encounter` is mapped from the parent EhrComposition. However, this is not done if the EhrComposition has a SNOMED conceptId of Non-consultation data (196401000000100) or Non-consultation medication data (196391000000103).
 
+### Unmapped fields
+
+The following Document Reference fields are not currently populated by the adaptor:
+- masterIdentifier
+- context.practiceSetting
+- context.related
+
+
 ## JSON FHIR > XML HL7
 
 A Document Reference is mapped to a Narrative Statement and an absent attachment placeholder (if one is created)
