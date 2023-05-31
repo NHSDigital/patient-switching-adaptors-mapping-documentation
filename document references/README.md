@@ -6,6 +6,7 @@ A Document Reference is primarily mapped from a Narrative Statement. Where the E
 
 | Mapped to (JSON FHIR Document Reference field) | Mapped from (XML HL7 / other source)                                                                             |
 |------------------------------------------------|------------------------------------------------------------------------------------------------------------------|
+| meta.profile                                   | fixed value = `"https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"`               |
 | id                                             | `NarrativeStatement / id [@root]`                                                                                |
 | identifier\[0].system                          | `"https://PSSAdaptor/{{losingOdsCode}}"` - where the `{{losingOdsCode}}` is the ODS code of the losing practice  |
 | identifier\[0].value                           | `NarrativeStatement / id [@root]`                                                                                |
@@ -13,15 +14,15 @@ A Document Reference is primarily mapped from a Narrative Statement. Where the E
 | type                                           | `NarrativeStatement / reference / referredToExternalDocument / code`                                             |
 | subject                                        | reference to the mapped [Patient](../patient/README.md)                                                          |
 | created                                        | `EhrComposition / AvailabilityTime`                                                                              |
-| indexed                                        | `EhrComposition / author`                                                                                        |
+| indexed                                        | `EhrComposition / author / time [@value]`                                                                        |
 | author                                         | `NarrativeStatement / participant / agentRef / id [@root]`                                                       |
 | custodian                                      | reference to the losing [Organisation](../organisations/README.md)                                               |
 | description                                    | `NarrativeStatement / text`                                                                                      |
 | content.attachment.url                         | The URL of the attachment in the Adaptors file storage area (S3 / Blob Storage) <sup>1</sup>                     |
 | content.attachment.size                        | The size of the file in the Adaptors file storage area (S3 / Blob Storage)                                       |
 | content.attachment.title                       | fixed value = `"GP2GP generated placeholder. Original document not available. See notes for details"` <sup>2</sup> |
-| content.attachment.contentType                 | `NarrativeStatement / referredToExternalDocument / text [@mediaType]`                                            |                                                                                                                    |
-| context.encounter                              | reference to the associated [Encounter](../encounters/README.md) <sup>3</sup>                                    |                                                                                                                    |
+| content.attachment.contentType                 | `NarrativeStatement / referredToExternalDocument / text [@mediaType]`                                            |                                                       
+| context.encounter                              | reference to the associated [Encounter](../encounters/README.md) <sup>3</sup>                                    |                                                       
 
 1. Because placeholders are uploaded to storage the `content.attachment.url` field should always be populated.
 2. The `content.title` field will only be populated if a GP2GP absent attachment placeholder has been sent.  
