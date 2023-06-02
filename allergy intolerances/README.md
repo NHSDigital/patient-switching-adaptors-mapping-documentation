@@ -1,6 +1,41 @@
 # Allergy Intolerance Mapping
 
-## Example JSON
+## XML HL7 > JSON FHIR
+
+An Allergy Intolerance is primarily mapped from an Observation Statement.
+
+| Mapped to (JSON FHIR Allergy Intolerance field) | Mapped from (XML HL7 / other source)                                                                  |
+|---------------------------------------|-----------------------------------------------------------------------------------------------------------------|
+| id                                    | `ObservationStatement / id [@root `                                                                             |
+| meta.profile\[0]                      | fixed value = `"https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-AllergyIntolerance-1"`             |
+| extension[0].url                      | fixed value = `http://hl7.org/fhir/StructureDefinition/encounter-associatedEncounter`                           |
+| extension[0].valueReference.reference | reference to the associated [Encounter](../encounters/README.md)                                                |
+| identifier\[0].system                 | `"https://PSSAdaptor/{{losingOdsCode}}"` - where the `{{losingOdsCode}}` is the ODS code of the losing practice |
+| identifier\[0].value                  | `ObservationStatement / id [@root]`                                                                             |
+| clinicalStatus                        | fixed value = `active`                                                                                          |
+| verificationStatus                    | fixed value = `unconfirmed`                                                                                     |
+| category[0]                           | `CompoundStatement / code [@code]`                                                                              |
+| code                                  | Mapped from `ObservationStatement / value` or `ObservationStatement / code`                                     |
+| patient                               | reference to the mapped [Patient](../patient/README.md)                                                         |
+| onsetDateTime                         | `CompoundStatement / effectiveTime / low [@value]`                                                              |
+| assertedDate                          | `CompoundStatement / availabilityTime [@value]`                                                                 |
+| recorder                              | reference to the mapped [Practitioner](../practioners/README.md)                                                |
+| asserter                              | reference to the mapped [Practitioner](../practioners/README.md)                                                |
+| note\[0].text                         | `ObservationStatement / pertinentInformation / pertinentAnnotation / text`                                      |
+
+### Unmapped fields
+
+The following Allergy Intolerance fields are not currently populated by the adaptor:
+- type
+- criticality
+- context.related
+- lastOccurrence
+- reaction
+
+
+<details>
+    <summary>Example JSON</summary>
+
 ```
 {
     "resource": {
@@ -74,8 +109,28 @@
     }
 },
 ```
+</details>
 
-## Example XML
+## JSON FHIR > XML HL7
+
+An Allergy Intolerance is mapped to a CompoundStatement with inner ObservationStatement.
+
+| Mapped to (XML HL7)                                                          | Mapped from (JSON FHIR / other source )                        |
+|------------------------------------------------------------------------------|----------------------------------------------------------------|
+| CompoundStatement / id \[@root]                                              | `AllergyIntolerance.id`                                        |
+| CompoundStatement / code                                                     | `AllergyIntolerance.category[0]`                               |
+| CompoundStatement / effectiveTime                                            | `AllergyIntolerance.onsetDateTime`                             |
+| CompoundStatement / availabilityTime                                         | `AllergyIntolerance.assertedDate`                              |
+| ObservationStatement / id \[@root]                                           | `AllergyIntolerance.id`                                        |
+| ObservationStatement / code                                                  | `AllergyIntolerance.code`                                      |
+| ObservationStatement / effectiveTime                                         | `AllergyIntolerance.onsetDateTime`                             |
+| ObservationStatement / availabilityTime                                      | `AllergyIntolerance.assertedDate`                              |
+| ObservationStatement / pertinentInformation / pertinentAnnotation / text     | `AllergyIntolerance.note\[0].text`                             |
+| ObservationStatement / Participant \[@typeCode=AUT] / agentRef / id \[@root] | `AllergyIntolerance.recorder`                                  |
+| ObservationStatement / Participant \[@typeCode=PRF] / agentRef / id \[@root] | `AllergyIntolerance.asserter` or `AllergyIntolerance.recorder` |
+
+<details><summary>Example XML</summary>
+
 ```
 <component typeCode="COMP" contextConductionInd="true">
     <ObservationStatement classCode="OBS" moodCode="EVN">
@@ -105,56 +160,7 @@
     </ObservationStatement>
 </component>
 ```
-
-## XML HL7 > JSON FHIR
-
-An Allergy Intolerance is primarily mapped from an Observation Statement.
-
-| Mapped to (JSON FHIR Allergy Intolerance field) | Mapped from (XML HL7 / other source)                                                                  |
-|---------------------------------------|-----------------------------------------------------------------------------------------------------------------|
-| id                                    | `ObservationStatement / id [@root `                                                                             |
-| meta.profile\[0]                      | fixed value = `"https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-AllergyIntolerance-1"`             |
-| extension[0].url                      | fixed value = `http://hl7.org/fhir/StructureDefinition/encounter-associatedEncounter`                           |
-| extension[0].valueReference.reference | reference to the associated [Encounter](../encounters/README.md)                                                |
-| identifier\[0].system                 | `"https://PSSAdaptor/{{losingOdsCode}}"` - where the `{{losingOdsCode}}` is the ODS code of the losing practice |
-| identifier\[0].value                  | `ObservationStatement / id [@root]`                                                                             |
-| clinicalStatus                        | fixed value = `active`                                                                                          |
-| verificationStatus                    | fixed value = `unconfirmed`                                                                                     |
-| category[0]                           | `CompoundStatement / code [@code]`                                                                              |
-| code                                  | Mapped from `ObservationStatement / value` or `ObservationStatement / code`                                     |
-| patient                               | reference to the mapped [Patient](../patient/README.md)                                                         |
-| onsetDateTime                         | `CompoundStatement / effectiveTime / low [@value]`                                                              |
-| assertedDate                          | `CompoundStatement / availabilityTime [@value]`                                                                 |
-| recorder                              | reference to the mapped [Practitioner](../practioners/README.md)                                                |
-| asserter                              | reference to the mapped [Practitioner](../practioners/README.md)                                                |
-| note\[0].text                         | `ObservationStatement / pertinentInformation / pertinentAnnotation / text`                                      |
-
-### Unmapped fields
-
-The following Allergy Intolerance fields are not currently populated by the adaptor:
-- type
-- criticality
-- context.related
-- lastOccurrence
-- reaction
-
-## JSON FHIR > XML HL7
-
-An Allergy Intolerance is mapped to a CompoundStatement with inner ObservationStatement.
-
-| Mapped to (XML HL7)                                                          | Mapped from (JSON FHIR / other source )                        |
-|------------------------------------------------------------------------------|----------------------------------------------------------------|
-| CompoundStatement / id \[@root]                                              | `AllergyIntolerance.id`                                        |
-| CompoundStatement / code                                                     | `AllergyIntolerance.category[0]`                               |
-| CompoundStatement / effectiveTime                                            | `AllergyIntolerance.onsetDateTime`                             |
-| CompoundStatement / availabilityTime                                         | `AllergyIntolerance.assertedDate`                              |
-| ObservationStatement / id \[@root]                                           | `AllergyIntolerance.id`                                        |
-| ObservationStatement / code                                                  | `AllergyIntolerance.code`                                      |
-| ObservationStatement / effectiveTime                                         | `AllergyIntolerance.onsetDateTime`                             |
-| ObservationStatement / availabilityTime                                      | `AllergyIntolerance.assertedDate`                              |
-| ObservationStatement / pertinentInformation / pertinentAnnotation / text     | `AllergyIntolerance.note\[0].text`                             |
-| ObservationStatement / Participant \[@typeCode=AUT] / agentRef / id \[@root] | `AllergyIntolerance.recorder`                                  |
-| ObservationStatement / Participant \[@typeCode=PRF] / agentRef / id \[@root] | `AllergyIntolerance.asserter` or `AllergyIntolerance.recorder` |
+</details>
 
 ## Further documentation
 [GP Connect Allergy Intolerance](https://developer.nhs.uk/apis/gpconnect-1-6-0/accessrecord_structured_development_allergyintolerance.html)
