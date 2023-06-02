@@ -142,19 +142,19 @@ The following Allergy Intolerance fields are not currently populated by the adap
 
 An Allergy Intolerance is mapped to a CompoundStatement with inner ObservationStatement.
 
-| Mapped to (XML HL7)                                                          | Mapped from (JSON FHIR / other source ) |
-|------------------------------------------------------------------------------|----|
-| CompoundStatement / id \[@root]                                              | ??? |
-| CompoundStatement / code                                                     | ??? |
-| CompoundStatement / effectiveTime                                            | ??? |
-| CompoundStatement / availabilityTime                                         | ??? |
-| ObservationStatement / id \[@root]                                           | ??? |
-| ObservationStatement / code                                                  | ??? |
-| ObservationStatement / effectiveTime                                         | ??? |
-| ObservationStatement / availabilityTime                                      | ??? |
-| ObservationStatement / pertinentInformation / pertinentAnnotation / text     | ??? |
-| ObservationStatement / Participant \[@typeCode=AUT] / agentRef / id \[@root] | ??? |
-| ObservationStatement / Participant \[@typeCode=PRF] / agentRef / id \[@root] | ??? |
+| Mapped to (XML HL7)                                                          | Mapped from (JSON FHIR / other source )                        |
+|------------------------------------------------------------------------------|----------------------------------------------------------------|
+| CompoundStatement / id \[@root]                                              | `AllergyIntolerance.id`                                        |
+| CompoundStatement / code                                                     | `AllergyIntolerance.category[0]`                               |
+| CompoundStatement / effectiveTime                                            | `AllergyIntolerance.onsetDateTime`                             |
+| CompoundStatement / availabilityTime                                         | `AllergyIntolerance.assertedDate`                              |
+| ObservationStatement / id \[@root]                                           | `AllergyIntolerance.id`                                        |
+| ObservationStatement / code                                                  | `AllergyIntolerance.code`                                      |
+| ObservationStatement / effectiveTime                                         | `AllergyIntolerance.onsetDateTime`                             |
+| ObservationStatement / availabilityTime                                      | `AllergyIntolerance.assertedDate`                              |
+| ObservationStatement / pertinentInformation / pertinentAnnotation / text     | `AllergyIntolerance.note\[0].text`                             |
+| ObservationStatement / Participant \[@typeCode=AUT] / agentRef / id \[@root] | `AllergyIntolerance.recorder`                                  |
+| ObservationStatement / Participant \[@typeCode=PRF] / agentRef / id \[@root] | `AllergyIntolerance.asserter` or `AllergyIntolerance.recorder` |
 
 ## Further documentation
 [GP Connect Allergy Intolerance](https://developer.nhs.uk/apis/gpconnect-1-6-0/accessrecord_structured_development_allergyintolerance.html)
