@@ -4,7 +4,7 @@
 
 Organisations are mapped from the HL7v3 Agent Directory, where the directory contains an `AgentOrganisation` or a 
 `representedOrganisation` of an `AgentPerson`. If the losing practice is not present in the Agent Directory and 
-needs to be referenced as an author for a [Document Reference](../document references/README.md), an Organisation 
+needs to be referenced as an author for a [Document Reference](../document%20references/README.md), an Organisation 
 is generated with the losing practice ODS code.
 
 ### Agent Organisation
