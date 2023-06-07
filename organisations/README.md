@@ -220,12 +220,12 @@ Organisation to an `AgentPerson` instead of `AgentOrganisation`. This is due to 
 was given to the Organisation as a performer.
 
 ### Organisation as the Agent (AgentPerson)
-| Mapped to (XML HL7)         | Mapped from (JSON FHIR / other source) |
-|-----------------------------|----------------------------------------|
-| Agent / id \[@root]         | New UUID gnerated by the adaptor       |
-| Agent / code \[@nullFlavor] | fixed value = `"UNK"`                  |
-| Agent / code / originalText | fixed value = `Unknown`                |
-| Agent / name / family       | `Organization.name`                    |
+| Mapped to (XML HL7)                 | Mapped from (JSON FHIR / other source) |
+|-------------------------------------|----------------------------------------|
+| Agent / id \[@root]                 | New UUID gnerated by the adaptor       |
+| Agent / code \[@nullFlavor]         | fixed value = `"UNK"`                  |
+| Agent / code / originalText         | fixed value = `Unknown`                |
+| Agent / agentPerson / name / family | `Organization.name`                    |
 
 <details>
     <summary>Example XML</summary>
@@ -249,7 +249,8 @@ was given to the Organisation as a performer.
 | Mapped to (XML HL7)                                        | Mapped from (JSON FHIR / other source)                            |
 |------------------------------------------------------------|-------------------------------------------------------------------|
 | Agent / representedOrganisation / name                     | `Organization.name`                                               | 
-| Agent / representedOrganisation / telecom                  | `Organization.telecom.value` <sup>3</sup>                         |
+| Agent / representedOrganisation / telecom \[@value]        | `Organization.telecom.value` <sup>3</sup>                         |
+| Agent / representedOrganisation / telecom \[@use]          | fixed value = `"WP"`                                              |
 | Agent / representedOrganisation / addr / streetAddressLine | `Organization.address[0].line` and `Organization.address[0].city` |
 | Agent / representedOrganisation / addr / postalCode        | `Organization.address[0].postalCode`                              |  
 
