@@ -2,7 +2,7 @@
 
 ## XML HL7 > JSON FHIR
 
-An Allergy Intolerance is primarily mapped from an Observation Statement.
+An Allergy Intolerance is mapped from a Compound Statement containing an Observation Statement.
 
 | Mapped to (JSON FHIR Allergy Intolerance field) | Mapped from (XML HL7 / other source)                                                                    |
 |---------------------------------------|-------------------------------------------------------------------------------------------------------------------|
