@@ -4,24 +4,24 @@
 
 An Allergy Intolerance is primarily mapped from an Observation Statement.
 
-| Mapped to (JSON FHIR Allergy Intolerance field) | Mapped from (XML HL7 / other source)                                                                  |
-|---------------------------------------|-----------------------------------------------------------------------------------------------------------------|
-| id                                    | `ObservationStatement / id [@root] `                                                                             |
-| meta.profile\[0]                      | fixed value = `"https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-AllergyIntolerance-1"`             |
-| extension[0].url                      | fixed value = `http://hl7.org/fhir/StructureDefinition/encounter-associatedEncounter`                           |
-| extension[0].valueReference.reference | reference to the associated [Encounter](../encounters/README.md)                                                |
-| identifier\[0].system                 | `"https://PSSAdaptor/{{losingOdsCode}}"` - where the `{{losingOdsCode}}` is the ODS code of the losing practice |
-| identifier\[0].value                  | `ObservationStatement / id [@root]`                                                                             |
-| clinicalStatus                        | fixed value = `active`                                                                                          |
-| verificationStatus                    | fixed value = `unconfirmed`                                                                                     |
-| category\[0]                          | `CompoundStatement / code [@code]`                                                                              |
-| code                                  | Mapped from `ObservationStatement / value` or `ObservationStatement / code`                                     |
-| patient                               | reference to the mapped [Patient](../patient/README.md)                                                         |
-| onsetDateTime                         | `CompoundStatement / effectiveTime / low [@value]`                                                              |
-| assertedDate                          | `CompoundStatement / availabilityTime [@value]`                                                                 |
-| recorder                              | reference to the mapped [Practitioner](../practioners/README.md)                                                |
-| asserter                              | reference to the mapped [Practitioner](../practioners/README.md)                                                |
-| note\[0].text                         | `ObservationStatement / pertinentInformation / pertinentAnnotation / text`                                      |
+| Mapped to (JSON FHIR Allergy Intolerance field) | Mapped from (XML HL7 / other source)                                                                    |
+|---------------------------------------|-------------------------------------------------------------------------------------------------------------------|
+| id                                    | `ObservationStatement / id [@root] `                                                                              |
+| meta.profile\[0]                      | fixed value = `"https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-AllergyIntolerance-1"`               |
+| extension[0].url                      | fixed value = `http://hl7.org/fhir/StructureDefinition/encounter-associatedEncounter`                             |
+| extension[0].valueReference.reference | reference to the associated [Encounter](../encounters/README.md)                                                  |
+| identifier\[0].system                 | `"https://PSSAdaptor/{{losingOdsCode}}"` - where the `{{losingOdsCode}}` is the ODS code of the losing practice   |
+| identifier\[0].value                  | `ObservationStatement / id [@root]`                                                                               |
+| clinicalStatus                        | fixed value = `active`                                                                                            |
+| verificationStatus                    | fixed value = `unconfirmed`                                                                                       |
+| category\[0]                          | fixed value = `medication` if `CompoundStatement / code [@code] == 14L..00` otherwise fixed value = `environment` |
+| code                                  | Mapped from `ObservationStatement / value` or `ObservationStatement / code`                                       |
+| patient                               | reference to the mapped [Patient](../patient/README.md)                                                           |
+| onsetDateTime                         | `CompoundStatement / effectiveTime / low [@value]`                                                                |
+| assertedDate                          | `CompoundStatement / availabilityTime [@value]`                                                                   |
+| recorder                              | reference to the mapped [Practitioner](../practioners/README.md)                                                  |
+| asserter                              | reference to the mapped [Practitioner](../practioners/README.md)                                                  |
+| note\[0].text                         | `ObservationStatement / pertinentInformation / pertinentAnnotation / text`                                        |
 
 ### Unmapped fields
 
