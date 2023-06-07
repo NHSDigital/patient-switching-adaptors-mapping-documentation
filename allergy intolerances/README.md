@@ -15,13 +15,15 @@ An Allergy Intolerance is mapped from a Compound Statement containing an Observa
 | clinicalStatus                        | fixed value = `active`                                                                                            |
 | verificationStatus                    | fixed value = `unconfirmed`                                                                                       |
 | category\[0]                          | fixed value = `medication` if `CompoundStatement / code [@code] == 14L..00` otherwise fixed value = `environment` |
-| code                                  | Mapped from `ObservationStatement / value` or `ObservationStatement / code`                                       |
+| code                                  | Mapped from `ObservationStatement / value` or `ObservationStatement / code` <sup>1</sup>                          |
 | patient                               | reference to the mapped [Patient](../patient/README.md)                                                           |
 | onsetDateTime                         | `CompoundStatement / effectiveTime / low [@value]`                                                                |
 | assertedDate                          | `CompoundStatement / availabilityTime [@value]`                                                                   |
 | recorder                              | reference to the mapped [Practitioner](../practioners/README.md)                                                  |
 | asserter                              | reference to the mapped [Practitioner](../practioners/README.md)                                                  |
 | note\[0].text                         | `ObservationStatement / pertinentInformation / pertinentAnnotation / text`                                        |
+
+1. Where a valid SNOMED value isn't available, a value of Transfer-degraded non-drug allergy (196471000000108), or Transfer-degraded drug allergy (196461000000101) is provided instead
 
 ### Unmapped fields
 
