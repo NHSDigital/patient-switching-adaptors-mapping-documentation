@@ -137,17 +137,9 @@ or an `AgentPerson` with an associated `representedOrganization`.
 ```
 </details>
 
-If after generating the organisations above, the losing practice is not present in the Agent Directory and 
-needs to be referenced as an author for a [Document Reference](../document%20references/README.md), an Organisation 
+If after generating the organisations above, the losing practice is not present in the Agent Directory and
+needs to be referenced as an author for a [Document Reference](../document%20references/README.md), an Organisation
 is generated with the losing practice ODS code.
-
-1. A String is added to the line array for each streetAddressLine element. The first occurrence of `addr` is mapped,
-   additional occurrences are ignored.
-2. The first occurrence of `telecom` is mapped, additional occurrences are ignored.
-3. Multiple practitioners could represent the same organisation. Therefore, the adaptor maps the first instance of
-   a represented organisation, determined by ODS code, to an `Organization` and links the relevant
-   [Practitioners](../practioners/README.md) via `PractionerRole` resources. The `id` is appended with `"-ORG"` as the
-   [Practitioner](../practioners/README.md) mapping also uses the value mapped from `Agent / id [@root]`.
 
 ### Generated Organisation
 | Mapped to (JSON FHIR Organisation resource field) | Mapped from (XML HL7 / other)                                  |
@@ -180,6 +172,14 @@ is generated with the losing practice ODS code.
 
 ```
 </details>
+
+1. A String is added to the line array for each streetAddressLine element. The first occurrence of `addr` is mapped,
+   additional occurrences are ignored.
+2. The first occurrence of `telecom` is mapped, additional occurrences are ignored.
+3. Multiple practitioners could represent the same organisation. Therefore, the adaptor maps the first instance of
+   a represented organisation, determined by ODS code, to an `Organization` and links the relevant
+   [Practitioners](../practioners/README.md) via `PractionerRole` resources. The `id` is appended with `"-ORG"` as the
+   [Practitioner](../practioners/README.md) mapping also uses the value mapped from `Agent / id [@root]`.
 
 ### Unmapped fields
 
