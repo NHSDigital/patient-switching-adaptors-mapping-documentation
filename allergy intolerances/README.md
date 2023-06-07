@@ -6,7 +6,7 @@ An Allergy Intolerance is primarily mapped from an Observation Statement.
 
 | Mapped to (JSON FHIR Allergy Intolerance field) | Mapped from (XML HL7 / other source)                                                                  |
 |---------------------------------------|-----------------------------------------------------------------------------------------------------------------|
-| id                                    | `ObservationStatement / id [@root `                                                                             |
+| id                                    | `ObservationStatement / id [@root] `                                                                             |
 | meta.profile\[0]                      | fixed value = `"https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-AllergyIntolerance-1"`             |
 | extension[0].url                      | fixed value = `http://hl7.org/fhir/StructureDefinition/encounter-associatedEncounter`                           |
 | extension[0].valueReference.reference | reference to the associated [Encounter](../encounters/README.md)                                                |
@@ -14,7 +14,7 @@ An Allergy Intolerance is primarily mapped from an Observation Statement.
 | identifier\[0].value                  | `ObservationStatement / id [@root]`                                                                             |
 | clinicalStatus                        | fixed value = `active`                                                                                          |
 | verificationStatus                    | fixed value = `unconfirmed`                                                                                     |
-| category[0]                           | `CompoundStatement / code [@code]`                                                                              |
+| category\[0]                          | `CompoundStatement / code [@code]`                                                                              |
 | code                                  | Mapped from `ObservationStatement / value` or `ObservationStatement / code`                                     |
 | patient                               | reference to the mapped [Patient](../patient/README.md)                                                         |
 | onsetDateTime                         | `CompoundStatement / effectiveTime / low [@value]`                                                              |
