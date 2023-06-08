@@ -48,6 +48,8 @@ The FHIR `Practitioner` and `PractitionerRole` resources are mapped from the HL7
 
 ### PractitionerRole
 
+A `PractionerRole` resource will only be added if the HL7 `AgentPerson` has an associated `representedOrganization`.
+
 | Mapped to (JSON FHIR PractitionerRole resource field) | Mapped from (XML HL7 / other)                                                                             |
 |-------------------------------------------------------|-----------------------------------------------------------------------------------------------------------|
 | id                                                    | `Agent / id [@root]` appended with `-PR`                                                                  |
