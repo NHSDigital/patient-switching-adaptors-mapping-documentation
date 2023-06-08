@@ -17,9 +17,10 @@ A Procedure Request is mapped primarily from a PlanStatement.
 | subject                                        | reference to the mapped [Patient](../patient/README.md)                                                                                          |
 | note                                           | ` PlanStatement / text `                                                                                                                         |
 | requester.agent                                | ` PlanStatement / participant `                                                                                                                  |
-| code                                           | ` PlanStatement / code `                                                                                                                         |
+| code                                           | ` PlanStatement / code ` <sup>1</sup>                                                                                                            |
 | context                                        | reference to the associated [Encounter](../encounters/README.md)                                                                                 |
 
+1. If the PlanStatement code doesn't have a SNOMED code provided within either the main code, or a translation then the adaptor will use a SNOMED code of 196451000000104.
 
 ### Unmapped fields
 
