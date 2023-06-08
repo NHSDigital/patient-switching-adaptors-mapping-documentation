@@ -66,10 +66,11 @@ The following Location fields are not currently populated by the adaptor:
 
 An Encounter with linked Location is mapped to a composition containing a location.
 
-| Mapped to (XML HL7)                            | Mapped from (JSON FHIR / other source ) |
-|------------------------------------------------|-----------------------------------------|
-| location / locatedEntity / code                | fixed value = `'394730007'`             |
-| location / locatedEntity / locatedPlace / name | Location.name                           |
+| Mapped to (XML HL7)                            | Mapped from (JSON FHIR / other source )          |
+|------------------------------------------------|--------------------------------------------------|
+| location / locatedEntity / code \[@code]       | fixed value = `'394730007'`                      |
+| location / locatedEntity / code \[@codeSystem] | fixed value = `'2.16.840.1.113883.2.1.3.2.4.15'` |
+| location / locatedEntity / locatedPlace / name | Location.name                                    |
 
 
 <details><summary>Example XML</summary>
