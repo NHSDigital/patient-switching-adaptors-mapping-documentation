@@ -134,32 +134,45 @@ An Allergy Intolerance is mapped to a CompoundStatement with inner ObservationSt
 <details><summary>Example XML</summary>
 
 ```
-<component typeCode="COMP" contextConductionInd="true">
-    <ObservationStatement classCode="OBS" moodCode="EVN">
-        <id root="C6FAF730-ECA9-460E-94D3-1F0602B537DC"/>
-        <code code="14LK.00" codeSystem="2.16.840.1.113883.2.1.6.2"
-                displayName="H/O: aspirin allergy">
-            <qualifier inverted="false">
-                <name code="255217005" codeSystem="2.16.840.1.113883.2.1.3.2.4.15"
-                        displayName="First"/>
-            </qualifier>
-            <translation code="395102008" codeSystem="2.16.840.1.113883.2.1.3.2.4.15"
-                            displayName="H/O: aspirin allergy"/>
-        </code>
-        <statusCode code="COMPLETE"/>
-        <effectiveTime>
-            <center nullFlavor="NI"/>
-        </effectiveTime>
-        <availabilityTime value="20100113"/>
-        <value type="CD" code="ALLERGY-READ2-14LK" codeSystem="2.16.840.1.113883.2.1.6.3"
-                displayName="H/O: aspirin allergy"/>
-        <pertinentInformation typeCode="PERT">
-            <sequenceNumber value="+1"/>
-            <pertinentAnnotation classCode="OBS" moodCode="EVN">
-                <text>Drug Allergy - Apsrin</text>
-            </pertinentAnnotation>
-        </pertinentInformation>
-    </ObservationStatement>
+<component typeCode="COMP">
+	<CompoundStatement classCode="CATEGORY" moodCode="EVN">
+		<id root="437D0657-7E09-4E9E-9320-49F160C19E67"/>
+		<code code="14L..00" codeSystem="2.16.840.1.113883.2.1.6.2" displayName="H/O: drug allergy"/>
+		<statusCode code="COMPLETE"/>
+		<effectiveTime>
+			<center value="20100630"/>
+		</effectiveTime>
+		<availabilityTime value="20100630" />
+		<component typeCode="COMP" contextConductionInd="true">
+			<ObservationStatement classCode="OBS" moodCode="ENV">
+				<id root="966804FE-5DE8-46C4-9EA5-CEB0EBFAAD81"/>
+				<code code="811091000006112" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Allergy to penicillin">
+					<originalText>Allergy to penicillin</originalText>
+				</code>
+				<statusCode code="COMPLETE"/>
+				<effectiveTime>
+					<center value="20100630"/>
+				</effectiveTime>
+				<availabilityTime value="20100630" />
+				<pertinentInformation typeCode="PERT">
+					<sequenceNumber value="+1"/>
+					<pertinentAnnotation classCode="OBS" moodCode="EVN">
+						<text>Status: Active This is a note</text>
+					</pertinentAnnotation>
+				</pertinentInformation>
+				<Participant typeCode="AUT" contextControlCode="OP">
+					<agentRef classCode="AGNT">
+						<id root="0BA5C685-D2AA-4E82-8857-484CC3B2CCD8"/>
+					</agentRef>
+				</Participant>
+				<Participant typeCode="PRF" contextControlCode="OP">
+					<agentRef classCode="AGNT">
+						<id root="0BA5C685-D2AA-4E82-8857-484CC3B2CCD8"/>
+					</agentRef>
+				</Participant>
+			</ObservationStatement>
+		</component>
+	</CompoundStatement>
 </component>
 ```
 </details>
