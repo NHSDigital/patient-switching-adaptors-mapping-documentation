@@ -13,7 +13,7 @@ A Location is mapped from a locatedEntity.
 | status                                         | fixed value = `"active"`                                                                                         |
 | address                                        | `Location / locatedEntity / locatedPlace / addr ` <sup>1</sup>                                                   |
 | name                                           | `Location / locatedEntity / locatedPlace / name `                                                                |
-| telecom[0]                                     | `Location / locatedEntity / locatedPlace / telecom[0]`                                                           |
+| telecom\[0]                                    | `Location / locatedEntity / locatedPlace / telecom[0]`                                                           |
 
 1. The address is mapped using the same behaviour as the [Organisation](../organisations/README.md) address field.
 
