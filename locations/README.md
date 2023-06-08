@@ -19,19 +19,22 @@ A Location is mapped from a locatedEntity.
 
 The following Location fields are not currently populated by the adaptor:
 
+- implicitRules
+- language
 - operationalStatus
+- text
+- contained
+- extension
+- modifierExtension
 - alias
 - description
-- type
 - mode
-- contact
-- form
+- type
+- physicalType
 - position
 - managingOrganisation
 - partOf
-- characteristic
-- hoursOfOperation
-- virtualService
+- endpoint
 
 <details>
     <summary>Example JSON</summary>
@@ -92,5 +95,5 @@ An Encounter with linked Location is mapped to a composition containing a locati
 
 ## Further documentation
 
-[FHIR specification](https://hl7.org/fhir/location-definitions.html)
+[FHIR specification](https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Location-1)
 [MIM 4.2.00](https://data.developer.nhs.uk/dms/mim/4.2.00/Index.htm) 
