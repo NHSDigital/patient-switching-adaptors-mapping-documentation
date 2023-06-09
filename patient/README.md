@@ -21,34 +21,22 @@ A Patient resource is mapped from a HL7 Patient.
 <details>
 ```
 {
-    "resourceType": "Bundle",
-    "id": "373e9ffc-827e-479d-80fa-ba5814d084b8",
-    "meta": {
-        "profile": [
-            "https://fhir.nhs.uk/STU3/StructureDefinition/GPConnect-StructuredRecord-Bundle-1"
-        ]
-    },
-    "type": "collection",
-    "entry": [
-        {
-            "resource": {
-                "resourceType": "Patient",
-                "id": "82c11ce2-7d9f-49a7-930b-0a195e1e9775",
-                "meta": {
-                    "versionId": "1521806400000",
-                    "profile": [
-                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Patient-1"
-                    ]
-                },
-                "identifier": [
-                    {
-                        "system": "https://fhir.nhs.uk/Id/nhs-number",
-                        "value": "5538824210"
-                    }
-                ],
+    "resource": {
+        "resourceType": "Patient",
+        "id": "82c11ce2-7d9f-49a7-930b-0a195e1e9775",
+        "meta": {
+            "versionId": "1521806400000",
+            "profile": [
+                "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Patient-1"
+            ]
+        },
+        "identifier": [
+            {
+                "system": "https://fhir.nhs.uk/Id/nhs-number",
+                "value": "5538824210"
             }
-        }
-    ]
+        ],
+    }
 }
 ```
 </details>
