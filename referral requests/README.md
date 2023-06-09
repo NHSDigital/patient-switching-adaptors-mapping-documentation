@@ -20,7 +20,7 @@ A Referral Request is mapped from a `RequestStatement`
 | reasonCode                                   | mapped CodeableConcept from `RequestStatement / code` <sup>1</sup>                                                                                                                                  |
 | note                                         | mapped Annotation from `RequestStatement / text` & `RequestStatement / priorityCode` & `RequestStatement / priorityCode`                                                                            |
 
-1.  If the SNOMED code is not found that a `Transfer-degraded referral` code is inserted instead (96431000000106)
+1.  If the SNOMED code is not found then a `Transfer-degraded referral` code is inserted instead (96431000000106)
 
 The following Allergy Intolerance fields are not currently populated by the adaptor:
 - basedOn
@@ -125,7 +125,7 @@ An Allergy Intolerance is mapped to a RequestStatement
 | `RequestStatement / Participant [@typeCode='AGNT'] / agentRef `                                                              | `ReferralRequest.requester.agent.reference` & `ReferralRequest.onBehalfOf`  when agent is `practictioner` and `onBehalfOf` is reference to [Organisation](../organisations/README.md)                                                                                                                                                                                                                                                                                                                                                                                                                                  |
 | `RequestStatement / Participant [@typeCode='AGNT'] / agentRef / id [@root]`                                                  | `ReferralRequest.requester.agent.reference` when agent is `practictioner`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
 
-1. When `referralRequest.reasonCode` is missing then a default snobed code of `357005` (patient referral) is added
+1. When `referralRequest.reasonCode` is missing then a default SNOMED code of `357005` (patient referral) is added
 2. if referencing agent is:
 * `Device` then includes `Requester Device:` + device type
 * `Organisation` then includes `Requester Org:` + organisation name
