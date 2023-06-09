@@ -2,7 +2,7 @@
 
 ## JSON FHIR > XML HL7
 
-Patient is mapped to an entry.
+A Patient resource is mapped from a HL7 Patient.
 
 | Mapped to (JSON FHIR Immunization field)        | Mapped from (XML HL7 / other source)                                                              |
 |-------------------------------------------------|---------------------------------------------------------------------------------------------------|
