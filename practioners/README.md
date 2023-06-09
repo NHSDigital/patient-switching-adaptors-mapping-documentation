@@ -46,6 +46,29 @@ The FHIR `Practitioner` and `PractitionerRole` resources are mapped from the HL7
 
 </details>
 
+### Unmapped fields
+
+The following `Practitioner` fields are not currently populated by the adaptor:
+
+- implicitRules
+- language
+- text
+- contained
+- extension
+- modifierExtension
+- identifier
+- active
+- name.id
+- name.text
+- name.suffix
+- name.period
+- telecom
+- address
+- gender
+- birthDate
+- photo
+- qualification
+
 ### PractitionerRole
 
 A `PractionerRole` resource will only be added if the HL7 `AgentPerson` has an associated `representedOrganization`.
@@ -90,27 +113,6 @@ A `PractionerRole` resource will only be added if the HL7 `AgentPerson` has an a
 
 ### Unmapped fields
 
-The following `Practitioner` fields are not currently populated by the adaptor:
-
-- implicitRules
-- language
-- text
-- contained
-- extension
-- modifierExtension
-- identifier
-- active
-- name.id
-- name.text
-- name.suffix
-- name.period
-- telecom
-- address
-- gender
-- birthDate
-- photo
-- qualification
-
 The following `PractitionerRole` fields are not currently populated by the adaptor:
 
 - implicitRules
@@ -147,14 +149,14 @@ A Practitioner is mapped to an `Agent` with a role of `AgentPerson`.
 | Agent / code \[@nullFlavor]         | fixed value = `"UNK"`                                                                                                |
 | Agent / code / originalText         | `PractionerRole.code[0].coding[0].display` <sup>1</sup>                                                              | 
 | Agent / AgentPerson / name          | `Practitioner.name[0].text` <sup>2</sup>                                                                             |
-| Agent / AgentPerson / name / prefix | `Practitioner.name[0].prefix`                                                                                        |
-| Agent / AgentPerson / name / given  | `Practitioner.name[0].given`                                                                                         | 
+| Agent / AgentPerson / name / prefix | `Practitioner.name[0].prefix[0]`                                                                                     |
+| Agent / AgentPerson / name / given  | `Practitioner.name[0].given[0]`                                                                                      | 
 | Agent / AgentPerson / name / family | `Practitioner.name[0].family` or `"Unknown"` <sup>2</sup>                                                            |
 | Agent / representedOrganisation     | Mapped using the [Organisation](../organisations/README.md) referenced in `PractionerRole` (if present) <sup>3</sup> |  
 
 1. Where the `practitionerRole` references the practitioner 
-2. If `Practitioner.name[0].given` or `Practitioner.name[0].family` are empty and `Practitioner.name[0].text` has a string, then 
-`Agent / AgentPerson / name` is populated with the unstructured string. In the case where all three JSON fields are missing
+2. If `Practitioner.name[0].given` or `Practitioner.name[0].family` are empty and `Practitioner.name[0].text` has a string as a value, then 
+`Agent / AgentPerson / name` is populated with the unstructured string. In the case where all three JSON fields are missing / empty
 `Agent / AgentPerson / name / family` is set to `"Unknown"`.
 3. The mapping of `representedOrganisation` is outlined in the [Organisation](../organisations/README.md) mapping documentation.
 
