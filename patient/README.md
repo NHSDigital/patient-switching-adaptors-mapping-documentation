@@ -6,14 +6,14 @@ A Patient resource is mapped from a HL7 Patient.
 
 | Mapped to (JSON FHIR Immunization field)        | Mapped from (XML HL7 / other source)                                                              |
 |-------------------------------------------------|---------------------------------------------------------------------------------------------------|
-| resourceType.id                                 | set value = Generated GUID                                                                        |
-| resourceType.meta.profile                       | fixed value = `"https://fhir.nhs.uk/STU3/StructureDefinition/GPConnect-StructuredRecord-Bundle-1"`|
-| resourceType.type                               | fixed value = `collection`                                                                        |
-| resourceType.entry[resource.id]                 | fixed value = `{{nhs-number}}`                                                                    |
-| resourceType.entry[resource.meta.id]            | fixed value = `1521806400000`                                                                     |
-| resourceType.entry[resource.meta.profile]       | fixed value = `https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Patient-1`            |
-| resourceType.entry[resource.indentifier.system] | fixed value = `https://fhir.nhs.uk/Id/nhs-number`                                                 |
-| resourceType.entry[resource.indentifier.value]  | `Patient / id [@extension]`                                                                       |
+| id                                              | set value = Generated GUID                                                                        |
+| meta.profile                                    | fixed value = `"https://fhir.nhs.uk/STU3/StructureDefinition/GPConnect-StructuredRecord-Bundle-1"`|
+| type                                            | fixed value = `collection`                                                                        |
+| entry[resource.id]                              | fixed value = `{{nhs-number}}`                                                                    |
+| entry[resource.meta.id]                         | fixed value = `1521806400000`                                                                     |
+| entry[resource.meta.profile]                    | fixed value = `https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Patient-1`            |
+| entry[resource.indentifier.system]              | fixed value = `https://fhir.nhs.uk/Id/nhs-number`                                                 |
+| entry[resource.indentifier.value]               | `Patient / id [@extension]`                                                                       |
 
 
 ## Example JSON
