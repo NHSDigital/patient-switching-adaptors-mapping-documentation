@@ -7,13 +7,10 @@ A Patient resource is mapped from a HL7 Patient.
 | Mapped to (JSON FHIR Immunization field)        | Mapped from (XML HL7 / other source)                                                              |
 |-------------------------------------------------|---------------------------------------------------------------------------------------------------|
 | id                                              | set value = Generated GUID                                                                        |
-| meta.profile                                    | fixed value = `"https://fhir.nhs.uk/STU3/StructureDefinition/GPConnect-StructuredRecord-Bundle-1"`|
-| type                                            | fixed value = `collection`                                                                        |
-| entry[resource.id]                              | fixed value = `{{nhs-number}}`                                                                    |
-| entry[resource.meta.id]                         | fixed value = `1521806400000`                                                                     |
-| entry[resource.meta.profile]                    | fixed value = `https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Patient-1`            |
-| entry[resource.indentifier.system]              | fixed value = `https://fhir.nhs.uk/Id/nhs-number`                                                 |
-| entry[resource.indentifier.value]               | `Patient / id [@extension]`                                                                       |
+| meta.profile\[0]                                | fixed value = `"https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Patient-1"`.         |
+| meta.versionId                                  | fixed value = `1521806400000`                                                                     |
+| indentifier\[0].system                          | fixed value = `https://fhir.nhs.uk/Id/nhs-number`                                                 |
+| indentifier\[0].value                           | `Patient / id [@extension]`                                                                       |
 
 
 ## Example JSON
