@@ -13,7 +13,7 @@ A Patient resource is mapped from a HL7 Patient.
 | resourceType.entry[resource.meta.id]            | fixed value = `1521806400000`                                                                     |
 | resourceType.entry[resource.meta.profile]       | fixed value = `https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Patient-1`            |
 | resourceType.entry[resource.indentifier.system] | fixed value = `https://fhir.nhs.uk/Id/nhs-number`                                                 |
-| resourceType.entry[resource.indentifier.value]  | fixed value = `5538824210`                                                                        |
+| resourceType.entry[resource.indentifier.value]  | `Patient / id [@extension]`                                                                       |
 
 
 ## Example JSON
