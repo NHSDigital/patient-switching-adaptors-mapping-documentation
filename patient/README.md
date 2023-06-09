@@ -16,6 +16,8 @@ A Patient resource is mapped from a HL7 Patient.
 ## Example JSON
 
 <details>
+    <summary>Example JSON</summary>
+
 ```
 {
     "resource": {
@@ -50,6 +52,7 @@ A Patient record is inserted into the EhrExtracts recordTarget.
 ## Example XML
 
 <details>
+    <summary>Example XML</summary>
 
 ```
 <EhrExtract classCode="EXTRACT" moodCode="EVN">
