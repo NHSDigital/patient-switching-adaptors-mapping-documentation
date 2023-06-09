@@ -71,5 +71,5 @@ A Patient record is inserted into the EhrExtracts recordTarget.
 
 ## Further documentation
 
-[GP Connect Migrate a patient's structured record](https://developer.nhs.uk/apis/gpconnect-1-6-0/accessrecord_structured_development_migrate_patient_record.html)
+[FHIR Patient](https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Patient-1)
 [MIM 4.2.00](https://data.developer.nhs.uk/dms/mim/4.2.00/Index.htm) 
