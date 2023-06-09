@@ -41,42 +41,32 @@ A Patient resource is mapped from a HL7 Patient.
 
 ## XML HL7 > JSON FHIR
 
-An Immunization is primarily mapped from an Observation Statement.
+A Patient record is inserted into the EhrExtracts recordTarget.
 
-| Mapped to (XML HL7)                                                      | Mapped from (JSON FHIR / other source )              |
-|--------------------------------------------------------------------------|------------------------------------------------------|
-| ControlActEvent.[@id]                                                    | fixed value = `{{winning-asid}}`                     |
-| ControlActEvent.subject.EhrExtract.[@id]                                 | fixed value = `F5C1FDBB-A948-43BB-AB30-CEAA51FC0CC0` |
-| ControlActEvent.subject.EhrExtract.recordTarget.patient.[@id].extension  | fixed value = `{{nhs-number}}`                       |
+| Mapped to (XML HL7)        | Mapped from (JSON FHIR / other source ) |
+|----------------------------|-----------------------------------------|
+| patient / id \[@extension] | Patients NHS number                     |
 
 ## Example XML
 
 <details>
 
 ```
-<ControlActEvent classCode="CACT" moodCode="EVN">
-        <author1 typeCode="AUT">
-            <AgentSystemSDS classCode="AGNT">
-                <agentSystemSDS classCode="DEV" determinerCode="INSTANCE">
-                    <id root="1.2.826.0.1285.0.2.0.107" extension="{{winning-asid}}" />
-                </agentSystemSDS>
-            </AgentSystemSDS>
-        </author1>
-        <subject typeCode="SUBJ" contextConductionInd="false">
-            <EhrExtract classCode="EXTRACT" moodCode="EVN">
-                <id root="F5C1FDBB-A948-43BB-AB30-CEAA51FC0CC0" />
-                <statusCode code="COMPLETE" />
-                <availabilityTime value="20200101010101" />
-                <recordTarget typeCode="RCT">
-                    <patient classCode="PAT">
-                        <id root="2.16.840.1.113883.2.1.4.1" extension="{{nhs-number}}" />
-                    </patient>
-                </recordTarget>
+<EhrExtract classCode="EXTRACT" moodCode="EVN">
+    <id root="F5C1FDBB-A948-43BB-AB30-CEAA51FC0CC0" />
+    <statusCode code="COMPLETE" />
+    <availabilityTime value="20200101010101" />
+    <recordTarget typeCode="RCT">
+        <patient classCode="PAT">
+            <id root="2.16.840.1.113883.2.1.4.1" extension="9726908817" />
+        </patient>
+    </recordTarget>
+    ...
+</EhrExtract>
 ```
 </details>
 
 ## Further documentation
 
 [GP Connect Migrate a patient's structured record](https://developer.nhs.uk/apis/gpconnect-1-6-0/accessrecord_structured_development_migrate_patient_record.html)
-
 [MIM 4.2.00](https://data.developer.nhs.uk/dms/mim/4.2.00/Index.htm) 
