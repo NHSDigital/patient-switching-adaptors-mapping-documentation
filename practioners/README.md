@@ -12,8 +12,8 @@ The FHIR `Practitioner` and `PractitionerRole` resources are mapped from the HL7
 | meta.profile\[0]                                  | fixed value = `"https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Practitioner-1"` |
 | name\[0].use                                      | fixed value = `official`                                                                      |
 | name\[0].family                                   | `Agent / AgentPerson / name / family` or else `"unknown"`                                     |
-| name\[0].given                                    | `Agent / AgentPerson / name / given`                                                          |
-| name\[0].prefix                                   | `Agent / AgentPerson / name / prefix`                                                         |
+| name\[0].given\[0]                                | `Agent / AgentPerson / name / given`                                                          |
+| name\[0].prefix\[0]                               | `Agent / AgentPerson / name / prefix`                                                         |
 
 <details>
     <summary>Example JSON</summary>
