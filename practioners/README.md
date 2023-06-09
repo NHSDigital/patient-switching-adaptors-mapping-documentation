@@ -56,7 +56,7 @@ A `PractionerRole` resource will only be added if the HL7 `AgentPerson` has an a
 | meta                                                  | fixed value = `"https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-PractitionerRole-1"`         |
 | practitioner.reference                                | Reference to the mapped Practitioner (see above)                                                          |
 | organization.reference                                | Reference to the [Organisation](../organisations/README.md) mapped from `Agent / representedOrganization` |
-| text                                                  | `Agent / code / orginalText` or else `Agent / code [@displayName]`                                        |
+| code\[0].text                                         | `Agent / code / orginalText` or else `Agent / code [@displayName]`                                        |
 
 <details>
     <summary>Example JSON</summary>
