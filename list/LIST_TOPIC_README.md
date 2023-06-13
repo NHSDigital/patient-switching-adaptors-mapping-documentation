@@ -5,26 +5,26 @@
 A List (Topic) is created from a [List (Consultation)](./LIST_CONSULTATION_README.md) member (referred to as `Consultation`) and one or more `CompoundStatement`s within the same `ehrComposition` which have a classCode of `TOPIC`
 This represents Topic / Problem groupings within consultations
 
-| Mapped to (JSON FHIR Referral Request field) | Mapped from (XML HL7 / other source)                                                          |
-|----------------------------------------------|-----------------------------------------------------------------------------------------------|
-| id                                           | `CompoundStatement / id [@root]`                                                              |
-| meta.profile\[0]                             | fixed value = `"https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-List-1"`         |
-| status                                       | fixed value = `current`                                                                       |
-| mode                                         | fixed value = `snapshot`                                                                      |
-| title                                        | `CompoundStatement / code/ originalText` or `CompoundStatement / code [@displayName]`         |
-| code.coding\[0].system                       | fixed value = `http://snomed.info/sct`                                                        |
-| code.coding\[0].code                         | fixed value = `25851000000105`                                                                |
-| code.coding\[0].display                      | fixed value = `Topic (EHR)`                                                                   |
-| subject                                      | this a reference to mapped [Patient](../patient/README.md) from `Consultation.subject`        |
-| date                                         | `CompoundStatement / AvailabilityTime [@value]` or from `Consultation.date`                   |
-| orderedBy.coding\[0].system                  | fixed value = `http://hl7.org/fhir/list-order`                                                |
-| orderedBy.coding\[0].code                    | fixed value = `system`                                                                        |
-| orderedBy.coding\[0].display                 | fixed value = `Sorted by System`                                                              |
-| encounter                                    | this a reference to mapped [Encounter](../encounters/README.md) from `Consultation.encounter` |
-| entry[index].item.reference                  | reference to one or more mapped [List (Category)](./LIST_TOPIC_README.md) <sup>1</sup>        |
+| Mapped to (JSON FHIR List field) | Mapped from (XML HL7 / other source)                                                          |
+|----------------------------------|-----------------------------------------------------------------------------------------------|
+| id                               | `CompoundStatement / id [@root]`                                                              |
+| meta.profile\[0]                 | fixed value = `"https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-List-1"`         |
+| status                           | fixed value = `current`                                                                       |
+| mode                             | fixed value = `snapshot`                                                                      |
+| title                            | `CompoundStatement / code/ originalText` or `CompoundStatement / code [@displayName]`         |
+| code.coding\[0].system           | fixed value = `http://snomed.info/sct`                                                        |
+| code.coding\[0].code             | fixed value = `25851000000105`                                                                |
+| code.coding\[0].display          | fixed value = `Topic (EHR)`                                                                   |
+| subject                          | this a reference to mapped [Patient](../patient/README.md) from `Consultation.subject`        |
+| date                             | `CompoundStatement / AvailabilityTime [@value]` or from `Consultation.date`                   |
+| orderedBy.coding\[0].system      | fixed value = `http://hl7.org/fhir/list-order`                                                |
+| orderedBy.coding\[0].code        | fixed value = `system`                                                                        |
+| orderedBy.coding\[0].display     | fixed value = `Sorted by System`                                                              |
+| encounter                        | this a reference to mapped [Encounter](../encounters/README.md) from `Consultation.encounter` |
+| entry[index].item.reference      | reference to one or more mapped [List (Category)](./LIST_TOPIC_README.md) <sup>1</sup>        |
 
 1. Where information within the Topic is organised as sub-headings, entry.list will reference instances of the Category List level.</br>
-For consultations which have a flat structure (for example, clinical record entries made outside the Topic and heading structure), an artificial Topic List is generated, and entries will reference profiles representing those record entries (such as, Allergies, Medications, Tests, ...).
+For consultations which have a flat structure (for example, clinical record entries made outside the Topic and heading structure), an artificial Topic List is generated, and entries will reference resource representing those record entries (such as, Allergies, Medications, Tests, ...).
 
 The following List fields are not currently populated by the adaptor:
 - identifier
@@ -98,3 +98,34 @@ The following List fields are not currently populated by the adaptor:
 </details>
 
 ## JSON FHIR > XML HL7
+
+Mapped from a `resource` with a type of `list` where `list.code.coding[0].code` is `25851000000105` to a `CompoundStatement`
+
+| Mapped to (XML HL7)                                                                               | Mapped from (JSON FHIR / other source )                                                                                                                                                                                                                                                                                          |
+|---------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `CompoundStatement [@classCode]`                                                                  | fixed value = `TOPIC`                                                                                                                                                                                                                                                                                                            |
+| `CompoundStatement / id [@root]`                                                                  | new system generated UUID                                                                                                                                                                                                                                                                                                        |
+| `CompoundStatement / code [@codeSystem='2.16.840.1.113883.2.1.3.2.4.15'] [@code] [@displayName]`  | If there is a `resource.extension` which is a related problem and `resource.extension.extension.url` is `target` then the values are set from the coding block in that extension.</br> If there are no related problems then a default value for `[@code]` of `394776006` and `[@displayName]` of `Unspecified problem` is used  |
+| `CompoundStatement / code / OriginalText`                                                         | `resource.title` or `resource.code.coding[0].text` or `resource.code.coding[0].display`                                                                                                                                                                                                                                          |
+| `CompoundStatement / statusCode [@code]`                                                          | fixed value = `COMPLETE`                                                                                                                                                                                                                                                                                                         |
+| `CompoundStatement / effectiveTime`                                                               | from mapped [Encounter](../encounters/README.md) referenced in `list.encounter` <sup>1</sup><sup>2</sup><sup>3</sup>                                                                                                                                                                                                             |
+| `CompoundStatement / availabiltyTime [@value]`                                                    | `list.date` or from mapped [Encounter](../encounters/README.md) referenced in `list.encounter` <sup>4</sup><sup>5</sup>                                                                                                                                                                                                          |
+| `CompoundStatement / components`                                                                  | contains one or more `CompoundStatements` mapped from 'list.entry' <sup>6</sup>                                                                                                                                                                                                                                                  |
+
+1. When `Encounter` has `encounter.period.start` and `encounter.period.end` then values are set `effectiveTime / lowValue` & `effectiveTime / highValue` using `encounter.period.start` and `encounter.period.end` respectively 
+2. When `Encounter` has `encounter.period.start` only, then `effectiveTime / center` is set by `encounter.period.start`
+3. If there is no `encounter.period` then value `effectiveTime / center [@nullFlavour="UNK"]` is used
+4. If `list.date` is not present and `encounter.period.start` is present then that value is used 
+5. if `list.date` and `encounter.period.start` are not present `availabilityTime [@nullFlavour="UNK"]` is used
+6. each `list.entry` is mapped to `CompoundStatement` from a [List (category)](./LIST_CATEGORY_README.md) when `list.entry.reference` has a code of `24781000000107` and, when in a flat structure is mapped from the reference to the relevant clinical record
+
+<details><summary>Example XML</summary>
+
+```
+```
+</details>
+
+## Further documentation
+[GP Connect List](https://developer.nhs.uk/apis/gpconnect-1-6-0/accessrecord_structured_development_list_consultation.html#list-topic)
+
+[MIM 4.2.00](https://data.developer.nhs.uk/dms/mim/4.2.00/Index.htm) 
