@@ -4,29 +4,29 @@
 
 An GP Connect FHIR `Encounter` is mapped from an GP2GP HL7v3 `EHR Composition`.
 
-| Mapped to (JSON FHIR Encounter field)                        | Mapped from (XML HL7 / other source)                                                                                                   |
-|--------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------|
-| id                                                           | `ehrComposition / id \[@root]`                                                                                                         |
-| meta.profile\[0]                                             | fixed value = `"https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Encounter-1"`                                             |
-| identifier\[0].system                                        | `"https://PSSAdaptor/{{losingOdsCode}}"` - where the `{{losingOdsCode}}` is the ODS code of the losing practice                        |
-| identifier\[0].value                                         | `ehrComposition / id \[@root]`                                                                                                         |
-| status                                                       | fixed value = `"finished"`                                                                                                             |
-| type\[0].coding\[0].code                                     | `ehrComposition / code [@code]` or `ehrCompostion / code / translation [@code]` <sup>1</sup>                                           |
-| type\[0].coding\[0].system                                   | fixed value = `"http://snomed.info/sct"` <sup>1</sup>                                                                                  |
-| type\[0].coding\[0].display                                  | found by searching the adaptors SNOMED database for the appropriate description <sup>1</sup>                                           |
-| type\[0].text                                                | `ehrComposition / code [@displayName]` or else `ehrComposition / code / originalText`                                                  |
-| subject                                                      | reference to the mapped [Patient](../patient/README.md)                                                                                |
-| participant\[index].type\[0].coding\[0].system <sup>2</sup>  | fixed value = `"https://fhir.nhs.uk/STU3/CodeSystem/GPConnect-ParticipantType-1"`                                                      |
-| participant\[index].type\[0].coding\[0].code <sup>2</sup>    | fixed value = `"REC"`                                                                                                                  |
-| participant\[index].type\[0].coding\[0].display <sup>2</sup> | fixed value = `"recorder"`                                                                                                             |
-| participant\[index].individual <sup>2</sup>                  | `ehrComposition / author / agentRef / id [@root]`                                                                                      |
-| participant\[index].type\[0].coding\[0].system               | fixed value = `"http://hl7.org/fhir/v3/ParticipationType"`                                                                             |
-| participant\[index].type\[0].coding\[0].code                 | fixed value = `"PPRF"`                                                                                                                 |
-| participant\[index].type\[0].coding\[0].display              | fixed value = `"primary performer"`                                                                                                    |
-| participant\[index].individual                               | `ehrComposition / participant[0] / AgentRef / id [@root] `                                                                             |
-| period.start                                                 | `ehrComposition / effectiveTime / center` or else  `ehrComposition / effectiveTime / start` or else `ehrComposition / availibiltyTime` |
-| period.end                                                   | `ehrComposition / effectiveTime / low`                                                                                                 |           
-| location                                                     | the associated [location](../locations/README.md) identified by `ehrComposition / location`                                            |
+| Mapped to (JSON FHIR Encounter field)                        | Mapped from (XML HL7 / other source)                                                                                                 |
+|--------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------|
+| id                                                           | `ehrComposition / id \[@root]`                                                                                                       |
+| meta.profile\[0]                                             | fixed value = `"https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Encounter-1"`                                           |
+| identifier\[0].system                                        | `"https://PSSAdaptor/{{losingOdsCode}}"` - where the `{{losingOdsCode}}` is the ODS code of the losing practice                      |
+| identifier\[0].value                                         | `ehrComposition / id \[@root]`                                                                                                       |
+| status                                                       | fixed value = `"finished"`                                                                                                           |
+| type\[0].coding\[0].code                                     | `ehrComposition / code [@code]` or `ehrCompostion / code / translation [@code]` <sup>1</sup>                                         |
+| type\[0].coding\[0].system                                   | fixed value = `"http://snomed.info/sct"` <sup>1</sup>                                                                                |
+| type\[0].coding\[0].display                                  | found by searching the adaptors SNOMED database for the appropriate description <sup>1</sup>                                         |
+| type\[0].text                                                | `ehrComposition / code [@displayName]` or else `ehrComposition / code / originalText`                                                |
+| subject                                                      | reference to the mapped [Patient](../patient/README.md)                                                                              |
+| participant\[index].type\[0].coding\[0].system <sup>2</sup>  | fixed value = `"https://fhir.nhs.uk/STU3/CodeSystem/GPConnect-ParticipantType-1"`                                                    |
+| participant\[index].type\[0].coding\[0].code <sup>2</sup>    | fixed value = `"REC"`                                                                                                                |
+| participant\[index].type\[0].coding\[0].display <sup>2</sup> | fixed value = `"recorder"`                                                                                                           |
+| participant\[index].individual <sup>2</sup>                  | `ehrComposition / author / agentRef / id [@root]`                                                                                    |
+| participant\[index].type\[0].coding\[0].system               | fixed value = `"http://hl7.org/fhir/v3/ParticipationType"`                                                                           |
+| participant\[index].type\[0].coding\[0].code                 | fixed value = `"PPRF"`                                                                                                               |
+| participant\[index].type\[0].coding\[0].display              | fixed value = `"primary performer"`                                                                                                  |
+| participant\[index].individual                               | `ehrComposition / participant2[0] / AgentRef / id [@root] `                                                                          |
+| period.start                                                 | `ehrComposition / effectiveTime / center` or else  `ehrComposition / effectiveTime / low` or else `ehrComposition / availibiltyTime` |
+| period.end                                                   | `ehrComposition / effectiveTime / high`                                                                                              |           
+| location                                                     | the associated [location](../locations/README.md) identified by `ehrComposition / location`                                          |
 
 <details>
     <summary>Example JSON</summary>
@@ -140,7 +140,7 @@ An GP Connect FHIR `Encounter` is mapped to a GP2GP HL7v3 `ehrComposition`.
 | location / locatedEntity / code \[@code]         | fixed value = `"394730007"`                                                                                               |
 | location / locatedEntity / code \[@codeSystem]   | fixed value = `"2.16.840.1.113883.2.1.3.2.4.15"`                                                                          |
 | location / locatedEntity / code \[@displayName]  | fixed value = `"Healthcare related organisation"`                                                                         |
-| location / locatedEntity / name                  | The `name` field of the [Location](../locations/README.md) resource referenced by `Encounter.location`                    |
+| location / locatedEntity / locatedPlace / name   | The `name` field of the [Location](../locations/README.md) resource referenced by `Encounter.location`                    |
 | Participant2 / AgentRef / id \[@root]            | `Encounter.participant[index].individual` where `Encounter.participant[index].type` contains a `coding.code` of `"PPRF"`  | 
 
 
@@ -178,11 +178,10 @@ An GP Connect FHIR `Encounter` is mapped to a GP2GP HL7v3 `ehrComposition`.
         </agentRef>
     </Participant2>
     <component typeCode=\"COMP\">
-<CompoundStatement classCode=\"TOPIC\" moodCode=\"EVN\">
-</CompoundStatement>
 
-...
+    ...
 
+    </component>
 </ehrComposition>
 ```
 </details>
