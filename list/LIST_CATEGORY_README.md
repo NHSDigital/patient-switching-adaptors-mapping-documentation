@@ -98,7 +98,7 @@ This represents the SOAP heading sections which contain clinical record entries.
 
 Mapped from a `resource` with a type of `list` where `list.code.coding[0].code` is `25851000000105` to a `CompoundStatement`
 
-| Mapped to (XML HL7)                                                                                                                          | Mapped from (JSON FHIR / other source )                                                                                 |
+| Mapped to (XML HL7 CompoundStatement)                                                                                                        | Mapped from (JSON FHIR / other source )                                                                                 |
 |----------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------|
 | `CompoundStatement [@classCode]`                                                                                                             | fixed value = `CATEGORY`                                                                                                |
 | `CompoundStatement / id [@root]`                                                                                                             | new system generated UUID                                                                                               |
