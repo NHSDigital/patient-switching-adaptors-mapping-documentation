@@ -122,6 +122,129 @@ Mapped from a `resource` with a type of `list` where `list.code.coding[0].code` 
 <details><summary>Example XML</summary>
 
 ```
+<component typeCode="COMP">
+    <CompoundStatement classCode="TOPIC" moodCode="EVN">
+        <id root="394559384658936" />
+        <code nullFlavor="UNK">
+            <originalText>Mocked code</originalText>
+        </code>
+        <statusCode code="COMPLETE" />
+        <effectiveTime>
+            <low value="20100113152000" />
+            <high value="20100113162000" />
+        </effectiveTime>
+        <availabilityTime value="20100123140354" />
+
+        <component typeCode="COMP" contextConductionInd="true">
+            <CompoundStatement classCode="CATEGORY" moodCode="EVN">
+                <id root="394559384658936" />
+                <code nullFlavor="UNK">
+                    <originalText>Mocked code</originalText>
+                </code>
+                <statusCode code="COMPLETE" />
+                <effectiveTime>
+                    <low value="20100113152000" />
+                    <high value="20100113162000" />
+                </effectiveTime>
+                <availabilityTime value="20100714163232" />
+
+                <component typeCode="COMP">
+                    <PlanStatement classCode="OBS" moodCode="INT">
+                        <id root="394559384658936" />
+                        <code nullFlavor="UNK">
+                            <originalText>Mocked code</originalText>
+                        </code>
+                        <statusCode code="COMPLETE" />
+                        <effectiveTime>
+                            <center nullFlavor="UNK" />
+                        </effectiveTime>
+                        <availabilityTime value="20100113152950" />
+                    </PlanStatement>
+                </component>
+
+                <component typeCode="COMP">
+                    <NarrativeStatement classCode="OBS" moodCode="EVN">
+                        <id root="394559384658936" />
+                        <text>observation comment</text>
+                        <statusCode code="COMPLETE" />
+                        <availabilityTime value="20100113152950" />
+                    </NarrativeStatement>
+                </component>
+
+                <component typeCode="COMP">
+                    <LinkSet classCode="OBS" moodCode="EVN">
+                        <id root="394559384658936" />
+                        <code code="394774009" codeSystem="2.16.840.1.113883.2.1.3.2.4.15"
+                            displayName="Active Problem">
+                            <originalText>Active Problem, minor</originalText>
+                            <qualifier inverted="false">
+                                <name code="394847000" codeSystem="2.16.840.1.113883.2.1.3.2.4.15"
+                                    displayName="Unspecified significance" />
+                            </qualifier>
+                        </code>
+                        <statusCode code="COMPLETE" />
+                        <effectiveTime>
+                            <low value="20200906" />
+                            <high value="20201004000000" />
+                        </effectiveTime>
+                        <availabilityTime value="20200907101202" />
+                        <component typeCode="COMP">
+                            <statementRef classCode="OBS" moodCode="EVN">
+                                <id root="394559384658936" />
+                            </statementRef>
+                        </component>
+                        <component typeCode="COMP">
+                            <statementRef classCode="OBS" moodCode="EVN">
+                                <id root="394559384658936" />
+                            </statementRef>
+                        </component>
+                        <component typeCode="COMP">
+                            <statementRef classCode="OBS" moodCode="EVN">
+                                <id root="394559384658936" />
+                            </statementRef>
+                        </component>
+                        <conditionNamed typeCode="NAME" inversionInd="true">
+                            <namedStatementRef classCode="OBS" moodCode="EVN">
+                                <id root="394559384658936" />
+                            </namedStatementRef>
+                        </conditionNamed>
+                        <Participant typeCode="PRF" contextControlCode="OP">
+                            <agentRef classCode="AGNT">
+                                <id root="394559384658936" />
+                            </agentRef>
+                        </Participant>
+                    </LinkSet>
+                </component>
+
+            </CompoundStatement>
+        </component>
+
+        <component typeCode="COMP">
+            <ObservationStatement classCode="OBS" moodCode="EVN">
+                <id root="394559384658936" />
+                <code nullFlavor="UNK">
+                    <originalText>Mocked code</originalText>
+                </code>
+                <statusCode code="COMPLETE" />
+                <effectiveTime>
+                    <center value="20100630055900" />
+                </effectiveTime>
+                <availabilityTime value="20100630055900" />
+                <pertinentInformation typeCode="PERT">
+                    <sequenceNumber value="+1" />
+                    <pertinentAnnotation classCode="OBS" moodCode="EVN">
+                        <text>Primary Source: true immunization note</text>
+                    </pertinentAnnotation>
+                </pertinentInformation>
+                <Participant typeCode="PRF" contextControlCode="OP">
+                    <agentRef classCode="AGNT">
+                        <id root="394559384658936" />
+                    </agentRef>
+                </Participant>
+            </ObservationStatement>
+        </component>
+    </CompoundStatement>
+</component>
 ```
 </details>
 
