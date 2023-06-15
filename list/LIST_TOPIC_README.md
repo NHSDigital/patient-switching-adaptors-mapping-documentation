@@ -21,9 +21,9 @@ This represents Topic / Problem groupings within consultations
 | orderedBy.coding\[0].code        | fixed value = `system`                                                                        |
 | orderedBy.coding\[0].display     | fixed value = `Sorted by System`                                                              |
 | encounter                        | this a reference to mapped [Encounter](../encounters/README.md) from `Consultation.encounter` |
-| entry[index].item.reference      | reference to one or more mapped [List (Category)](./LIST_TOPIC_README.md) <sup>1</sup>        |
+| entry[index].item.reference      | reference to one or more mapped [List (Heading)](./LIST_TOPIC_README.md) <sup>1</sup>         |
 
-1. Where information within the Topic is organised as sub-headings, entry.list will reference instances of the Category List level.</br>
+1. Where information within the Topic is organised as sub-headings, `entry.list` will reference instances of the `List(Heading)` level.</br>
 For consultations which have a flat structure (for example, clinical record entries made outside the Topic and heading structure), an artificial Topic List is generated, and entries will reference resource representing those record entries (such as, Allergies, Medications, Tests, ...).
 
 The following List fields are not currently populated by the adaptor:
@@ -117,7 +117,7 @@ Mapped from a `resource` with a type of `list` where `list.code.coding[0].code` 
 3. If there is no `encounter.period` then value `effectiveTime / center [@nullFlavour="UNK"]` is used
 4. If `list.date` is not present and `encounter.period.start` is present then that value is used 
 5. if `list.date` and `encounter.period.start` are not present `availabilityTime [@nullFlavour="UNK"]` is used
-6. each `list.entry` is mapped to `CompoundStatement` from a [List (category)](./LIST_CATEGORY_README.md) when `list.entry.reference` has a code of `24781000000107` and, when in a flat structure is mapped from the reference to the relevant clinical record
+6. each `list.entry` is mapped to `CompoundStatement` from a [List (Heading)](./LIST_HEADING_README.md) when `list.entry.reference` has a code of `24781000000107` and, when in a flat structure is mapped from the reference to the relevant clinical record
 
 <details><summary>Example XML</summary>
 

@@ -1,8 +1,8 @@
-# List (Category) Mapping
+# List (Heading) Mapping
 
 ## XML HL7 > JSON FHIR
 
-A List (Category) is created from a [List (Topic)](./LIST_TOPIC_README.md) member (referred to as `Topic`) and a `CompoundStatement` within the same `ehrComposition` which has a classCode of `CATEGORY`
+A List (Heading) is created from a [List (Topic)](./LIST_TOPIC_README.md) member (referred to as `Topic`) and a `CompoundStatement` within the same `ehrComposition` which has a classCode of `CATEGORY`
 This represents the SOAP heading sections which contain clinical record entries.
 
 | Mapped to (JSON FHIR List field) | Mapped from (XML HL7 / other source)                                                                                                                                             |
@@ -157,6 +157,6 @@ Mapped from a `resource` with a type of `list` where `list.code.coding[0].code` 
 </details>
 
 ## Further documentation
-[GP Connect List](https://developer.nhs.uk/apis/gpconnect-1-6-0/accessrecord_structured_development_list_consultation.html#list-category)
+[GP Connect List](https://developer.nhs.uk/apis/gpconnect-1-6-0/accessrecord_structured_development_list_consultation.html#list-heading)
 
 [MIM 4.2.00](https://data.developer.nhs.uk/dms/mim/4.2.00/Index.htm) 
