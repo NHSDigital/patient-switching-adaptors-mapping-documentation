@@ -51,18 +51,14 @@ A Patient resource is mapped from a HL7 Patient.
  - identifier.type.coding
  - active
  - name
- - name.period
- - name(official)
  - gender
  - birthDate
  - deceasedDateTime
  - address
- - address.period
  - maritalStatus
  - multipleBirthBoolean 
  - generalPractitioner
  - link
- - link.other
 
 ## JSON FHIR > XML HL7
 
@@ -95,8 +91,10 @@ A Patient record is inserted into the EhrExtracts recordTarget.
 <id root=\"2.16.840.1.113883.2.1.4.1\" extension=\"9726908744\" />
         </patient>
         </recordTarget>
-        ...
-        </EhrExtract>
+    
+... 
+    
+</EhrExtract>
 ```
 
 </details>
