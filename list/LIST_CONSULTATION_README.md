@@ -7,23 +7,23 @@ Where the EHR extract is used it is the root `EhrExtract` of the XML.
 Where `EhrComposition` is used, it refers to the EhrComposition used to construct the `Encounter`  
 This is a top-level profile and represents the whole structured consultation
 
-| Mapped to (JSON FHIR List field) | Mapped from (XML HL7 / other source)                                                                                                                                                     |
-|----------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| id                               | `ehrComposition / id \[@root]` suffixed with `-CONS`                                                                                                                                     |
-| meta.profile\[0]                 | fixed value = `"https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-List-1"`                                                                                                    |
-| status                           | fixed value = `current`                                                                                                                                                                  |
-| mode                             | fixed value = `snapshot`                                                                                                                                                                 |
-| title                            | `ehrComposition / code [@displayName]` or `ehrComposition / code / originalText` or found by searching the adaptors SNOMED database for the appropriate description.                     |
-| code.coding\[0].system           | fixed value = `http://snomed.info/sct`                                                                                                                                                   |
-| code.coding\[0].code             | fixed value = `325851000000107`                                                                                                                                                          |
-| code.coding\[0].display          | fixed value = `Consultation`                                                                                                                                                             |
-| subject                          | this a reference to the mapped [Patient](../patient/README.md) from the `encounter`                                                                                                       |
-| date                             | `ehrComposition / effectiveTime / center` or else `EhrComposition / effectiveTime / low` or else `ehrComposition / availibiltyTime` or from root `EhrExtract / availabilityTime / value` |
-| orderedBy.coding\[0].system      | fixed value = `http://hl7.org/fhir/list-order`                                                                                                                                           |
-| orderedBy.coding\[0].code        | fixed value = `system`                                                                                                                                                                   |
-| orderedBy.coding\[0].display     | fixed value = `Sorted by System`                                                                                                                                                         |
-| encounter                        | reference to mapped [Encounter](../practioners/README.md)                                                                                                                                |
-| entry[index].item.reference      | reference to one or more mapped [List (Topic)](./LIST_TOPIC_README.md)                                                                                                                   |
+| Mapped to (JSON FHIR List field) | Mapped from (XML HL7 / other source)                                                                                                                                                            |
+|----------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| id                               | `ehrComposition / id \[@root]` suffixed with `-CONS`                                                                                                                                            |
+| meta.profile\[0]                 | fixed value = `"https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-List-1"`                                                                                                           |
+| status                           | fixed value = `current`                                                                                                                                                                         |
+| mode                             | fixed value = `snapshot`                                                                                                                                                                        |
+| title                            | `ehrComposition / code [@displayName]` or `ehrComposition / code / originalText` or found by searching the adaptors SNOMED database for the appropriate description when `Encounter` is mapped. |
+| code.coding\[0].system           | fixed value = `http://snomed.info/sct`                                                                                                                                                          |
+| code.coding\[0].code             | fixed value = `325851000000107`                                                                                                                                                                 |
+| code.coding\[0].display          | fixed value = `Consultation`                                                                                                                                                                    |
+| subject                          | this a reference to the mapped [Patient](../patient/README.md) from the `encounter`                                                                                                             |
+| date                             | `ehrComposition / effectiveTime / center` or else `EhrComposition / effectiveTime / low` or else `ehrComposition / availibiltyTime` or from root `EhrExtract / availabilityTime / value`        |
+| orderedBy.coding\[0].system      | fixed value = `http://hl7.org/fhir/list-order`                                                                                                                                                  |
+| orderedBy.coding\[0].code        | fixed value = `system`                                                                                                                                                                          |
+| orderedBy.coding\[0].display     | fixed value = `Sorted by System`                                                                                                                                                                |
+| encounter                        | reference to mapped [Encounter](../practioners/README.md)                                                                                                                                       |
+| entry[index].item.reference      | reference to one or more mapped [List (Topic)](./LIST_TOPIC_README.md)                                                                                                                          |
 
 The following List fields are not currently populated by the adaptor:
 - identifier
