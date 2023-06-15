@@ -2,7 +2,7 @@
 
 ## XML HL7 > JSON FHIR
 
-A List (Heading) is created from a [List (Topic)](./LIST_TOPIC_README.md) member (referred to as `Topic`) and a `CompoundStatement` within the same `ehrComposition` which has a classCode of `CATEGORY`
+A List (Heading) is created from a [List (Topic)](./LIST_TOPIC_README.md) member (referred to as `Topic`) and a `CompoundStatement` within the same `ehrComposition` which has a classCode of `CATEGORY` (This is a descendent of the related Topic's `CompoundStatement`). 
 This represents the SOAP heading sections which contain clinical record entries.
 
 | Mapped to (JSON FHIR List field) | Mapped from (XML HL7 / other source)                                                                                                                                             |
@@ -23,6 +23,7 @@ This represents the SOAP heading sections which contain clinical record entries.
 | encounter                        | this a reference to mapped [Encounter](../encounters/README.md) from `Topic.encounter`                                                                                           |
 | entry[index].item.reference      | Each entry.item is a reference to a resource representing a clinical record entry which has been mapped from the source HL7 - for example, medications, allergies, problems, etc |
 
+The following List fields are not currently populated by the adaptor:
 - identifier
 - source
 - note
