@@ -13,47 +13,6 @@ A Patient resource is mapped from a HL7 Patient.
 | indentifier\[0].value                    | `Patient / id [@extension]`                                                                                                                                              |
 | managingOrganization                     | referenced to mapped AgentOrganization: [Organization](https://github.com/NHSDigital/patient-switching-adaptors-mapping-documentation/blob/main/organisations/README.md) |
 
-## Unmapped fields
-
- - implicitRules
- - language
- - text
- - contained
- - extension
- - modifierExtension
- - identifier.use
- - identifier.type
- - identifier.type.coding
- - active
- - name
- - name.period
- - name(official)
- - telecom
- - telecom.period
- - gender
- - birthDate
- - deceasedDateTime
- - address
- - address.period
- - maritalStatus
- - maritalStatus.coding
- - multipleBirthBoolean
- - contact
- - contact.relationship
- - contact.relationship.coding
- - contact.name
- - contact.telecom
- - contact.address
- - contact.organization
- - contact.period
- - generalPractitioner
- - managingOrganization
- - link
- - link.other
- - 
-
-## Example JSON
-
 <details>
     <summary>Example JSON</summary>
 
@@ -79,6 +38,31 @@ A Patient resource is mapped from a HL7 Patient.
 ```
 </details>
 
+## Unmapped fields
+
+ - implicitRules
+ - language
+ - text
+ - contained
+ - extension
+ - modifierExtension
+ - identifier.use
+ - identifier.type
+ - identifier.type.coding
+ - active
+ - name
+ - name.period
+ - name(official)
+ - gender
+ - birthDate
+ - deceasedDateTime
+ - address
+ - address.period
+ - maritalStatus
+ - multipleBirthBoolean 
+ - generalPractitioner
+ - link
+ - link.other
 
 ## JSON FHIR > XML HL7
 
@@ -88,31 +72,30 @@ A Patient record is inserted into the EhrExtracts recordTarget.
 |--------------------------------------------------------|------------------------------------------------------------------------------|
 | EhrExtract / recordTarget / patient / id \[@extension] | NHS number is taken from the initial EHR Request message (RCMR_IN010000UK05) |
 
-## Example XML
 
 <details>
     <summary>Example XML</summary>
 
 ```XML
 <ControlActEvent classCode=\"CACT\" moodCode=\"EVN\">
-        <author1 typeCode=\"AUT\">
-            <AgentSystemSDS classCode=\"AGNT\">
-                <agentSystemSDS classCode=\"DEV\" determinerCode=\"INSTANCE\">
-                    <id root=\"1.2.826.0.1285.0.2.0.107\" extension=\"200000000359\" />
-                </agentSystemSDS>
-            </AgentSystemSDS>
+<author1 typeCode=\"AUT\">
+<AgentSystemSDS classCode=\"AGNT\">
+<agentSystemSDS classCode=\"DEV\" determinerCode=\"INSTANCE\">
+<id root=\"1.2.826.0.1285.0.2.0.107\" extension=\"200000000359\" />
+        </agentSystemSDS>
+        </AgentSystemSDS>
         </author1>
-        <subject typeCode=\"SUBJ\" contextConductionInd=\"false\">
-            <EhrExtract classCode=\"EXTRACT\" moodCode=\"EVN\">
-    <id root=\"4B3EC6C4-D9BD-4FFE-8C29-01A5EC41B9E9\" />
-    <statusCode code=\"COMPLETE\" />
-    <availabilityTime value=\"20230613105301\" />
-    <recordTarget typeCode=\"RCT\">
-        <patient classCode=\"PAT\">
-            <id root=\"2.16.840.1.113883.2.1.4.1\" extension=\"9726908744\" />
+<subject typeCode=\"SUBJ\" contextConductionInd=\"false\">
+<EhrExtract classCode=\"EXTRACT\" moodCode=\"EVN\">
+<id root=\"4B3EC6C4-D9BD-4FFE-8C29-01A5EC41B9E9\" />
+<statusCode code=\"COMPLETE\" />
+<availabilityTime value=\"20230613105301\" />
+<recordTarget typeCode=\"RCT\">
+<patient classCode=\"PAT\">
+<id root=\"2.16.840.1.113883.2.1.4.1\" extension=\"9726908744\" />
         </patient>
-    </recordTarget>
-...
+        </recordTarget>
+        ...
         </EhrExtract>
 ```
 
