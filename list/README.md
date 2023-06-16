@@ -1,6 +1,6 @@
 # List Mapping
 
-A `List` structure is used to represent structured conversations and can be mapped into 3 different list types:
+A `List` structure is used to represent structured consulations and can be mapped into 3 different list types:
 
 1. [List (Consultation)](./LIST_CONSULTATION_README.md)
 2. [List (Topic)](./LIST_TOPIC_README.md)
