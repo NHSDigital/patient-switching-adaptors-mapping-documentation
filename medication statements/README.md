@@ -6,19 +6,28 @@ A FHIR `MedicationStatement` is mapped from a XML HL7 `MedicationStatement` cont
 When `EhrExtract` is referenced it refers to it's parent `EhrExtract` in the XML.</br>
 When `PracticeCode` is referenced, it refers to the losing practice ODS code.
 
-| Mapped to (JSON FHIR Medication Statement field) | Mapped from (XML HL7 / other source)                                                                              |
-|--------------------------------------------------|-------------------------------------------------------------------------------------------------------------------|
-| id                                               | `MedicationStatement / component [@typeCode="COMP"] / id [@root]` prefixed with `-MS`                             |
-| meta.profile\[0]                                 | fixed value = `"https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1"`              |
-| identifier.system                                | `https:\\PSSAdaptor\{{practiceCode}}` where {{practiceCode}} is losing practice ODS Code.                         |
-| identifier.value                                 | `MedicationStatement / component [@typeCode="COMP"] / id [@root]` prefixed with `-MS`                             |
-| taken                                            | fixed value = `"unk"` <sup>1</sup>                                                                                |
-| basedOn.reference                                | a reference to this `MedicationStatement` using `MedicationStatement / component [@typeCode="COMP"] / id [@root]` |
-| extension.url                                    | fixed value = `"https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1"`      |
-| extension.valueCodeableConcept.coding.system     | fixed value = `"https://fhir.nhs.uk/STU3/CodeSystem/CareConnect-PrescribingAgency-1"`                             |
-| extension.valueCodeableConcept.coding.code       | fixed value = `"prescribed-at-gp-practice"`                                                                       |
-| extension.valueCodeableConcept.coding.display    | fixed value = `"Prescribed at GP practice"`                                                                       |
-| dosage[index].text                               |                                                                                                                   |
+| Mapped to (JSON FHIR Medication Statement field) | Mapped from (XML HL7 / other source)                                                                                         |
+|--------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------|
+| id                                               | `MedicationStatement / component [@typeCode="COMP"] / id [@root]` prefixed with `-MS`                                        |
+| meta.profile\[0]                                 | fixed value = `"https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1"`                         |
+| identifier.system                                | `https:\\PSSAdaptor\{{practiceCode}}` where {{practiceCode}} is losing practice ODS Code.                                    |
+| identifier.value                                 | `MedicationStatement / component [@typeCode="COMP"] / id [@root]` prefixed with `-MS`                                        |
+| taken                                            | fixed value = `"unk"` <sup>1</sup>                                                                                           |
+| basedOn.reference                                | a reference to this `MedicationStatement` using `MedicationStatement / component [@typeCode="COMP"] / id [@root]`            |
+| extension[0].url                                 | fixed value = `"https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1"`                 |
+| extension[0].valueCodeableConcept.coding.system  | fixed value = `"https://fhir.nhs.uk/STU3/CodeSystem/CareConnect-PrescribingAgency-1"`                                        |
+| extension[0].valueCodeableConcept.coding.code    | fixed value = `"prescribed-at-gp-practice"`                                                                                  |
+| extension[0].valueCodeableConcept.coding.display | fixed value = `"Prescribed at GP practice"`                                                                                  |
+| dosage[index].text                               | `MedicationStatement / pertinentInformation / pertinentMedicationDosage / text` <sup>2</sup>                                 |
+| extension[1].url                                 | fixed value = `""https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatementLastIssueDate-1"` |  
+| extension[1].valueDateTime                       | `MedicationStatement / component [@typeCode="COMP"] / ehrSupplyPrescribe / availabilityTime [@value]` <sup>3</sup>           |
+| medicationReference.reference                    | reference to a `Medication` with a system generated UUID for this medication <sup>4</sup><sup>5</sup>                        |
+
+1. Taken is included as both a mapped field and field not in use.  The reason for this being that the item is mandatory in the base FHIR profile but GP systems do not record this detail. For this reason a default value of 'unk' is picked but should **not** be used</br>
+2. If there is no `pertinentInformation` which has a `pertinentInformationDosage / text`, then a default value of `"No Information available"` is used
+3. This uses the most `availabilityTime` of an `ehrSupplyPrescribe` with any medication statement in the `ehrExtract` where there is an `inFulfilmentOf` which has a `priorMedication / id [@root]` matching the id of the current `MedicationStatement`<br/> If these are no matches then this extension is not added
+4. This uses the values of `[@code]`, `[@displayName]` and `originalText` from `MedicationStatement / consumable / manufacturedProduct / manufacturedMaterial / code[0]` to create a unique key with a UUID value.  If this key has been used before then a `Medication` reference with the previously created UUID is used, otherwise a new UUID is generated. 
+5. If there are no `consumable` with a `manufacturedProduct` with a `manufacturedMaterial` then this value is not set
 
 ### Unmapped fields
 
@@ -34,7 +43,6 @@ The following Medication Statement fields are not currently populated by the ada
 - reasonReference
 - taken <sup>1</sup>
 
-1. Taken is included as both a mapped field and field not in use.  The reason for this being that the item is mandatory in the base FHIR profile but GP systems do not record this detail. For this reason a default value of 'unk' is picked but should **not** be used</br>
 
 <details>
     <summary>Example JSON</summary>
