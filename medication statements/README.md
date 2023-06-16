@@ -2,32 +2,45 @@
 
 ## XML HL7 > JSON FHIR
 
-A FHIR `MedicationStatement` is mapped from a XML HL7 `MedicationStatement` containing a at least one `EhrSupplyAuthorise` component.</br>
-When `EhrExtract` is referenced it refers to it's parent `EhrExtract` in the XML.</br>
+A FHIR `MedicationStatement` is mapped from a XML HL7 `MedicationStatement` containing an `EhrSupplyAuthorise` component.</br>
+When `ehrSupplyAuthorise` is referenced, it refers `MedicationStatement / component [@typeCode="COMP"] / ehrSupplyAuthorise`</br>
+When `ehrSupplyDiscontinue` is referenced, it refers to find the first matching `ehrSupplyDiscontinue` where `ehrSupplyDiscontinue / reversalOf / priorMedicationRef / id [@root]` matching `MedicationStatement / component [@typeCode="COMP"] / ehrSupplyAuthorise / id [@root]` in the 'ehrExtract' 
+When `ehrSupplyPrescribe` is referenced `MedicationStatement / component [@typeCode="COMP"] / ehrSupplyPrescribe`
+When `EhrExtract` is referenced, it refers to the parent `EhrExtract` in the XML.</br>
 When `PracticeCode` is referenced, it refers to the losing practice ODS code.
 
-| Mapped to (JSON FHIR Medication Statement field) | Mapped from (XML HL7 / other source)                                                                                         |
-|--------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------|
-| id                                               | `MedicationStatement / component [@typeCode="COMP"] / id [@root]` prefixed with `-MS`                                        |
-| meta.profile\[0]                                 | fixed value = `"https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1"`                         |
-| identifier.system                                | `https:\\PSSAdaptor\{{practiceCode}}` where {{practiceCode}} is losing practice ODS Code.                                    |
-| identifier.value                                 | `MedicationStatement / component [@typeCode="COMP"] / id [@root]` prefixed with `-MS`                                        |
-| taken                                            | fixed value = `"unk"` <sup>1</sup>                                                                                           |
-| basedOn.reference                                | a reference to this `MedicationStatement` using `MedicationStatement / component [@typeCode="COMP"] / id [@root]`            |
-| extension[0].url                                 | fixed value = `"https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1"`                 |
-| extension[0].valueCodeableConcept.coding.system  | fixed value = `"https://fhir.nhs.uk/STU3/CodeSystem/CareConnect-PrescribingAgency-1"`                                        |
-| extension[0].valueCodeableConcept.coding.code    | fixed value = `"prescribed-at-gp-practice"`                                                                                  |
-| extension[0].valueCodeableConcept.coding.display | fixed value = `"Prescribed at GP practice"`                                                                                  |
-| dosage[index].text                               | `MedicationStatement / pertinentInformation / pertinentMedicationDosage / text` <sup>2</sup>                                 |
-| extension[1].url                                 | fixed value = `""https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatementLastIssueDate-1"` |  
-| extension[1].valueDateTime                       | `MedicationStatement / component [@typeCode="COMP"] / ehrSupplyPrescribe / availabilityTime [@value]` <sup>3</sup>           |
-| medicationReference.reference                    | reference to a `Medication` with a system generated UUID for this medication <sup>4</sup><sup>5</sup>                        |
+| Mapped to (JSON FHIR Medication Statement field) | Mapped from (XML HL7 / other source)                                                                                                                                       |
+|--------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| id                                               | `ehrSupplyAuthorise / id [@root]` prefixed with `-MS`                                                                                                                      |
+| meta.profile\[0]                                 | fixed value = `"https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1"`                                                                       |
+| identifier.system                                | `https:\\PSSAdaptor\{{practiceCode}}` where {{practiceCode}} is losing practice ODS Code.                                                                                  |
+| identifier.value                                 | `ehrSupplyAuthorise / id [@root]` prefixed with `-MS`                                                                                                                      |
+| taken                                            | fixed value = `"unk"` <sup>1</sup>                                                                                                                                         |
+| basedOn.reference                                | a reference to a [MedicationRequest](../medication statements/README.md) using `ehrSupplyAuthorise / id [@root]` as the reference id                                       |
+| extension[0].url                                 | fixed value = `"https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1"`                                                               |
+| extension[0].valueCodeableConcept.coding.system  | fixed value = `"https://fhir.nhs.uk/STU3/CodeSystem/CareConnect-PrescribingAgency-1"`                                                                                      |
+| extension[0].valueCodeableConcept.coding.code    | fixed value = `"prescribed-at-gp-practice"`                                                                                                                                |
+| extension[0].valueCodeableConcept.coding.display | fixed value = `"Prescribed at GP practice"`                                                                                                                                |
+| dosage[index].text                               | `MedicationStatement / pertinentInformation / pertinentMedicationDosage / text` <sup>2</sup>                                                                               |
+| extension[1].url                                 | fixed value = `""https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatementLastIssueDate-1"`                                               |  
+| extension[1].valueDateTime                       | `ehrSupplyPrescribe / availabilityTime [@value]` <sup>3</sup>                                                                                                              |
+| medicationReference.reference                    | reference to a `Medication` with a system generated UUID for this medication <sup>4</sup><sup>5</sup>                                                                      |
+| status                                           | `"STOPPED"`, `"COMPLETED"` or `"ACTIVE"` <sup>6</sup><sup>7</sup>                                                                                                          |
+| effectivePeriod.end                              | `ehrSupplyDiscontinue / availabilityTime [@value]` <sup>8</sup>                                                                                                            |
+| effectivePeriod.start                            | `ehrSupplyAuthorise / effectiveTime / center [@value]`, `ehrSupplyAuthorise / effectiveTime / low [@value]`, `ehrSupplyAuthorise / availabilityTime [@value]` <sup>9</sup> |
+| dateAsserted                                     | `ehrComposition / author / time [@value]`, `ehrExtract / availabilityTime [@value]`                                                                                        |
+| subject                                          | A reference to the [Patient](../patient/README.md) from `ehrExtract / recordTarget / patient`                                                                              |
+| context                                          | A reference to the [Encounter](../encounters/README.md) which this Medication Statement refers to.                                                                         |
 
 1. Taken is included as both a mapped field and field not in use.  The reason for this being that the item is mandatory in the base FHIR profile but GP systems do not record this detail. For this reason a default value of 'unk' is picked but should **not** be used</br>
 2. If there is no `pertinentInformation` which has a `pertinentInformationDosage / text`, then a default value of `"No Information available"` is used
-3. This uses the most `availabilityTime` of an `ehrSupplyPrescribe` with any medication statement in the `ehrExtract` where there is an `inFulfilmentOf` which has a `priorMedication / id [@root]` matching the id of the current `MedicationStatement`<br/> If these are no matches then this extension is not added
+3. This uses the most recent `availabilityTime` of an `ehrSupplyPrescribe` within any medication statement in the `ehrExtract` where there is an `inFulfilmentOf` which has a `priorMedication / id [@root]` matching the id of the current `MedicationStatement`<br/> If these are no matches then this extension is not added
 4. This uses the values of `[@code]`, `[@displayName]` and `originalText` from `MedicationStatement / consumable / manufacturedProduct / manufacturedMaterial / code[0]` to create a unique key with a UUID value.  If this key has been used before then a `Medication` reference with the previously created UUID is used, otherwise a new UUID is generated. 
 5. If there are no `consumable` with a `manufacturedProduct` with a `manufacturedMaterial` then this value is not set
+6. The `ehrExtract` is parsed . If this has `ehrSupplyDiscontinue / availabilityTime / value` then value is set to `"STOPPED"` or `"COMPLETED"`
+7. If there is no matching `ehrSupplyDiscontinue` (see <sup>6</sup>) then if `ehrSupplyAuthorise / statusCode / code` = `"COMPLETE"` then `"COMPLETED"` is used, else `"ACTIVE"` is used
+8. When `ehrSupplyDiscontinue / availabilityTime [@value]` does not exist and `status` = `"ACTIVE"` then this is set to the same value as `effectivePeriod.start`
+9. When `ehrSupplyDiscontinue / availabilityTime [@value]` exists. If this exists but the referenced values do not then the availability time from either the `MedicationStatement`, `EhrExract` or `EhrComposition` is used. If none of these values exist then the value assigned to `effectivePeriod.end` is used instead
 
 ### Unmapped fields
 
