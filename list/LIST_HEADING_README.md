@@ -3,7 +3,7 @@
 ## XML HL7 > JSON FHIR
 
 A List (Heading) is created from a [List (Topic)](./LIST_TOPIC_README.md) member (referred to as `Topic`) and a `CompoundStatement` within the same `ehrComposition` which has a classCode of `CATEGORY` (This is a descendent of the related Topic's `CompoundStatement`). 
-This represents the SOAP heading sections which contain clinical record entries.
+This represents the SOAP heading sections (Subjective, Objective, Analysis, Plan) which contain clinical record entries.
 
 | Mapped to (JSON FHIR List field) | Mapped from (XML HL7 / other source)                                                                                                                                             |
 |----------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
