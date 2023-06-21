@@ -1094,8 +1094,6 @@ nested as components of the header.
 | component\[index] / CompoundStatement     | Mapped [Test Results](#Test-Result-(JSON-FHIR->-XML-HL7))                                                                                                                                                                                                  |
 | component\[index] / NarrativeStatement    | Mapped from `Observation` as outlined in [Narrative statement mapping for Test Group Header and Test Result](#Narrative-statement-mapping-for-Test-Group-Header-and-Test-Result) <sup>8</sup> and [Filing comments](#Filing-Comment-(JSON-FHIR->-XML-HL7)) |
 
-8. `NarrativeStatement` components are created for each of the fields stated in [Observation Fields mapped to Narrative Statement](#Observation-fields-mapped-to-Narrative-Statement) above. If none of 
-these fields are present, and no [Filing Comments](#Filing-Comment-(JSON-FHIR->-XML-HL7)) are present the `NarrativeStatement` will be omitted.
 
 <details>
    <summary>Example XML</summary>
@@ -1140,6 +1138,9 @@ See FATS/Healthy Hearts guidelines for interpretation of lipids</text>
 ```
 * note - the Transfer-degraded record entry was present in the FHIR, it has not been added by the Adaptor.
 </details>
+
+8. `NarrativeStatement` components are created for each of the fields stated in [Observation Fields mapped to Narrative Statement](#Observation-fields-mapped-to-Narrative-Statement) above. If none of
+   these fields are present, and no [Filing Comments](#Filing-Comment-(JSON-FHIR->-XML-HL7)) are present the `NarrativeStatement` will be omitted.
 
 ### Test Result (JSON FHIR > XML HL7)
 
@@ -1234,9 +1235,8 @@ to `NarrativeStatements` and inserted as components of the Test Group Header / T
 | text                                   | EDIFACT comment type of USER COMMENT where the comment body is mapped from `Observation.comment` <sup>9</sup>    |
 | availabilityTime                       | `Observation.effectiveDateTime` or else `Observation.effectivePeriod.start`                                      |
 
-9. If there is more than one filing comment for a given Observation, the comments are seperated by newlines and appended to the EDIFACT comment body.  
-
 <details>
+   <summary>Example XML</summary>
 
 ```XML
 
@@ -1251,6 +1251,8 @@ CommentDate:20100326134545
 </NarrativeStatement>
 ```
 </details>
+
+9. If there is more than one filing comment for a given Observation, the comments are seperated by newlines and appended to the EDIFACT comment body.
 
 ## Further documentation
 
