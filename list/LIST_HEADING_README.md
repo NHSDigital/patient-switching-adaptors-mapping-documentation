@@ -101,7 +101,7 @@ Mapped from a `resource` with a type of `list` where `list.code.coding[0].code` 
 
 | Mapped to (XML HL7 CompoundStatement)                                                                                                        | Mapped from (JSON FHIR / other source )                                                                                 |
 |----------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------|
-| `CompoundStatement [@classCode]`                                                                                                             | fixed value = `CATEGORY`                                                                                                |
+| `CompoundStatement [@classCode] [@moodCode]`                                                                                                 | fixed value = `CATEGORY`, moodCode fixed value = `EVN`                                                                  |
 | `CompoundStatement / id [@root]`                                                                                                             | new system generated UUID                                                                                               |
 | `CompoundStatement / code [@codeSystem='2.16.840.1.113883.2.1.3.2.4.15'] [@code='394841004'] [@displayName="Other category"] / originalText` | `resource.title` or not populated if not found                                                                          |
 | `CompoundStatement / statusCode [@code]`                                                                                                     | fixed value = `COMPLETE`                                                                                                |
@@ -119,7 +119,7 @@ Mapped from a `resource` with a type of `list` where `list.code.coding[0].code` 
 <details><summary>Example XML</summary>
 
 ```
-<component typeCode="COMP">
+<component typeCode="COMP" contextConductionInd="true">
     <CompoundStatement classCode="CATEGORY" moodCode="EVN">
         <id root="394559384658936" />
         <code code="14L..00" codeSystem="2.16.840.1.113883.2.1.6.2" displayName="H/O: drug allergy" />
