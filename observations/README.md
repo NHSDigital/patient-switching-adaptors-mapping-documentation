@@ -21,7 +21,7 @@ FHIR `Observation` resource types, the mapping of which is described in the foll
 
 Uncategorised data is mapped from an `ObservationStatement` to to an `Observation` in the following way, if it is not
 deemed to be an
-[AllergyIntolerance](../allergy%20intolerances/README.md), [Blood Pressure](#Blood-Pressure-(XML-HL7->-JSON-FHIR))
+[Allergy Intolerance](../allergy%20intolerances/README.md), [Blood Pressure](#Blood-Pressure-(XML-HL7->-JSON-FHIR))
 or [Immunization](../immunisations/README.md).
 
 | Mapped to (JSON FHIR Observation resource field) | Mapped from (XML HL7 / other)                                                                                                                            |
