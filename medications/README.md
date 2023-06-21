@@ -86,41 +86,55 @@ A GP Connect FHIR `Medication` is mapped from an GP2GP HL7v3 `MedicationStatemen
     <summary>Example XML</summary>
 
 ```
-<ehrComposition classCode=\"COMPOSITION\" moodCode=\"EVN\">
-    <id root=\"4BBABD06-93E2-4E87-9345-9B1171AC576F\" />
-    <code code=\"24591000000103\" displayName=\"Other report\" codeSystem=\"2.16.840.1.113883.2.1.3.2.4.15\">
-        <originalText>Surgery Consultation</originalText>
-    </code>
-    <statusCode code=\"COMPLETE\" />
-    <effectiveTime>
-        <low value=\"20190328103000\"/><high value=\"20190328103800\"/>
-    </effectiveTime>
-    <availabilityTime value=\"20190328103000\"/>
-    <author typeCode=\"AUT\" contextControlCode=\"OP\">
-        <time value=\"20190328103000\" />
-        <agentRef classCode=\"AGNT\">
-            <id root=\"4ED3292E-EC9E-400D-84D2-758CCDEA40A4\" />
-        </agentRef>
-    </author>
-    <location typeCode="LOC">
-        <locatedEntity classCode="LOCE">
-            <code code="394730007" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Healthcare related organisation" />
-            <locatedPlace classCode="PLC" determinerCode="INSTANCE">
-                <name>Example location</name>
-            </locatedPlace>
-        </locatedEntity>
-    </location>
-    <Participant2 typeCode=\"PRF\" contextControlCode=\"OP\">
-        <agentRef classCode=\"AGNT\">
-            <id root=\"4ED3292E-EC9E-400D-84D2-758CCDEA40A4\"/>
-        </agentRef>
-    </Participant2>
-    <component typeCode=\"COMP\">
-
-    ...
-
-    </component>
-</ehrComposition>
+<MedicationStatement classCode="SBADM" moodCode="ORD">
+   <id root="0FC9E511-9CCA-42DD-986A-D58ABD8208C8"/>
+   <statusCode code="COMPLETE"/>
+   <effectiveTime>
+      <low value="20130103"/><high value="20130602"/>
+   </effectiveTime>
+   <availabilityTime value="20130103"/>
+   <consumable typeCode="CSM">
+      <manufacturedProduct classCode="MANU">
+         <manufacturedMaterial determinerCode="KIND" classCode="MMAT">
+            <code code="178011000001104" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Zimovane LS 3.75mg tablets (Sanofi)">
+              </code>
+         </manufacturedMaterial>
+      </manufacturedProduct>
+   </consumable>
+   <component typeCode="COMP">
+      <ehrSupplyPrescribe>
+         <id root="61B8E9FD-552A-42A1-8562-208B612C429B"/>
+         <code code="394823007" displayName="NHS Prescription" codeSystem="2.16.840.1.113883.2.1.3.2.4.15"/>
+         <statusCode code="COMPLETE"/>
+         <availabilityTime value="20130103"/>
+         <quantity value="150" unit="1">
+            <translation value="150">
+               <originalText>tablet</originalText>
+            </translation>
+         </quantity>
+         <inFulfillmentOf typeCode="FLFS">
+            <priorMedicationRef moodCode="INT">
+               <id root="E41C267A-D303-4A13-8F50-C93A1543A279"/>
+            </priorMedicationRef>
+         </inFulfillmentOf>
+         <pertinentInformation typeCode="PERT">
+            <pertinentSupplyAnnotation>
+               <text>Expected Supply Duration: 150 day</text>
+            </pertinentSupplyAnnotation>
+         </pertinentInformation>
+      </ehrSupplyPrescribe>
+   </component>
+   <pertinentInformation typeCode="PERT">
+      <pertinentMedicationDosage classCode="SBADM" moodCode="RMD">
+         <text>One To Be Taken At Night</text>
+      </pertinentMedicationDosage>
+   </pertinentInformation>
+   <Participant typeCode="AUT" contextControlCode="OP">
+      <agentRef classCode="AGNT">
+         <id root="2D70F602-6BB1-47E0-B2EC-39912A59787D"/>
+      </agentRef>
+   </Participant>
+</MedicationStatement>
 ```
 </details>
 
