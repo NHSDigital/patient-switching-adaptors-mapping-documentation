@@ -1,6 +1,6 @@
 # Immunization Mapping
 
-## JSON FHIR > XML HL7
+## XML HL7 > JSON FHIR
 
 An Immunization is mapped from a ObservationStatement.
 
@@ -12,9 +12,9 @@ An Immunization is mapped from a ObservationStatement.
 | extension\[0] / valueExtension / url                         | fixed value = `https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid`                       |
 | extension\[0] / valueExtension / valueCodeableConcept / text | `ObservationStatement / code / displayname`                                                                   |
 | extension\[1] / url                                          | fixed value = `https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-DateRecorded-1`         |
-| extension\[1] / valueString                                  | `ObservationStatement / effectiveTime / highValue`                                                            |
+| extension\[1] / valueString                                  | `ehrComposition / availabilityTime [@value]`                                                                  |
 | identifier / system                                          | fixed value = `https://PSSAdaptor/2167888433`                                                                 |
-| identifier / value \[@root]                                  | `ObservationStatement / id`                                                                                   |
+| identifier / value \ [@root]                                 | `ObservationStatement / id`                                                                                   |
 | status                                                       | fixed value = `COMPLETED`                                                                                     |
 | notGiven                                                     | fixed boolean value = `false`                                                                                 |
 | patient / reference                                          | reference to the mapped [patient](../patient/README.md)                                                       |
@@ -22,25 +22,37 @@ An Immunization is mapped from a ObservationStatement.
 | date                                                         | `ObservationStatement / effectiveTime / highValue`                                                            |
 | primarySource                                                | fixed boolean value = `false`                                                                                 |
 | practitioner / actor / reference                             | `ObservationStatement / Participant / typeCode / agentRef / id / root`                                        |
-| note\[0] / text                                              | `ObservationStatement / pertiinentInformation / pertiantAnnotation / text` - Built from multiple                                     |
+| note\[0] / text                                              | `ObservationStatement / pertiinentInformation / pertiantAnnotation / text` - Built from multiple              |
 | note\[1] / text[1]                                           | `ObservationStatement / effectiveTime` - Prints out the high value of effective time                          |
 
 ## Unmapped Fields
 
 The following Immunization fields are not currently populated by the adaptor:
 
+- notGiven
+- vaccineCode
+- reportOrigin
+- location
 - implicitRules
 - language
 - valueCodeableConcept
 - modifierExtension
-- reportOrigin
-- location
 - manufacturer
 - lotNumber
 - expirationDate
+- site
 - reasonNotGiven
 - doseQuantity
-- actor
+- practitioner.role
+- practitioner.role
+- explanation.reason
+- explanation.reason
+- vaccinationProtocol
+- vaccinationProtocol.doseSequence
+- vaccinationProtocol.description
+- vaccinationProtocol.seriesDoses
+- vaccinationProtocol.targetDisease
+- vaccinationProtocol.doseStatus
 - reaction
 - reported
 - doseStatusReason
@@ -113,16 +125,16 @@ The following Immunization fields are not currently populated by the adaptor:
 
 An Immunization is primarily mapped from an Observation Statement.
 
-| Mapped to (XML HL7)                                | Mapped from (JSON FHIR / other source )              |
-|----------------------------------------------------|------------------------------------------------------|
-| id / root                                          | `id`                                                 |
-| code / display                                     | `extension.valueExtension.valueCodeableConcept.text` |
-| Participant / agentRef / id /root                  | `practitioner.actor.reference`                       |
-| statusCode                                         | `status`                                             |
-| effectiveTime                                      | `date`                                               |
-| availabilityTime                                   | `date`                                               |
-| pertiinentInformation / pertiantAnnotation / text  | `note.text`                                          |
-| Participant / agentRef / id [@root]                | `practitioner.actor.reference`                       |
+| Mapped to (XML HL7)                               | Mapped from (JSON FHIR / other source )              |
+|---------------------------------------------------|------------------------------------------------------|
+| id [@root]                                        | `id`                                                 |
+| code / display                                    | `extension.valueExtension.valueCodeableConcept.text` |
+| Participant / agentRef / id [@root]               | practitioner / role = `AP`                           |
+| statusCode                                        | fixed value = `"COMPLETE"`                           |
+| effectiveTime                                     | `date`                                               |
+| availabilityTime                                  | `date`                                               |
+| pertiinentInformation / pertiantAnnotation / text | `note.text`                                          |
+| Participant [@typecode] / agentRef / id [@root]   | fixed value = `PRF`                                  |
 
 
 <details><summary>Example XML</summary>
