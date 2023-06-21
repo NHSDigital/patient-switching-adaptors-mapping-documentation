@@ -1,13 +1,16 @@
 # Observation Mapping
 
-## XML HL7 > JSON FHIR
+# XML HL7 > JSON FHIR
 
-Observations are mapped from:
+FHIR Observations are used throughout the Structured Record and the 
+[GP Connect Documentation](https://developer.nhs.uk/apis/gpconnect-1-6-0/accessrecord_structured.html) outlines how they
+are used. As a result they are mapped from multiple HL7 components as stated below, where the items in **bold** are 
+FHIR `Observation` resource types described in the follwoing documentation.
 
-* Observation statements  (Uncategorised Data and Test Results)
-* Request statements (Self Referral)
-* Compound statements (Test Group Header, Blood Pressure and Componentised Observation Header)
-* Narrative statements (Filing Comments)
+* Observation statements  map to **Uncategorised Data** and **Test Results**
+* Request statements map to **Self Referral**
+* Compound statements map to **Test Group Header**, **Blood Pressure** and **Componentised Observation Header**
+* Narrative statements map to **Filing Comments** 
 
 ### Code Mapping
 
@@ -28,9 +31,7 @@ will be mapped in the following way:
 
 1. If a SNOMED CT code cannot be found `code.coding` will not be populated.
 
-### Uncategorised data
-
-### Observation - Uncategorised data
+## Uncategorised data
 
 Uncategorised data is mapped from an `ObservationStatement` to to an `Observation` in the following way, if it is not
 deemed to be an
@@ -133,12 +134,12 @@ or [Immunization](../immunisations/README.md).
 3. Where the `ehrComposition` is the parent of mapped statement.
 4. Where `paticipant [@typecode]` is `"PPRF"` (Primary performer) or `"PRF"` (Performer).
 
-### Observation - Blood pressure
+## Blood pressure
 
-Blood pressure observations are mapped from a HL7v3 `CompoundStatement` containing two `ObservationStatement` elements,
-where the SNOMED codes identify them as blood pressure observations. The SNOMED codes used to identify a
+Blood pressure observations are mapped from a HL7 `CompoundStatement` containing two `ObservationStatement` components,
+known as a "blood pressure triple", where the SNOMED codes identify them as a blood pressure. The SNOMED codes used to identify a
 "blood pressure triple" are listed in the
-[Gp connect documentation](https://developer.nhs.uk/apis/gpconnect-1-6-0/accessrecord_structured_development_uncategorisedData_guidance.html#representing-blood-pressure-readings-from-gp-systems)
+[Gp Connect documentation](https://developer.nhs.uk/apis/gpconnect-1-6-0/accessrecord_structured_development_uncategorisedData_guidance.html#representing-blood-pressure-readings-from-gp-systems)
 .
 
 | Mapped to (JSON FHIR Observation resource field)    | Mapped from (XML HL7 / other)                                                                                                                          |
@@ -275,10 +276,10 @@ where the SNOMED codes identify them as blood pressure observations. The SNOMED 
 7. Where the `NarrativeStatement` is a child of the blood pressure triple's `CompoundStatement` and prepended
    with `"BP Note: "`.
 
-### Observation - Self referral
+## Self referral
 
-A HL7v3 `RequestStatement` is mapped to an `Observations` if `RequestStatement / code / qualifier /value [@code]`
-is equal to `"SelfReferral`.
+If a referral is deemed to be a self referral, the HL7 `RequestStatement` is mapped to an FHIR `Observation`. Self referrals 
+are identified by `RequestStatement / code / qualifier /value [@code]`, where it is equal to `"SelfReferral`.
 
 | Mapped to (JSON FHIR Observation resource field) | Mapped from (XML HL7 / other)                                                                                   |
 |--------------------------------------------------|-----------------------------------------------------------------------------------------------------------------|
@@ -381,12 +382,15 @@ is equal to `"SelfReferral`.
 
 5. Where `ObservationStatement / paticipant [@typecode]` is `"PPRF"` (Primary performer) or `"PRF"` (Performer).
 
-### Investigations
+## Investigations
 
-### Observation - Test group header
+For more information on how Investigations are represented in GP Connect see [Investigations Guidance](https://developer.nhs.uk/apis/gpconnect-1-6-0/accessrecord_structured_development_pathology_guidance.html).
 
-Observation - Test group headers are mapped from a nested `CompoundStatement` with a class code of `BATTERY` where
-the parent compound statements are deemed to form a [Diagnostic Report](../diagnostic%20reports/README.md).
+
+### Test Group Header
+
+Test group headers are mapped from a nested `CompoundStatement` with a class code of `BATTERY` where
+the parent compound statements are deemed to from a [Diagnostic Report](../diagnostic%20reports/README.md).
 
 | Mapped to (JSON FHIR Observation resource field) | Mapped from (XML HL7 / other)                                                                                                     |
 |--------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------|
@@ -486,9 +490,9 @@ the parent compound statements are deemed to form a [Diagnostic Report](../diagn
 
 </details>
 
-### Observation - Test result
+### Test Result
 
-Test Result observations, with the exception of the related field, are mapped identically to Uncategorised Data (above).
+With the exception of the related field, Test Result observations are mapped identically to Uncategorised Data (above). 
 
 | Mapped to (JSON FHIR Observation resource field) | Mapped from (XML HL7 / other)                      |
 |--------------------------------------------------|----------------------------------------------------|
@@ -582,10 +586,9 @@ Test Result observations, with the exception of the related field, are mapped id
 
 </details>
 
-### Observation - Filing comment
+### Filing Comment
 
-Filing Comment observations are mapped from diagnostic report `NarrativeStatements` where the EDIFACT comment type is
-`USER COMMENT`.
+Filing Comment observations are mapped from `NarrativeStatements` where the EDIFACT comment type is `USER COMMENT`.
 
 | Mapped to (JSON FHIR Observation resource field) | Mapped from (XML HL7 / other)                                                                                                    |
 |--------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------|
@@ -664,11 +667,12 @@ Filing Comment observations are mapped from diagnostic report `NarrativeStatemen
 
 ## Componentised Observations
 
-When a `CompoundStatement` element has a class code of `BATTERY` or `CLUSTER` and does not form part of a pathology 
-investigation or a blood pressure, it is mapped to an `observation` resource. Additionally, any child `ObservationStatement` 
-will be referenced using the `"derived-from"` / `"has-member"` relationship.
+When a `CompoundStatement` element has a class code of `BATTERY` or `CLUSTER` and does not form part of a 
+[Diagnostic Report](../diagnostic%20reports/README.md) or a blood pressure, it is mapped to an `observation` resource. 
+Additionally, any `ObservationStatement` component will be mapped to a separate `Observation` and referenced using the 
+`"derived-from"` / `"has-member"` relationship.
 
-### Observation - Componentised observation header
+### Componentised observation header
 
 | Mapped to (JSON FHIR Observation resource field) | Mapped from (XML HL7 / other)                                                                                   |
 |--------------------------------------------------|-----------------------------------------------------------------------------------------------------------------|
@@ -758,7 +762,7 @@ will be referenced using the `"derived-from"` / `"has-member"` relationship.
 
 </details>
 
-### Observation - Componentised observation
+### Componentised observation
 
 The `ObservationStatement` components nested within the header, with the exception of the related field, 
 are mapped identically to Uncategorised Data (above).
@@ -839,7 +843,443 @@ are mapped identically to Uncategorised Data (above).
 
 </details>
 
-## JSON FHIR > XML HL7
+# JSON FHIR > XML HL7
+
+FHIR Observations can be mapped to the following HL7 components. The mapping for each GP Connect 
+observation type (in **bold**) is described in the sections below:
+
+- ObservationStatement (**Uncategorised Data** and **Test Results**)
+- CompoundStatement (**Blood Pressure**, **Test Group Header**)
+- NarrativeStatement (**Comment note** / **Filing comments**)
+
+
+## Codeable Concept Mapping 
+
+The HL7v3 Concept Descriptor (CD) type is mapped to a FHIR `codeableConcept`. Where stated in the mapping tables, 
+the CD will be mapped in the following way: 
+
+| Mapped to (XML HL7 CD)            | Mapped from (JSON FHIR / other source )                                                                                                          |
+|-----------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------|
+| code \[@code] <sup>8</sup>        | `coding.extension\[index].value` where `coding.extension[index].url` equals `"descriptionId"` or else `coding.code`                              |
+| code \[@codeSystem] <sup>8</sup>  | fixed value = `"2.16.840.1.113883.2.1.3.2.4.15"`                                                                                                 |
+| code \[@displayName] <sup>8</sup> | `coding.extension[index].value` where `coding.extension[index].url` equals `"descriptionDisplay"` or else `coding.display`                       |
+| code / originalText               | `coding.text` or else `coding.display` or else `coding.extension[index].value` where `coding.extension[index].url` equals `"descriptionDisplay"` |
+
+8. If no SNOMED code is present, the code element will only have the attribute `nullFlavor="UNK"` i.e. unknown.   
+
+## Uncategorised Data
+
+Uncategorised data is mapped from an FHIR `Observation` to a HL7 `ObservationStatement` where it is not deemed to be a 
+Blood Pressure or Comment Note. 
+
+| Mapped to (XML HL7 ObservationStatement)             | Mapped from (JSON FHIR / other source )                                                                                                                                         |
+|------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| id \[@root]                                          | Unique ID generated by the adaptor                                                                                                                                              |
+| code                                                 | `Observation.code.coding` as described in **Codeable Concept Mapping** above                                                                                                    |
+| statusCode                                           | fixed value = `"COMPLETE"`                                                                                                                                                      |
+| effectiveTime                                        | `Observation.effectiveDateTime` or else `Observation.effectivePeriod`                                                                                                           |
+| availabilityTime                                     | `Observation.effectiveDateTime` or else `Observation.effectivePeriod.start`                                                                                                     | 
+| value                                                | `Observation.valueQuantity` or `Observation.valueString`                                                                                                                        |
+| pertinentInformation / sequenceNumber \[@value]      | fixed value = `"+1"`                                                                                                                                                            |
+| pertinentInformation / pertinentAnnotation / text    | `Observation.bodySite.text` or else `Observation.bodySite.coding.extension[index].value` where `Observation.bodySite.coding.extension[index].url` equals `"descriptionDisplay"` |
+| interpretationCode \[@code]                          | `Observation.interpretation.coding.code`                                                                                                                                        | 
+| interpretationCode \[@codeSystem]                    | fixed value = `"2.16.840.1.113883.2.1.6.5"`                                                                                                                                     |
+| interpretationCode \[@displayName]                   | description of `Observation.interpretation.coding.code` e.g. if code = `"HI"` then displayName = `"Above high reference limit"`                                                 |
+| interpretationCode / originalText                    | `Observation.interpretation.coding.display`                                                                                                                                     |
+| referenceRange / referenceInterpretationRange / text | `Observation.referenceRange.text`                                                                                                                                               |
+| referenceRange / referenceInterpretationRang / value | `Observation.referenceRange.value`                                                                                                                                              |
+| Participant / agentRef / id \[@root]                 | `Observation.performer`                                                                                                                                                         | 
+
+
+<details>
+   <summary>Example XML</summary>
+
+```XML
+
+<ObservationStatement classCode="OBS" moodCode="EVN">
+   <id root="1814312A-9F16-4311-AB4F-7E31E7B57E1F"/>
+   <code code="478551000006117" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="ALT/SGPT serum level"/>
+   <statusCode code="COMPLETE"/>
+   <effectiveTime>
+      <center value="20100323133700"/>
+   </effectiveTime>
+   <availabilityTime value="20100323133700"/>
+   <value unit="1" value="12.000" xsi:type="PQ">
+      <translation value="12.000">
+         <originalText>U/L</originalText>
+      </translation>
+   </value>
+   <pertinentInformation typeCode="PERT">
+      <sequenceNumber value="+1"/>
+      <pertinentAnnotation classCode="OBS" moodCode="EVN">
+         <text>BodySite: Example body site comment</text>
+      </pertinentAnnotation>
+   </pertinentInformation>
+   <Participant contextControlCode="OP" typeCode="PRF">
+      <agentRef classCode="AGNT">
+         <id root="910543AF-6E56-47B9-970F-6724483D808C"/>
+      </agentRef>
+   </Participant>
+</ObservationStatement>
+```
+</details>
+
+## Blood Pressure
+
+An Observation is identified as a Blood Pressure if `Observation.code`, `Observation.component[0].code` and 
+`Observation.component[1].code` contain a valid blood pressure triple, as outlined in the 
+[GP Connect Documentation](https://developer.nhs.uk/apis/gpconnect-1-6-0/accessrecord_structured_development_uncategorisedData_guidance.html#representing-blood-pressure-readings-from-gp-systems).
+Blood Pressure Observations are mapped to a `CompoundStatement` with `ObservationStatement` components for the systolic 
+and diastolic readings and a optional `NarrativeStatement` for additional information.
+
+### Parent Compound Statement
+
+| Mapped to (XML HL7 CompoundStatement) | Mapped from (JSON FHIR / other source )                                                                                                                      |
+|---------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| id                                    | Unique ID generated by the adaptor                                                                                                                           |
+| code \[@code]                         | `Observation.code.coding[0].code`                                                                                                                            |
+| code \[@displayName]                  | `Observation.code.coding[0].display`                                                                                                                         |
+| code \[@codeSystem]                   | fixed value = `"2.16.840.1.113883.2.1.3.2.4.15"`                                                                                                             |
+| code / originalText                   | `coding.text` <br/> or else `coding.display` <br/> or else `coding.extension[index].value` where `coding.extension[index].url` equals `"descriptionDisplay"` |
+| statusCode                            | fixed value = `"COMPLETE"`                                                                                                                                   |
+| effectiveTime                         | `Observation.effectiveDateTime` or else `Observation.effectivePeriod`                                                                                        |
+| availabilityTime \[@value]            | `Observation.effectiveDateTime` or else `Observation.effectivePeriod.start`                                                                                  |
+| Participant \[@typecode]              | fixed value = `"PRF"`                                                                                                                                        |
+| Participant / agentRef / id \[@root]  | `Observation.performer[0]`                                                                                                                                   | 
+
+### Observation components
+
+The blood pressure should have two `ObservationStatement` components, one with a systolic and one with a diastolic 
+SNOMED code.  
+
+| Mapped to (XML HL7 CompoundStatement / component / ObservationStatement) | Mapped from (JSON FHIR / other source )                                                                                                                                                                                                                |
+|--------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| id                                                                       | Unique ID generated by the adaptor                                                                                                                                                                                                                     |
+| code \[@code]                                                            | `Observation.component[index].code.coding[0].code`                                                                                                                                                                                                     |
+| code \[@displayName]                                                     | `Observation.component[index].code.coding[0].display`                                                                                                                                                                                                  |
+| code \[@codeSystem]                                                      | fixed value = `"2.16.840.1.113883.2.1.3.2.4.15"`                                                                                                                                                                                                       |
+| code / originalText                                                      | `component[index].code.coding.text` <br/> or else `component[index].code.coding.display` <br/> or else `component[index].code.coding.extension[index2].value` where `component[index].code.coding.extension[index2].url` equals `"descriptionDisplay"` |
+| statusCode                                                               | fixed value = `"COMPLETE"`                                                                                                                                                                                                                             |
+| effectiveTime                                                            | same as the Parent Compound Statement's `effectiveTime`                                                                                                                                                                                                |
+| availabilityTime \[@value]                                               | same as the Parent Compound Statement's `availatilityTime`                                                                                                                                                                                             |
+| value                                                                    | `Observation.component[index].valueQuantity`                                                                                                                                                                                                           |
+| referenceRange / referenceInterpretationRange / text                     | `Observation.component[index].referenceRange.text`                                                                                                                                                                                                     |
+| referenceRange / referenceInterpretationRang / value                     | `Observation.component[index].referenceRange.value`                                                                                                                                                                                                    |
+
+### Narrative Statement components
+
+A blood pressure may have a `NarrativeStatement` component if the parent observation has a comment or if `Observation.component.dataAbsentReason`, 
+`Observation.bodySite` or `Observation.component.interpretation` are populated.   
+
+| Mapped to (XML HL7 CompoundStatement / component / NarrativeStatement) | Mapped from (JSON FHIR / other source )                                                                                                              |
+|------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
+| id                                                                     | Unique ID generated by the adaptor                                                                                                                   |
+| text                                                                   | Concatenated from `Observation.comment`, `Observation.bodySite`, `Observation.component.dataAbsentReason` and `Observation.component.interpretation` |
+| statusCode                                                             | fixed value = `"COMPLETE"`                                                                                                                           |
+| availabilityTime \[@value]                                             | same as the Parent Compound Statement's `availatilityTime`                                                                                           |
+
+<details>
+   <summary>Example XML</summary>
+
+```XML
+
+<CompoundStatement classCode="BATTERY" moodCode="EVN">
+   <id root="7D78F696-D3C7-43A9-B97E-983D9C55E1C8"/>
+   <code code="163020007" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="O/E - blood pressure reading">
+      <originalText>O/E - blood pressure reading</originalText>
+   </code>
+   <statusCode code="COMPLETE"/>
+   <effectiveTime>
+      <center value="20100206124100"/>
+   </effectiveTime>
+   <availabilityTime value="20100206124100"/>
+   <component typeCode="COMP" contextConductionInd="true">
+      <ObservationStatement classCode="OBS" moodCode="EVN">
+         <id root="6C2E2D92-39C1-44B2-BCEC-57BAFC951FBB"/>
+         <code code="72313002" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Systolic arterial pressure">
+            <originalText>Systolic blood pressure</originalText>
+         </code>
+         <statusCode code="COMPLETE"/>
+         <effectiveTime>
+            <center value="20100206124100"/>
+         </effectiveTime>
+         <availabilityTime value="20100206124100"/>
+         <value xsi:type="PQ" value="170.000" unit="1">
+            <translation value="170.000">
+               <originalText>mm[Hg]</originalText>
+            </translation>
+         </value>
+      </ObservationStatement>
+   </component>
+   <component typeCode="COMP" contextConductionInd="true">
+      <ObservationStatement classCode="OBS" moodCode="EVN">
+         <id root="67C2CFED-2CAE-4E44-8C65-8421994C8B9D"/>
+         <code code="1091811000000102" codeSystem="2.16.840.1.113883.2.1.3.2.4.15"
+               displayName="Diastolic arterial pressure">
+            <originalText>Diastolic blood pressure</originalText>
+         </code>
+         <statusCode code="COMPLETE"/>
+         <effectiveTime>
+            <center value="20100206124100"/>
+         </effectiveTime>
+         <availabilityTime value="20100206124100"/>
+         <value xsi:type="PQ" value="130.000" unit="1">
+            <translation value="130.000">
+               <originalText>mm[Hg]</originalText>
+            </translation>
+         </value>
+      </ObservationStatement>
+   </component>
+   <Participant typeCode="PRF" contextControlCode="OP">
+      <agentRef classCode="AGNT">
+         <id root="6D6BF46C-476B-4955-AE07-CB53C1D9CC40"/>
+      </agentRef>
+   </Participant>
+</CompoundStatement>
+```
+</details>
+
+## Comment Note
+
+Where a FHIR `Observation` resource is coded as a Comment Note (37331000000100) and it is not part of an investigation,
+it is mapped to a HL7 `NarrativeStatement` as follows.
+
+| Mapped to (XML HL7 NarrativeStatement) | Mapped from (JSON FHIR / other source )                                                                   |
+|----------------------------------------|-----------------------------------------------------------------------------------------------------------|
+| id                                     | Unique ID generated by the adaptor                                                                        |
+| text                                   | `Observation.comment`                                                                                     |
+| statusCode                             | fixed value = `"COMPLETE"`                                                                                |
+| availabilityTime \[@value]             | `Observation.effectiveDateTime` or else `Observation.effectivePeriod.start` or else `Observation.issued`  |
+| Participant \[@typecode]               | fixed value = `"PRF"`                                                                                     |
+| Participant / agentRef / id \[@root]   | `Observation.performer[0]`                                                                                | 
+
+
+
+<details>
+   <summary>Example XML</summary>
+
+```XML
+
+<NarrativeStatement classCode="OBS" moodCode="EVN">
+   <id root="D2FD6804-2CB9-48D7-950E-E616661C887C"/>
+   <text>This is a free text note under history</text>
+   <statusCode code="COMPLETE"/>
+   <availabilityTime value="20100206124100"/>
+   <Participant typeCode="PRF" contextControlCode="OP">
+      <agentRef classCode="AGNT">
+         <id root="6D6BF46C-476B-4955-AE07-CB53C1D9CC40"/>
+      </agentRef>
+   </Participant>
+</NarrativeStatement>
+```
+</details>
+
+## Investigations
+
+The Test Group / Result structure is itself nested as a component of the Specimen `compoundStatement` (not shown here), 
+which forms part if the [Diagnostic Report](../diagnostic%20reports/README.md) structure.
+
+### Narrative statement mapping for Test Group Header and Test Result
+
+Where stated in the Test Group Header and Test Result mapping, a collection of `NarrativeStatement` components may be 
+used to preserve data. Where this takes place, they will be mapped from the appropriate `ObservationStatement` in the following way:
+
+| Mapped to (XML HL7 NarrativeStatement) | Mapped from (JSON FHIR / other source )                                                                        |
+|----------------------------------------|----------------------------------------------------------------------------------------------------------------|
+| id                                     | Unique ID generated by the adaptor                                                                             |
+| text \[@mediaType]                     | fixed value = `"text/x-h7uk-pmip"`                                                                             |
+| text                                   | An EDIFACT comment type of `AGGREGATE COMMENT SET` where the content is mapped from one of fields stated below |
+| statusCode                             | fixed value = `"COMPLETE"`                                                                                     |
+| availabilityTime                       | Same as parent `CompoundStatement`                                                                             |
+
+Note - this is in addition to filing Comments which also mapped to narrative statements and described below
+
+
+#### Observation Fields mapped to Narrative Statement
+
+Where multiple fields are stated they are concatenated into a single EDIFACT comment
+
+- `dataAbsentReason` (prefixed with *"Data Absent: "*)
+- `interpretation` (prefixed with *"Interpretation: "*), `comment`, `valueString` (prefixed with *"Value: "*), 
+`referenceRange[0].text` (prefixed with *"Range Text: "*) and `referenceRange[0].high.unit` or `referenceRange[0].low.unit` 
+(prefixed with *"Range Units: "*)   
+- `bodySite` (prefixed with *"Site: "*)
+- `method` (prefixed with *"Method: "*)
+
+
+### Test Group Header
+
+A Test Group Header is mapped to a `CompoundStatement` with a `classcode` of `"BATTERY"`, Test Results (below) can be 
+nested as components of the header.  
+
+| Mapped to (XML HL7 CompoundStatement)     | Mapped from (JSON FHIR / other source )                                                                                                                                      |
+|-------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| id                                        | Unique ID generated by the adaptor                                                                                                                                           |
+| code                                      | `Observation.code.coding` as described in **Codeable Concept Mapping** above                                                                                                 |
+| statusCode                                | fixed value = `"COMPLETE"`                                                                                                                                                   |
+| effectiveTime                             | `Observation.effectiveDateTime` or else `Observation.effectivePeriod`                                                                                                        |
+| availabilityTime                          | `Observation.effectiveDateTime` or else `Observation.effectivePeriod.start`                                                                                                  |
+| component\[index] / ObservationStatement  | Mapped Test Results (see below)                                                                                                                                              |  
+| component\[index] / CompoundStatement     | Mapped Test Results (see below)                                                                                                                                              |
+| component\[index] / NarrativeStatement    | Mapped from `Observation` as outlined in **Narrative statement mapping for Test Group Header and Test Result** (above) <sup>9</sup> and filing Comments, as described below |
+
+9. `NarrativeStatement` components are created for each of the fields stated in **Observation Fields mapped to Narrative Statement**. If none of 
+these fields are present, and no filing comments are present (see below) the `NarrativeStatement` will be omitted.
+
+<details>
+   <summary>Example XML</summary>
+
+```XML
+
+<CompoundStatement classCode="BATTERY" moodCode="EVN">
+   <id root="1022BBB9-5DD2-439A-BB78-9227B36D8BC6"/>
+   <code code="196411000000103" codeSystem="2.16.840.1.113883.2.1.3.2.4.15"
+         displayName="Transfer-degraded record entry">
+      <originalText>CHOL/HDL RATIO</originalText>
+   </code>
+   <statusCode code="COMPLETE"/>
+   <effectiveTime>
+      <center value="20050315"/>
+   </effectiveTime>
+   <availabilityTime value="20050315"/>
+   <component contextConductionInd="true" typeCode="COMP">
+      <NarrativeStatement classCode="OBS" moodCode="EVN">
+         <id root="51962DA9-87DB-4054-A301-A0674BF62FA4"/>
+         <text mediaType="text/x-h7uk-pmip">CommentType:AGGREGATE COMMENT SET
+CommentDate:20050315
+
+See FATS/Healthy Hearts guidelines for interpretation of lipids</text>
+         <statusCode code="COMPLETE"/>
+         <availabilityTime value="20050315"/>
+      </NarrativeStatement>
+   </component>
+   <component contextConductionInd="true" typeCode="COMP">
+ 
+      ...
+      
+   </component>
+   <component contextConductionInd="true" typeCode="COMP">
+
+      ...
+
+   </component>
+
+</CompoundStatement>
+
+```
+* note - the Transfer-degraded record entry was present in the FHIR, it has not been added by the Adaptor.
+</details>
+
+### Test result
+
+A Test Result `Observation` is mapped to an `ObservationStatement`. 
+
+Where a `NarrativeStatement` is used to preserve data from an `Observation`, the `ObservationStatement` and 
+`NarrativeStatement` will be wrapped in a `CompoundStatement` with a class code of `CLUSTER`. 
+
+#### Observation statement
+| Mapped to (XML HL7 ObservationStatement)             | Mapped from (JSON FHIR / other source )                                                                                         |
+|------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------|
+| id \[@root]                                          | Unique ID generated by the adaptor                                                                                              |
+| code                                                 | `Observation.code.coding` as described in **Codeable Concept Mapping** above                                                    |
+| statusCode                                           | fixed value = `"COMPLETE"`                                                                                                      |
+| effectiveTime                                        | `Observation.effectiveDateTime` or else `Observation.effectivePeriod`                                                           |
+| availabilityTime                                     | `Observation.effectiveDateTime` or else `Observation.effectivePeriod.start`                                                     |
+| value                                                | `Observation.valueQuantity` or `Observation.valueString`                                                                        |
+| interpretationCode \[@code]                          | `Observation.interpretation.coding.code`                                                                                        | 
+| interpretationCode \[@codeSystem]                    | fixed value = `"2.16.840.1.113883.2.1.6.5"`                                                                                     |
+| interpretationCode \[@displayName]                   | description of `Observation.interpretation.coding.code` e.g. if code = `"HI"` then displayName = `"Above high reference limit"` |
+| interpretationCode / originalText                    | `Observation.interpretation.coding.display`                                                                                     |
+| referenceRange / referenceInterpretationRange / text | `Observation.referenceRange.text`                                                                                               |
+| referenceRange / referenceInterpretationRang / value | `Observation.referenceRange.value`                                                                                              |
+
+#### Compound Statement Wrapper
+| Mapped to (XML HL7 CompoundStatement) | Mapped from (JSON FHIR / other source )                                                                                                                                      |
+|---------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| id \[@root]                           | Unique ID generated by the adaptor                                                                                                                                           |
+| code                                  | `Observation.code.coding` as described in **Codeable Concept Mapping** above                                                                                                 |
+| statusCode                            | fixed value = `"COMPLETE"`                                                                                                                                                   |
+| effectiveTime                         | `Observation.effectiveDateTime` or else `Observation.effectivePeriod`                                                                                                        |
+| availabilityTime                      | `Observation.effectiveDateTime` or else `Observation.effectivePeriod.start`                                                                                                  |
+| component / ObservationStatement      | The Observation Statement as mapped above                                                                                                                                    |
+| component / NarrativeStatement        | Mapped from `Observation` as outlined in **Narrative statement mapping for Test Group Header and Test Result** (above) <sup>9</sup> and filing Comments, as described below |
+
+<details>
+<summary>Example XML</summary>
+
+```XML
+
+<CompoundStatement classCode="CLUSTER" moodCode="EVN">
+   <id root="5F2D05CF-8FF5-42EC-9130-1E707921257A"/>
+   <code code="2551271000000118" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Serum cholesterol level"/>
+   <statusCode code="COMPLETE"/>
+   <effectiveTime>
+      <center value="20050315"/>
+   </effectiveTime>
+   <availabilityTime value="20050315"/>
+   <component contextConductionInd="true" typeCode="COMP">
+      <ObservationStatement classCode="OBS" moodCode="EVN">
+         <id root="237E66DB-5FA8-4057-B295-7A0DFFF5173E"/>
+         <code code="2551271000000118" codeSystem="2.16.840.1.113883.2.1.3.2.4.15"
+               displayName="Serum cholesterol level"/>
+         <statusCode code="COMPLETE"/>
+         <effectiveTime>
+            <center value="20050315"/>
+         </effectiveTime>
+         <availabilityTime value="20050315"/>
+         <value unit="1" value="6.300" xsi:type="PQ">
+            <translation value="6.300">
+               <originalText>mmol/L</originalText>
+            </translation>
+         </value>
+      </ObservationStatement>
+   </component>
+   <component contextConductionInd="true" typeCode="COMP">
+      <NarrativeStatement classCode="OBS" moodCode="EVN">
+         <id root="90A3BE12-0D75-49C8-9387-FEF7FF027378"/>
+         <text mediaType="text/x-h7uk-pmip">CommentType:AGGREGATE COMMENT SET
+CommentDate:20050315
+
+ReportStatus: Supplementary result
+         </text>
+         <statusCode code="COMPLETE"/>
+         <availabilityTime value="20050315"/>
+      </NarrativeStatement>
+   </component>
+</CompoundStatement>
+```
+</details>
+
+### Filing comments
+
+Where Test Result Headers or Test Results have Observations coded as `Comment Note` referenced in `Observation.related` 
+and `Observation.related.type` equals `has-member`, the referenced `Observation` is a Filing Comment. Filing Comments are mapped
+to `NarrativeStatements` and inserted as components of the Test Group Header / Test Result `CompoundStatement`.
+
+| Mapped to (XML HL7 NarrativeStatement) | Mapped from (JSON FHIR / other source )                                                                          |
+|----------------------------------------|------------------------------------------------------------------------------------------------------------------|
+| id \[@root]                            | Unique ID generated by the adaptor                                                                               |
+| text \[@mediaType]                     | fixed value = `"text/x-h7uk-pmip"`                                                                               | 
+| text                                   | EDIFACT comment type of USER COMMENT where the comment body is mapped from `Observation.comment` <sup>10</sup>   |
+| availabilityTime                       | `Observation.effectiveDateTime` or else `Observation.effectivePeriod.start`                                      |
+
+10. If there is more than one filing comment for a given Observation, the comments are seperated by newlines and appended to the EDIFACT comment body.  
+
+<details>
+
+```XML
+
+<NarrativeStatement classCode="OBS" moodCode="EVN">
+   <id root="9E25E6E1-6799-454B-89E0-57C1952828D4"/>
+   <text mediaType="text/x-h7uk-pmip">CommentType:USER COMMENT
+CommentDate:20100326134545
+
+(EMISTest) - Normal - No Action</text>
+   <statusCode code="COMPLETE"/>
+   <availabilityTime value="20100326134545"/>
+</NarrativeStatement>
+```
+</details>
 
 ## Further documentation
 
