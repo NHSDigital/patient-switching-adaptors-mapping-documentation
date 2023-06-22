@@ -143,11 +143,6 @@ A GP Connect FHIR `Medication` is mapped from an GP2GP HL7v3 `MedicationStatemen
 ```
 </details>
 
-3. If the code is a SNOMED code within the [EHR Composition Name Vocabulary](https://data.developer.nhs.uk/dms/mim/6.3.01/Vocabulary/EhrCompositionName.htm)
-   then that code and display name is used. Otherwise, the SNOMED code `24591000000103` and the display name `Other report` are inserted by the adaptor.
-4. `Encounter.type[0].coding[0].display` is only used if the adaptor inserts `Other report`, as described in footnote 3.
-5. Where the List is the consultation [List](../list/README.md) resource that references the Encounter.
-
 ## Further documentation
 
 [GP Connect Encounter](https://developer.nhs.uk/apis/gpconnect-1-6-0/accessrecord_structured_development_encounter.html)
