@@ -2,11 +2,16 @@
 
 ## XML HL7 > JSON FHIR
 
-A FHIR `MedicationStatement` is mapped from a XML HL7 `MedicationStatement` containing an `EhrSupplyAuthorise` component.</br>
-When `ehrSupplyAuthorise` is referenced, it refers `MedicationStatement / component [@typeCode="COMP"] / ehrSupplyAuthorise`</br>
-When `ehrSupplyDiscontinue` is referenced, it refers to find the first matching `ehrSupplyDiscontinue` where `ehrSupplyDiscontinue / reversalOf / priorMedicationRef / id [@root]` matching `MedicationStatement / component [@typeCode="COMP"] / ehrSupplyAuthorise / id [@root]` in the 'ehrExtract'</br>
-When `ehrSupplyPrescribe` is referenced `MedicationStatement / component [@typeCode="COMP"] / ehrSupplyPrescribe`
-When `EhrExtract` is referenced, it refers to the parent `EhrExtract` in the XML.</br>
+A FHIR `MedicationStatement` is mapped from a XML HL7 `MedicationStatement` containing an `EhrSupplyAuthorise` component.
+
+When `ehrSupplyAuthorise` is referenced, it refers to `MedicationStatement / component [@typeCode="COMP"] / ehrSupplyAuthorise`.
+
+When `ehrSupplyDiscontinue` is referenced, it refers to find the first matching `ehrSupplyDiscontinue` where `ehrSupplyDiscontinue / reversalOf / priorMedicationRef / id [@root]` matching `MedicationStatement / component [@typeCode="COMP"] / ehrSupplyAuthorise / id [@root]` in the `EhrExtract`.
+
+When `ehrSupplyPrescribe` is referenced, it refers to `MedicationStatement / component [@typeCode="COMP"] / ehrSupplyPrescribe`.
+
+When `EhrExtract` is referenced, it refers to the parent `EhrExtract` in the XML.
+
 When `PracticeCode` is referenced, it refers to the losing practice ODS code.
 
 | Mapped to (JSON FHIR Medication Statement field) | Mapped from (XML HL7 / other source)                                                                                                                                       |
