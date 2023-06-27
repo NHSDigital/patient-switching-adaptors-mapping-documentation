@@ -1,9 +1,9 @@
 # Observation Mapping
 
 Main section links:
-- **[XML HL7 > JSON FHIR](#XML-HL7->-JSON-FHIR)**
-- **[JSON FHIR > XML HL7](#JSON-FHIR->-XML-HL7)**
-- **[Further documentation](#Further-documentation)**
+- **[XML HL7 > JSON FHIR](#xml-hl7--json-fhir)**
+- **[JSON FHIR > XML HL7](#json-fhir--xml-hl7)**
+- **[Further documentation](#further-documentation)**
 
 # XML HL7 > JSON FHIR
 
@@ -12,16 +12,16 @@ FHIR Observations are used throughout the Structured Record and the
 are used. As a result they are mapped from multiple HL7 components as stated below, where the items in **bold** are the 
 FHIR `Observation` resource types, the mapping of which is described in the following sections:
 
-- Observation statements  map to **[Uncategorised Data](#Uncategorised-Data-(XML-HL7->-JSON-FHIR))**, **[Test Result](#Test-Result-(XML-HL7->-JSON-FHIR))** and **[Componentised Observation](#Componentised Observation-(XML-HL7->-JSON-FHIR))**
-- Request statements map to **[Self Referral](#Self-Referral-(XML-HL7->-JSON-FHIR))**
-- Compound statements map to **[Test Group Header](#Test-Group-Header-(XML-HL7->-JSON-FHIR))**, **[Blood Pressure](#Blood-Pressure-(XML-HL7->-JSON-FHIR))** and **[Componentised Observation Header](#Componentised-observation-header-(XML-HL7->-JSON-FHIR))**
-- Narrative statements map to **[Filing Comment](#Filing-Comment-(XML-HL7->-JSON-FHIR))**
+- Observation statements  map to **[Uncategorised Data](#uncategorised-data-xml-hl7--json-fhir)**, **[Test Result](#test-result-json-fhir--xml-hl7)** and **[Componentised Observation](#componentised-observation-xml-hl7--json-fhir)**
+- Request statements map to **[Self Referral](#self-referral-xml-hl7--json-fhir)**
+- Compound statements map to **[Test Group Header](#test-group-header-xml-hl7--json-fhir)**, **[Blood Pressure](#blood-pressure-xml-hl7--json-fhir)** and **[Componentised Observation Header](#componentised-observation-header-xml-hl7--json-fhir)**
+- Narrative statements map to **[Filing Comment](#filing-comment-xml-hl7--json-fhir)**
 
 ## Uncategorised Data (XML HL7 > JSON FHIR)
 
 Uncategorised data is mapped from an `ObservationStatement` to to an `Observation` in the following way, if it is not
 deemed to be an
-[Allergy Intolerance](../allergy%20intolerances/README.md), [Blood Pressure](#Blood-Pressure-(XML-HL7->-JSON-FHIR))
+[Allergy Intolerance](../allergy%20intolerances/README.md), [Blood Pressure](#blood-pressure-xml-hl7--json-fhir)
 or [Immunization](../immunisations/README.md).
 
 | Mapped to (JSON FHIR Observation resource field) | Mapped from (XML HL7 / other)                                                                                                                            |
@@ -125,7 +125,7 @@ or [Immunization](../immunisations/README.md).
 Blood pressure observations are mapped from a HL7 `CompoundStatement` containing two `ObservationStatement` components,
 known as a "blood pressure triple", where the SNOMED codes identify them as a blood pressure. The SNOMED codes used to identify a
 "blood pressure triple" are listed in the
-[Gp Connect documentation](https://developer.nhs.uk/apis/gpconnect-1-6-0/accessrecord_structured_development_uncategorisedData_guidance.html#representing-blood-pressure-readings-from-gp-systems)
+[GP Connect documentation](https://developer.nhs.uk/apis/gpconnect-1-6-0/accessrecord_structured_development_uncategorisedData_guidance.html#representing-blood-pressure-readings-from-gp-systems)
 .
 
 | Mapped to (JSON FHIR Observation resource field)    | Mapped from (XML HL7 / other)                                                                                                                          |
@@ -397,7 +397,7 @@ the parent compound statements are deemed to from a [Diagnostic Report](../diagn
 | comment                                          | concatenated with newlines from child `NarrativeStatement / text` where the EDIFACT comment type is not `USER COMMENT`            |
 | specimen                                         | reference to the [Specimen](../diagnostic%20reports/README.md)                                                                    |
 | related\[index].type                             | fixed value = `"has-member"`                                                                                                      |
-| related\[index].target                           | reference to the child Observation - [Test Result](#Test-Result-(XML-HL7->-JSON-FHIR))                                            |
+| related\[index].target                           | reference to the child Observation - [Test Result](#test-result-xml-hl7--json-fhir)                                               |
 
 <details>
 <summary>Example JSON</summary>
@@ -478,13 +478,13 @@ the parent compound statements are deemed to from a [Diagnostic Report](../diagn
 
 ### Test Result (XML HL7 > JSON FHIR)
 
-Except the related and comment fields, Test Result observations are mapped identically to [Uncategorised Data](#Uncategorised-Data-(XML-HL7->-JSON-FHIR)). 
+Except the related and comment fields, Test Result observations are mapped identically to [Uncategorised Data](#uncategorised-data-xml-hl7--json-fhir). 
 
-| Mapped to (JSON FHIR Observation resource field) | Mapped from (XML HL7 / other)                                                                                           |
-|--------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------|
-| comment                                          | concatenated with newlines from child `NarrativeStatement / text` where the EDIFACT comment type is not `USER COMMENT`  | 
-| related\[index].type                             | fixed value = `"derived-from"`                                                                                          |
-| related\[index].target                           | reference to the parent [Test Group Header](#Test-Group-Header-(XML-HL7->-JSON-FHIR))                                   |
+| Mapped to (JSON FHIR Observation resource field) | Mapped from (XML HL7 / other)                                                                                          |
+|--------------------------------------------------|------------------------------------------------------------------------------------------------------------------------|
+| comment                                          | concatenated with newlines from child `NarrativeStatement / text` where the EDIFACT comment type is not `USER COMMENT` | 
+| related\[index].type                             | fixed value = `"derived-from"`                                                                                         |
+| related\[index].target                           | reference to the parent [Test Group Header](#test-group-header-xml-hl7--json-fhir)                                     |
 
 <details>
 <summary>Example JSON</summary>
@@ -577,23 +577,23 @@ Except the related and comment fields, Test Result observations are mapped ident
 
 Filing Comment observations are mapped from `NarrativeStatements` where the EDIFACT comment type is `USER COMMENT`.
 
-| Mapped to (JSON FHIR Observation resource field) | Mapped from (XML HL7 / other)                                                                                                                                                                       |
-|--------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| id                                               | `NarrativeStatement / id [@root]`                                                                                                                                                                   |
-| meta.profile\[0]                                 | fixed value = `"https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"`                                                                                                        |
-| identifier\[0].system                            | `"https://PSSAdaptor/{{losingOdsCode}}"` - where the `{{losingOdsCode}}` is the ODS code of the losing practice                                                                                     |
-| identifier\[0].value                             | `NarrativeStatement / id \[@root]`                                                                                                                                                                  |
-| status                                           | fixed value = `"final"`                                                                                                                                                                             |
-| code.coding\[0].system                           | fixed value = `"http://snomed.info/sct"`                                                                                                                                                            |
-| code.coding\[0].code                             | fixed value = `"37331000000100"`                                                                                                                                                                    |
-| code.coding\[0].display                          | fixed value = `"Comment note"`                                                                                                                                                                      |
-| subject                                          | reference to the mapped [Patient](../patient/README.md)                                                                                                                                             |
-| context                                          | reference to the associated [Encounter](../encounters/README.md) (if present)                                                                                                                       |
-| issued                                           | `ehrCompostion / author / time [@value]` <sup>2</sup> or else `EhrExtract / availibilityTime [@value]`                                                                                              |
-| performer\[0]                                    | Practitioner referenced in `CompoundStatement / paticipant` <sup>3</sup>                                                                                                                            |
-| comment                                          | `NarrativeStatement / text`                                                                                                                                                                         |
-| related\[index].type                             | fixed value = `"derived-from"`                                                                                                                                                                      |
-| related\[index].target                           | reference to the parent [Diagnostic Report](../diagnostic%20reports/README.md), [Test Group Header](#Test-Group-Header-(XML-HL7->-JSON-FHIR)) or [Test Result](#Test-Result-(XML-HL7->-JSON-FHIR))  |                                          |
+| Mapped to (JSON FHIR Observation resource field) | Mapped from (XML HL7 / other)                                                                                                                                                                 |
+|--------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| id                                               | `NarrativeStatement / id [@root]`                                                                                                                                                             |
+| meta.profile\[0]                                 | fixed value = `"https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"`                                                                                                  |
+| identifier\[0].system                            | `"https://PSSAdaptor/{{losingOdsCode}}"` - where the `{{losingOdsCode}}` is the ODS code of the losing practice                                                                               |
+| identifier\[0].value                             | `NarrativeStatement / id \[@root]`                                                                                                                                                            |
+| status                                           | fixed value = `"final"`                                                                                                                                                                       |
+| code.coding\[0].system                           | fixed value = `"http://snomed.info/sct"`                                                                                                                                                      |
+| code.coding\[0].code                             | fixed value = `"37331000000100"`                                                                                                                                                              |
+| code.coding\[0].display                          | fixed value = `"Comment note"`                                                                                                                                                                |
+| subject                                          | reference to the mapped [Patient](../patient/README.md)                                                                                                                                       |
+| context                                          | reference to the associated [Encounter](../encounters/README.md) (if present)                                                                                                                 |
+| issued                                           | `ehrCompostion / author / time [@value]` <sup>2</sup> or else `EhrExtract / availibilityTime [@value]`                                                                                        |
+| performer\[0]                                    | Practitioner referenced in `CompoundStatement / paticipant` <sup>3</sup>                                                                                                                      |
+| comment                                          | `NarrativeStatement / text`                                                                                                                                                                   |
+| related\[index].type                             | fixed value = `"derived-from"`                                                                                                                                                                |
+| related\[index].target                           | reference to the parent [Diagnostic Report](../diagnostic%20reports/README.md), [Test Group Header](#test-group-header-xml-hl7--json-fhir) or [Test Result](#test-result-xml-hl7--json-fhir)  |                                          |
 
 
 <details>
@@ -675,7 +675,7 @@ Additionally, any `ObservationStatement` component will be mapped to a separate 
 | issued                                           | `ehrCompostion / author / time [@value]` <sup>2</sup> or else `EhrExtract / availibilityTime [@value]`                   |
 | performer\[0]                                    | Practitioner referenced in `ObservationStatement / paticipant` <sup>3</sup>                                              |
 | related\[index].type                             | fixed value = `"has-member"`                                                                                             |
-| related\[index].target                           | reference to the child Observation - [Test Result](#Test-Result-(XML-HL7->-JSON-FHIR))                                   |
+| related\[index].target                           | reference to the child Observation - [Test Result](#test-result-xml-hl7--json-fhir)                                      |
 
 <details>
 <summary>Example JSON</summary>
@@ -751,12 +751,12 @@ Additionally, any `ObservationStatement` component will be mapped to a separate 
 
 ### Componentised Observation (XML HL7 > JSON FHIR)
 
-With the exception of the related field, Componentised Observations are mapped identically to [Uncategorised Data](#Uncategorised-Data-(XML-HL7->-JSON-FHIR)).
+With the exception of the related field, Componentised Observations are mapped identically to [Uncategorised Data](#uncategorised-data-xml-hl7--json-fhir).
 
-| Mapped to (JSON FHIR Observation resource field) | Mapped from (XML HL7 / other)                                                         |
-|--------------------------------------------------|---------------------------------------------------------------------------------------|
-| related\[index].type                             | fixed value = `"derived-from"`                                                        |
-| related\[index].target                           | reference to the parent [Test Group Header](#Test-Group-Header-(XML-HL7->-JSON-FHIR)) |
+| Mapped to (JSON FHIR Observation resource field) | Mapped from (XML HL7 / other)                                                        |
+|--------------------------------------------------|--------------------------------------------------------------------------------------|
+| related\[index].type                             | fixed value = `"derived-from"`                                                       |
+| related\[index].target                           | reference to the parent [Test Group Header](#test-group-header-xml-hl7--json-fhir)   |
 
 <details>
 <summary>Example JSON</summary>
@@ -834,9 +834,9 @@ With the exception of the related field, Componentised Observations are mapped i
 FHIR Observations can be mapped to the following HL7 components. The mapping for each GP Connect 
 observation type (in **bold**) is described in the sections below:
 
-- ObservationStatement (**[Uncategorised Data](#Uncategorised-Data-(JSON-FHIR->-XML-HL7))** and **[Test Result](#Test-Result-(JSON-FHIR->-XML-HL7))**)
-- CompoundStatement (**[Blood Pressure](#Blood-Pressure-(JSON-FHIR->-XML-HL7))**, **[Test Group Header](#Test-Group-Header-(JSON-FHIR->-XML-HL7))**)
-- NarrativeStatement (**[Comment Note](#Comment-Note-(JSON-FHIR->-XML-HL7))** / **[Filing Comment](#Filing-Comment-(JSON-FHIR->-XML-HL7))**)
+- ObservationStatement (**[Uncategorised Data](#uncategorised-data-json-fhir--xml-hl7)** and **[Test Result](#test-result-json-fhir--xml-hl7)**)
+- CompoundStatement (**[Blood Pressure](#blood-pressure-json-fhir--xml-hl7)**, **[Test Group Header](#test-group-header-json-fhir--xml-hl7)**)
+- NarrativeStatement (**[Comment Note](#comment-note-json-fhir--xml-hl7)** / **[Filing Comment](#filing-comment-json-fhir--xml-hl7)**)
 
 ## Uncategorised Data (JSON FHIR > XML HL7)
 
@@ -1080,19 +1080,19 @@ Where multiple fields are stated they are concatenated into a single EDIFACT com
 
 ### Test Group Header (JSON FHIR > XML HL7)
 
-A Test Group Header is mapped to a `CompoundStatement` with a `classcode` of `"BATTERY"`, [Test Results](#Test-Result-(JSON-FHIR->-XML-HL7)) can be 
+A Test Group Header is mapped to a `CompoundStatement` with a `classcode` of `"BATTERY"`, [Test Results](#test-result-json-fhir--xml-hl7) can be 
 nested as components of the header.  
 
-| Mapped to (XML HL7 CompoundStatement)     | Mapped from (JSON FHIR / other source )                                                                                                                                                                                                                    |
-|-------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| id                                        | Unique ID generated by the adaptor                                                                                                                                                                                                                         |
-| code                                      | `Observation.code.coding` as described in [Codeable Concept](../codeable%20concept/README.md)                                                                                                                                                              |
-| statusCode                                | fixed value = `"COMPLETE"`                                                                                                                                                                                                                                 |
-| effectiveTime                             | `Observation.effectiveDateTime` or else `Observation.effectivePeriod`                                                                                                                                                                                      |
-| availabilityTime                          | `Observation.effectiveDateTime` or else `Observation.effectivePeriod.start`                                                                                                                                                                                |
-| component\[index] / ObservationStatement  | Mapped [Test Results](#Test-Result-(JSON-FHIR->-XML-HL7))                                                                                                                                                                                                  |  
-| component\[index] / CompoundStatement     | Mapped [Test Results](#Test-Result-(JSON-FHIR->-XML-HL7))                                                                                                                                                                                                  |
-| component\[index] / NarrativeStatement    | Mapped from `Observation` as outlined in [Narrative statement mapping for Test Group Header and Test Result](#Narrative-statement-mapping-for-Test-Group-Header-and-Test-Result) <sup>8</sup> and [Filing comments](#Filing-Comment-(JSON-FHIR->-XML-HL7)) |
+| Mapped to (XML HL7 CompoundStatement)     | Mapped from (JSON FHIR / other source )                                                                                                                                                                                                                   |
+|-------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| id                                        | Unique ID generated by the adaptor                                                                                                                                                                                                                        |
+| code                                      | `Observation.code.coding` as described in [Codeable Concept](../codeable%20concept/README.md)                                                                                                                                                             |
+| statusCode                                | fixed value = `"COMPLETE"`                                                                                                                                                                                                                                |
+| effectiveTime                             | `Observation.effectiveDateTime` or else `Observation.effectivePeriod`                                                                                                                                                                                     |
+| availabilityTime                          | `Observation.effectiveDateTime` or else `Observation.effectivePeriod.start`                                                                                                                                                                               |
+| component\[index] / ObservationStatement  | Mapped [Test Results](#test-result-json-fhir--xml-hl7)                                                                                                                                                                                                    |  
+| component\[index] / CompoundStatement     | Mapped [Test Results](#test-result-json-fhir--xml-hl7)                                                                                                                                                                                                    |
+| component\[index] / NarrativeStatement    | Mapped from `Observation` as outlined in [Narrative statement mapping for Test Group Header and Test Result](#narrative-statement-mapping-for-test-group-header-and-test-result) <sup>8</sup> and [Filing comments](#filing-comment-json-fhir--xml-hl7)   |
 
 
 <details>
@@ -1139,8 +1139,8 @@ See FATS/Healthy Hearts guidelines for interpretation of lipids</text>
 * note - the Transfer-degraded record entry was present in the FHIR, it has not been added by the Adaptor.
 </details>
 
-8. `NarrativeStatement` components are created for each of the fields stated in [Observation Fields mapped to Narrative Statement](#Observation-fields-mapped-to-Narrative-Statement) above. If none of
-   these fields are present, and no [Filing Comments](#Filing-Comment-(JSON-FHIR->-XML-HL7)) are present the `NarrativeStatement` will be omitted.
+8. `NarrativeStatement` components are created for each of the fields stated in [Observation Fields mapped to Narrative Statement](#observation-fields-mapped-to-narrative-statement) above. If none of
+   these fields are present, and no [Filing Comments](#filing-comment-json-fhir--xml-hl7) are present the `NarrativeStatement` will be omitted.
 
 ### Test Result (JSON FHIR > XML HL7)
 
@@ -1166,15 +1166,15 @@ Where a `NarrativeStatement` is used to preserve data from an `Observation`, the
 | referenceRange / referenceInterpretationRang / value | `Observation.referenceRange.value`                                                                                              |
 
 #### Compound Statement Wrapper
-| Mapped to (XML HL7 CompoundStatement) | Mapped from (JSON FHIR / other source )                                                                                                                                                                                                                    |
-|---------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| id \[@root]                           | Unique ID generated by the adaptor                                                                                                                                                                                                                         |
-| code                                  | `Observation.code.coding` as described in [Codeable Concept](../codeable%20concept/README.md)                                                                                                                                                              |
-| statusCode                            | fixed value = `"COMPLETE"`                                                                                                                                                                                                                                 |
-| effectiveTime                         | `Observation.effectiveDateTime` or else `Observation.effectivePeriod`                                                                                                                                                                                      |
-| availabilityTime                      | `Observation.effectiveDateTime` or else `Observation.effectivePeriod.start`                                                                                                                                                                                |
-| component / ObservationStatement      | The Observation Statement as mapped above                                                                                                                                                                                                                  |
-| component / NarrativeStatement        | Mapped from `Observation` as outlined in [Narrative statement mapping for Test Group Header and Test Result](#Narrative-statement-mapping-for-Test-Group-Header-and-Test-Result) <sup>8</sup> and [Filing Comments](#Filing-Comment-(JSON-FHIR->-XML-HL7)) |
+| Mapped to (XML HL7 CompoundStatement) | Mapped from (JSON FHIR / other source )                                                                                                                                                                                                                   |
+|---------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| id \[@root]                           | Unique ID generated by the adaptor                                                                                                                                                                                                                        |
+| code                                  | `Observation.code.coding` as described in [Codeable Concept](../codeable%20concept/README.md)                                                                                                                                                             |
+| statusCode                            | fixed value = `"COMPLETE"`                                                                                                                                                                                                                                |
+| effectiveTime                         | `Observation.effectiveDateTime` or else `Observation.effectivePeriod`                                                                                                                                                                                     |
+| availabilityTime                      | `Observation.effectiveDateTime` or else `Observation.effectivePeriod.start`                                                                                                                                                                               |
+| component / ObservationStatement      | The Observation Statement as mapped above                                                                                                                                                                                                                 |
+| component / NarrativeStatement        | Mapped from `Observation` as outlined in [Narrative statement mapping for Test Group Header and Test Result](#narrative-statement-mapping-for-test-group-header-and-test-result) <sup>8</sup> and [Filing Comments](#filing-comment-json-fhir--xml-hl7)   |
 
 <details>
 <summary>Example XML</summary>
