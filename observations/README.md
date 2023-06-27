@@ -56,60 +56,81 @@ or [Immunization](../immunisations/README.md).
 
 ```JSON
 {
-  "resource": {
-    "resourceType": "Observation",
-    "id": "CF0BAFD7-9E92-4DB5-B7EE-B37DBD30AD93",
-    "meta": {
-      "profile": [
-        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"
-      ]
-    },
-    "identifier": [
-      {
-        "system": "https://PSSAdaptor/D5445",
-        "value": "CF0BAFD7-9E92-4DB5-B7EE-B37DBD30AD93"
-      }
-    ],
-    "status": "final",
-    "code": {
-      "coding": [
-        {
-          "extension": [
-            {
-              "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-              "extension": [
-                {
-                  "url": "descriptionId",
-                  "valueId": "299757012"
-                },
-                {
-                  "url": "descriptionDisplay",
-                  "valueString": "Angina pectoris"
-                }
-              ]
-            }
-          ],
-          "system": "http://snomed.info/sct",
-          "code": "194828000",
-          "display": "Angina pectoris"
-        }
+   "resource": {
+      "resourceType": "Observation",
+      "id": "CF0BAFD7-9E92-4DB5-B7EE-B37DBD30AD93",
+      "meta": {
+         "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"
+         ]
+      },
+      "identifier": [
+         {
+            "system": "https://PSSAdaptor/D5445",
+            "value": "CF0BAFD7-9E92-4DB5-B7EE-B37DBD30AD93"
+         }
       ],
-      "text": "Angina pectoris"
-    },
-    "subject": {
-      "reference": "Patient/bbe0c375-4675-4976-8586-597056863ac7"
-    },
-    "context": {
-      "reference": "Encounter/E92099A9-F7E9-4684-91EB-D6427F022041"
-    },
-    "effectiveDateTime": "2010-01-14T13:08:00+00:00",
-    "issued": "2010-02-06T13:07:44.000+00:00",
-    "performer": [
-      {
-        "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
-      }
-    ]
-  }
+      "status": "final",
+      "code": {
+         "coding": [
+            {
+               "extension": [
+                  {
+                     "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                     "extension": [
+                        {
+                           "url": "descriptionId",
+                           "valueId": "2564971000000119"
+                        },
+                        {
+                           "url": "descriptionDisplay",
+                           "valueString": "Plasma triglyceride level"
+                        }
+                     ]
+                  }
+               ],
+               "system": "http://snomed.info/sct",
+               "code": "1010601000000105",
+               "display": "Plasma triglyceride level"
+            }
+         ],
+         "text": "Plasma triglyceride level"
+      },
+      "subject": {
+         "reference": "Patient/bbe0c375-4675-4976-8586-597056863ac7"
+      },
+      "context": {
+         "reference": "Encounter/E92099A9-F7E9-4684-91EB-D6427F022041"
+      },
+      "effectiveDateTime": "2010-01-14T13:08:00+00:00",
+      "issued": "2010-02-06T13:07:44.000+00:00",
+      "performer": [
+         {
+            "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
+         }
+      ],
+      "valueQuantity": {
+         "value": 10,
+         "unit": "millimole per liter",
+         "code": "mmol/L"
+      },
+      "interpretation": {
+         "coding": [
+            {
+               "system": "http://hl7.org/fhir/v2/0078"
+            }
+         ],
+         "text": "Potentially abnormal"
+      },
+      "comment": "Less than or equal to 5 and abnormal",
+      "referenceRange": [
+         {
+            "low": {
+               "value": 5
+            }
+         }
+      ]
+   }
 }
 ```
 
