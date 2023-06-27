@@ -7,10 +7,9 @@ Main section links:
 
 # XML HL7 > JSON FHIR
 
-FHIR Observations are used throughout the Structured Record and the 
-[GP Connect Documentation](https://developer.nhs.uk/apis/gpconnect-1-6-0/accessrecord_structured.html) outlines how they
-are used. As a result they are mapped from multiple HL7 components as stated below, where the items in **bold** are the 
-FHIR `Observation` resource types, the mapping of which is described in the following sections:
+FHIR Observations are used throughout the Structured Record. As a result they are mapped from multiple HL7 components 
+as stated below, where the items in **bold** are the FHIR `Observation` resource types, the mapping of which is 
+described in the following sections:
 
 - Observation statements  map to **[Uncategorised Data](#uncategorised-data-xml-hl7--json-fhir)**, **[Test Result](#test-result-json-fhir--xml-hl7)** and **[Componentised Observation](#componentised-observation-xml-hl7--json-fhir)**
 - Request statements map to **[Self Referral](#self-referral-xml-hl7--json-fhir)**
