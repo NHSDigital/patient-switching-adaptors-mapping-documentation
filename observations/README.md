@@ -43,13 +43,13 @@ or [Immunization](../immunisations/README.md).
 | issued                                           | `ehrCompostion / author / time [@value]` <sup>2</sup> or else `EhrExtract / availibilityTime [@value]`                                                                                                                                                        |
 | performer\[0]                                    | Practitioner referenced in `ObservationStatement / paticipant` <sup>3</sup>                                                                                                                                                                                   |
 | interpretation.coding\[0].code                   | `ObservationStatement / interpretationCode [@code]`                                                                                                                                                                                                           |
-| interpretation.coding\[0].display                | `ObservationStatement / interpretationCode [@code]`                                                                                                                                                                                                           |
+| interpretation.coding\[0].display                | `ObservationStatement / interpretationCode [@code]` - human readable translation i.e. `"High"`, `"Low"`, `"Abnormal"`                                                                                                                                         |
 | interpretation.coding\[0].system                 | fixed value = `"http://hl7.org/fhir/v2/0078"`                                                                                                                                                                                                                 |
 | interpretation.text                              | `ObservationStatement / interpretationCode / originalText` or else `ObservationStatement / interpretationCode [@displayName]`                                                                                                                                 |                                         
 | comment                                          | Concatenated from `ObservationStatement / subject / personalRelationship / code` <br/> and each `ObservationStatement / pertinentInformation / pertinentAnnotation` in the sequence defined by `ObservationStatement / pertinentInformation / sequenceNumber` |
 | referenceRange\[index].text                      | `ObservationStatement / referenceRange[index] / referenceInterpretationRange / text`                                                                                                                                                                          |
-| referenceRange\[index].high                      | `ObservationStatement / referenceRange\[index] / referenceInterpretationRange / value / high`                                                                                                                                                                 |
-| referenceRange\[index].low                       | `ObservationStatement / referenceRange\[index] / referenceInterpretationRange / value / low`                                                                                                                                                                  |
+| referenceRange\[index].high.value                | `ObservationStatement / referenceRange\[index] / referenceInterpretationRange / value / high`                                                                                                                                                                 |
+| referenceRange\[index].low.value                 | `ObservationStatement / referenceRange\[index] / referenceInterpretationRange / value / low`                                                                                                                                                                  |
 
 <details>
 <summary>Example JSON</summary>
@@ -148,24 +148,30 @@ known as a "blood pressure triple", where the SNOMED codes identify them as a bl
 [GP Connect documentation](https://developer.nhs.uk/apis/gpconnect-1-6-0/accessrecord_structured_development_uncategorisedData_guidance.html#representing-blood-pressure-readings-from-gp-systems)
 .
 
-| Mapped to (JSON FHIR Observation resource field)    | Mapped from (XML HL7 / other)                                                                                                                          |
-|-----------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------|
-| id                                                  | `CompoundStatement / id [@root]`                                                                                                                       |
-| meta / profile\[0]                                  | fixed value = `"https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"`                                                           |
-| identifier\[0].system                               | `"https://PSSAdaptor/{{losingOdsCode}}"` - where the `{{losingOdsCode}}` is the ODS code of the losing practice                                        |
-| identifier\[0].value                                | `CompoundStatement / id \[@root]`                                                                                                                      |
-| status                                              | fixed value = `"final"`                                                                                                                                |
-| code                                                | `CompoundStatement / code` as described in the XML > FHIR section of [Codeable Concept](../codeable%20concept/README.md)                               | 
-| subject                                             | reference to the mapped [Patient](../patient/README.md)                                                                                                |
-| context                                             | reference to the associated [Encounter](../encounters/README.md) (if present)                                                                          |
-| effectiveDateTime                                   | `CompoundStatement / effectiveTime` or else `CompoundStatement / availibiltyTime [@value]`                                                             |
-| issued                                              | `ehrCompostion / author / time [@value]` <sup>2</sup> or else `EhrExtract / availibilityTime [@value]`                                                 | 
-| performer\[0]                                       | Practitioner referenced in `CompoundStatement / paticipant` <sup>3</sup>                                                                               |
-| component\[index].code                              | `ObservationStatement.code` <sup>4</sup>   as described in the XML > FHIR section of [Codeable Concept](../codeable%20concept/README.md)               |
-| component\[index].valueQuantity                     | `ObservationStatement / value` where `ObservationStatement / value [@type]` is `"PQ"` or `"IVLPQ"` <sup>4</sup>                                        |
-| component\[index].valueQuantity.extension\[0].url   | fixed value = `"https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-ValueApproximation-1"` <sup>1</sup>                             |
-| component\[index].valueQuantity.extension\[0].value | fixed value = `true` <sup>1</sup>                                                                                                                      |
-| comment                                             | concatenated from `ObservationStatement / pertinentInformation / pertinentAnnotation / text` <sup>5</sup> and `NarrativeStatement / text` <sup>6</sup> |
+| Mapped to (JSON FHIR Observation resource field)     | Mapped from (XML HL7 / other)                                                                                                                               |
+|------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| id                                                   | `CompoundStatement / id [@root]`                                                                                                                            |
+| meta / profile\[0]                                   | fixed value = `"https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"`                                                                |
+| identifier\[0].system                                | `"https://PSSAdaptor/{{losingOdsCode}}"` - where the `{{losingOdsCode}}` is the ODS code of the losing practice                                             |
+| identifier\[0].value                                 | `CompoundStatement / id \[@root]`                                                                                                                           |
+| status                                               | fixed value = `"final"`                                                                                                                                     |
+| code                                                 | `CompoundStatement / code` as described in the XML > FHIR section of [Codeable Concept](../codeable%20concept/README.md)                                    | 
+| subject                                              | reference to the mapped [Patient](../patient/README.md)                                                                                                     |
+| context                                              | reference to the associated [Encounter](../encounters/README.md) (if present)                                                                               |
+| effectiveDateTime                                    | `CompoundStatement / effectiveTime` or else `CompoundStatement / availibiltyTime [@value]`                                                                  |
+| issued                                               | `ehrCompostion / author / time [@value]` <sup>2</sup> or else `EhrExtract / availibilityTime [@value]`                                                      | 
+| performer\[0]                                        | Practitioner referenced in `CompoundStatement / paticipant` <sup>3</sup>                                                                                    |
+| component\[index].code                               | `ObservationStatement.code` <sup>4</sup>   as described in the XML > FHIR section of [Codeable Concept](../codeable%20concept/README.md)                    |
+| component\[index].valueQuantity                      | `ObservationStatement / value` where `ObservationStatement / value [@type]` is `"PQ"` or `"IVLPQ"` <sup>4</sup>                                             |
+| component\[index].valueQuantity.extension\[0].url    | fixed value = `"https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-ValueApproximation-1"` <sup>1</sup>                                  |
+| component\[index].valueQuantity.extension\[0].value  | fixed value = `true` <sup>1</sup>                                                                                                                           |
+| component\[index].interpretation.coding\[0].code     | `ObservationStatement / interpretationCode [@code]`                                                                                                         |
+| component\[index].interpretation.coding\[0].display  | `ObservationStatement / interpretationCode [@code]` - human readable translation i.e. `"High"`, `"Low"`, `"Abnormal"`                                       |
+| component\[index].interpretation.coding\[0].system   | fixed value = `"http://hl7.org/fhir/v2/0078"`                                                                                                               |
+| component\[index].referenceRange\[index].text        | `ObservationStatement / referenceRange[index] / referenceInterpretationRange / text`                                                                        |
+| component\[index].referenceRange\[index].high.value  | `ObservationStatement / referenceRange\[index] / referenceInterpretationRange / value / high`                                                               |
+| component\[index].referenceRange\[index].low.value   | `ObservationStatement / referenceRange\[index] / referenceInterpretationRange / value / low`                                                                |
+| comment                                              | concatenated from each `ObservationStatement / pertinentInformation / pertinentAnnotation / text` <sup>5</sup> and `NarrativeStatement / text` <sup>6</sup> |
 
 <details>
 <summary>Example JSON</summary>
@@ -278,8 +284,8 @@ known as a "blood pressure triple", where the SNOMED codes identify them as a bl
 
 4. Mapped for the both `ObservationStatement` elements that form part of the blood pressure triple.
 5. Text from a `pertinentAnnotation` is prepended with `"Systolic Note: "` or `"Diastolic Note: "`,
-   determined by the SNOMED code of the `OberservationStatement`.
-6. Where the `NarrativeStatement` is a child of the blood pressure triple's `CompoundStatement`. Will be prepended
+   determined by the SNOMED code of the `OberservationStatement`. If an appropriate code isn't present, it is not mapped.
+6. Where the `NarrativeStatement` is a child of the blood pressure triple's `CompoundStatement`. Prepended
    with `"BP Note: "` when mapped.
 
 ## Self Referral (XML HL7 > JSON FHIR)
