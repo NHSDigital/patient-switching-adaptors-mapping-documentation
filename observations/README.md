@@ -304,8 +304,7 @@ are identified by `RequestStatement / code / qualifier /value [@code]`, where it
 | issued                                           | `ehrCompostion / author / time [@value]` <sup>2</sup> or else `EhrExtract / availibilityTime [@value]`                  |
 | subject                                          | reference to the mapped [Patient](../patient/README.md)                                                                 |  
 | context                                          | reference to the associated [Encounter](../encounters/README.md) (if present)                                           |
-| effectiveDateTime                                | `RequestStatement / effectiveTime` or else `RequestStatement / availibiltyTime [@value]`                                |
-| issued                                           | `ehrCompostion / author / time [@value]` <sup>2</sup> or else `EhrExtract / availibilityTime [@value]`                  |                                                   
+| effectiveDateTime                                | `RequestStatement / effectiveTime` or else `RequestStatement / availibiltyTime [@value]`                                | 
 | performer\[0]                                    | [Practitioner](../practioners/README.md) referenced in `RequestStatement / paticipant` <sup>7</sup>                     |      
 | comment                                          | fixed value = `"SelfRerreral"`                                                                                          |
 | component\[0].code.text                          | fixed value = `"Urgency"`                                                                                               |
