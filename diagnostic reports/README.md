@@ -33,55 +33,55 @@ and `CompoundStatement / code [@code]` equals `"16488004"` (laboratory reporting
 ```JSON
 
 {
-    "resource": {
-        "resourceType": "DiagnosticReport",
-        "id": "5A8B9936-B771-488E-9103-3331629690C4",
-        "meta": {
-            "profile": [
-                "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DiagnosticReport-1"
-            ]
-        },
-        "identifier": [
-            {
-                "system": "https://PSSAdaptor/D5445",
-                "value": "5A8B9936-B771-488E-9103-3331629690C4"
-            },
-            {
-                "system": "2.16.840.1.113883.2.1.4.5.5",
-                "value": "1013/HA2101109A/200203301621"
-            }
-        ],
-        "status": "unknown",
-        "code": {
-            "coding": [
-                {
-                    "system": "http://snomed.info/sct",
-                    "code": "721981007",
-                    "display": "Diagnostic studies report"
-                }
-            ]
-        },
-        "subject": {
-            "reference": "Patient/80bd1375-a1e3-4137-95ff-fb3316cf3496"
-        },
-        "context": {
-            "reference": "Encounter/C5323AB7-2CA9-4E85-85E4-8FA896E45628"
-        },
-        "issued": "2010-06-24T10:34:01.000+00:00",
-        "specimen": [
-            {
-                "reference": "Specimen/73A3DD99-861F-45E3-B7BB-30F71A74AE85"
-            }
-        ],
-        "result": [
-            {
-                "reference": "Observation/F022B5F4-66E8-4DDD-ABAA-10C98713E7EE"
-            },
-            {
-                "reference": "Observation/92DA878D-2346-488E-8742-01ECDE95E31C"
-            }
-        ]
+ "resource": {
+  "resourceType": "DiagnosticReport",
+  "id": "5A8B9936-B771-488E-9103-3331629690C4",
+  "meta": {
+   "profile": [
+    "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DiagnosticReport-1"
+   ]
+  },
+  "identifier": [
+   {
+    "system": "https://PSSAdaptor/D5445",
+    "value": "5A8B9936-B771-488E-9103-3331629690C4"
+   },
+   {
+    "system": "2.16.840.1.113883.2.1.4.5.5",
+    "value": "1013/HA2101109A/200203301621"
+   }
+  ],
+  "status": "unknown",
+  "code": {
+   "coding": [
+    {
+     "system": "http://snomed.info/sct",
+     "code": "721981007",
+     "display": "Diagnostic studies report"
     }
+   ]
+  },
+  "subject": {
+   "reference": "Patient/80bd1375-a1e3-4137-95ff-fb3316cf3496"
+  },
+  "context": {
+   "reference": "Encounter/C5323AB7-2CA9-4E85-85E4-8FA896E45628"
+  },
+  "issued": "2010-06-24T10:34:01.000+00:00",
+  "specimen": [
+   {
+    "reference": "Specimen/73A3DD99-861F-45E3-B7BB-30F71A74AE85"
+   }
+  ],
+  "result": [
+   {
+    "reference": "Observation/F022B5F4-66E8-4DDD-ABAA-10C98713E7EE"
+   },
+   {
+    "reference": "Observation/92DA878D-2346-488E-8742-01ECDE95E31C"
+   }
+  ]
+ }
 }
 ```
 </details>
@@ -197,34 +197,35 @@ The FHIR Diagnostic Report resource is mapped to a HL7 Compound Statement with a
 ```XML
 
 <CompoundStatement classCode="CLUSTER" moodCode="EVN">
-    <id root="74F2D322-9032-4ED2-999D-0AACA87B3BC8"/>
-    <id extension="1013/HA2101105W/200203301621" root="2.16.840.1.113883.2.1.4.5.5"/>
-    <code code="16488004" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="laboratory reporting">
-        <originalText>Filed Report</originalText>
-    </code>
-    <statusCode code="COMPLETE"/>
-    <effectiveTime>
-        <center nullFlavor="NI"/>
-    </effectiveTime>
-    <availabilityTime value="20020330162100"/>
-    <component contextConductionInd="true" typeCode="COMP">
-        <NarrativeStatement classCode="OBS" moodCode="EVN">
-            <id root="E8F624FF-9364-42BB-9E01-8D3512BBE732"/>
-            <text mediaType="text/x-h7uk-pmip">CommentType:LABORATORY RESULT COMMENT(E141)
+ <id root="74F2D322-9032-4ED2-999D-0AACA87B3BC8"/>
+ <id extension="1013/HA2101105W/200203301621" root="2.16.840.1.113883.2.1.4.5.5"/>
+ <code code="16488004" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="laboratory reporting">
+  <originalText>Filed Report</originalText>
+ </code>
+ <statusCode code="COMPLETE"/>
+ <effectiveTime>
+  <center nullFlavor="NI"/>
+ </effectiveTime>
+ <availabilityTime value="20020330162100"/>
+ <component contextConductionInd="true" typeCode="COMP">
+  <NarrativeStatement classCode="OBS" moodCode="EVN">
+   <id root="E8F624FF-9364-42BB-9E01-8D3512BBE732"/>
+   <text mediaType="text/x-h7uk-pmip">CommentType:LABORATORY RESULT COMMENT(E141)
 CommentDate:20020330162100
 
-Interpretation: ON AZATHIOPRINE</text>
-            <statusCode code="COMPLETE"/>
-            <availabilityTime value="20020330162100"/>
-        </NarrativeStatement>
-    </component>
-    <component contextConductionInd="true" typeCode="COMP">
-        <CompoundStatement classCode="CLUSTER" moodCode="EVN">
-            
-            ...
-            
-        </CompoundStatement>
-    </component>
+Interpretation: ON AZATHIOPRINE
+   </text>
+   <statusCode code="COMPLETE"/>
+   <availabilityTime value="20020330162100"/>
+  </NarrativeStatement>
+ </component>
+ <component contextConductionInd="true" typeCode="COMP">
+  <CompoundStatement classCode="CLUSTER" moodCode="EVN">
+
+   ...
+
+  </CompoundStatement>
+ </component>
 </CompoundStatement>
 ```
 </details>
@@ -309,10 +310,10 @@ The FHIR Specimen resource is mapped to a HL7 Compound Statement with a code of 
   <NarrativeStatement classCode="OBS" moodCode="EVN">
    <id root="DF0FEFF0-32C1-4BB9-8DDD-76E2D13B5D0F"/>
    <text mediaType="text/x-h7uk-pmip">CommentType:LAB SPECIMEN COMMENT(E271)
-    CommentDate:20030627000000
+CommentDate:20030627000000
 
-    Quantity: 1750.000 mL
-    Received Date: 2003-06-27 18:24
+Quantity: 1750.000 mL
+Received Date: 2003-06-27 18:24
    </text>
    <statusCode code="COMPLETE"/>
    <availabilityTime value="20030628112300"/>
