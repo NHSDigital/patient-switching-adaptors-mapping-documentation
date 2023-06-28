@@ -713,69 +713,69 @@ Additionally, any `ObservationStatement` component will be mapped to a separate 
 
 ```JSON
 
- {
-            "resource": {
-                "resourceType": "Observation",
-                "id": "31465FC9-15B2-4391-A5EF-8F70C2154AAF",
-                "meta": {
-                    "profile": [
-                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"
-                    ]
-                },
-                "identifier": [
-                    {
-                        "system": "https://PSSAdaptor/D5445",
-                        "value": "31465FC9-15B2-4391-A5EF-8F70C2154AAF"
-                    }
-                ],
-                "status": "final",
-                "code": {
-                    "coding": [
+{
+   "resource": {
+      "resourceType": "Observation",
+      "id": "31465FC9-15B2-4391-A5EF-8F70C2154AAF",
+      "meta": {
+         "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"
+         ]
+      },
+      "identifier": [
+         {
+            "system": "https://PSSAdaptor/D5445",
+            "value": "31465FC9-15B2-4391-A5EF-8F70C2154AAF"
+         }
+      ],
+      "status": "final",
+      "code": {
+         "coding": [
+            {
+               "extension": [
+                  {
+                     "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                     "extension": [
                         {
-                            "extension": [
-                                {
-                                    "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-                                    "extension": [
-                                        {
-                                            "url": "descriptionDisplay",
-                                            "valueString": "Serum lipids"
-                                        }
-                                    ]
-                                }
-                            ],
-                            "system": "http://snomed.info/sct",
-                            "code": "1005661000000103",
-                            "display": "Serum lipids level"
+                           "url": "descriptionDisplay",
+                           "valueString": "Serum lipids"
                         }
-                    ],
-                    "text": "Serum lipids"
-                },
-                "subject": {
-                    "reference": "Patient/80bd1375-a1e3-4137-95ff-fb3316cf3496"
-                },
-                "effectiveDateTime": "2001-03-30",
-                "issued": "2010-02-09T12:31:51.000+00:00",
-                "performer": [
-                    {
-                        "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
-                    }
-                ],
-                "related": [
-                    {
-                        "type": "has-member",
-                        "target": {
-                            "reference": "Observation/C45E3DA5-D7BC-4FDF-B4E0-6CCECCE60D24"
-                        }
-                    },
-                    {
-                        "type": "has-member",
-                        "target": {
-                            "reference": "Observation/3BC7ABC9-ABCB-4C01-A519-35CE664C3543"
-                        }
-                    }
-                ]
+                     ]
+                  }
+               ],
+               "system": "http://snomed.info/sct",
+               "code": "1005661000000103",
+               "display": "Serum lipids level"
             }
-        }
+         ],
+         "text": "Serum lipids"
+      },
+      "subject": {
+         "reference": "Patient/80bd1375-a1e3-4137-95ff-fb3316cf3496"
+      },
+      "effectiveDateTime": "2001-03-30",
+      "issued": "2010-02-09T12:31:51.000+00:00",
+      "performer": [
+         {
+            "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
+         }
+      ],
+      "related": [
+         {
+            "type": "has-member",
+            "target": {
+               "reference": "Observation/C45E3DA5-D7BC-4FDF-B4E0-6CCECCE60D24"
+            }
+         },
+         {
+            "type": "has-member",
+            "target": {
+               "reference": "Observation/3BC7ABC9-ABCB-4C01-A519-35CE664C3543"
+            }
+         }
+      ]
+   }
+}
 ```
 
 </details>
@@ -795,66 +795,66 @@ With the exception of the related field, Componentised Observations are mapped i
 ```JSON
 
 {
-    "resource": {
-        "resourceType": "Observation",
-        "id": "C45E3DA5-D7BC-4FDF-B4E0-6CCECCE60D24",
-        "meta": {
-            "profile": [
-                "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"
-            ]
-        },
-        "identifier": [
+   "resource": {
+      "resourceType": "Observation",
+      "id": "C45E3DA5-D7BC-4FDF-B4E0-6CCECCE60D24",
+      "meta": {
+         "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"
+         ]
+      },
+      "identifier": [
+         {
+            "system": "https://PSSAdaptor/D5445",
+            "value": "C45E3DA5-D7BC-4FDF-B4E0-6CCECCE60D24"
+         }
+      ],
+      "status": "final",
+      "code": {
+         "coding": [
             {
-                "system": "https://PSSAdaptor/D5445",
-                "value": "C45E3DA5-D7BC-4FDF-B4E0-6CCECCE60D24"
-            }
-        ],
-        "status": "final",
-        "code": {
-            "coding": [
-                {
-                    "extension": [
+               "extension": [
+                  {
+                     "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                     "extension": [
                         {
-                            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-                            "extension": [
-                                {
-                                    "url": "descriptionDisplay",
-                                    "valueString": "Serum cholesterol"
-                                }
-                            ]
+                           "url": "descriptionDisplay",
+                           "valueString": "Serum cholesterol"
                         }
-                    ],
-                    "system": "http://snomed.info/sct",
-                    "code": "1005671000000105",
-                    "display": "Serum cholesterol level"
-                }
-            ],
-            "text": "Serum cholesterol"
-        },
-        "subject": {
-            "reference": "Patient/80bd1375-a1e3-4137-95ff-fb3316cf3496"
-        },
-        "effectiveDateTime": "2001-03-30",
-        "issued": "2010-02-09T12:31:51.000+00:00",
-        "performer": [
-            {
-                "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
+                     ]
+                  }
+               ],
+               "system": "http://snomed.info/sct",
+               "code": "1005671000000105",
+               "display": "Serum cholesterol level"
             }
-        ],
-        "valueQuantity": {
-            "value": 6.1,
-            "unit": "millimole per liter",
-            "code": "mmol/L"
-        },
-        "related": [
-            {
-                "type": "derived-from",
-                "target": {
-                    "reference": "Observation/31465FC9-15B2-4391-A5EF-8F70C2154AAF"
-                }
+         ],
+         "text": "Serum cholesterol"
+      },
+      "subject": {
+         "reference": "Patient/80bd1375-a1e3-4137-95ff-fb3316cf3496"
+      },
+      "effectiveDateTime": "2001-03-30",
+      "issued": "2010-02-09T12:31:51.000+00:00",
+      "performer": [
+         {
+            "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
+         }
+      ],
+      "valueQuantity": {
+         "value": 6.1,
+         "unit": "millimole per liter",
+         "code": "mmol/L"
+      },
+      "related": [
+         {
+            "type": "derived-from",
+            "target": {
+               "reference": "Observation/31465FC9-15B2-4391-A5EF-8F70C2154AAF"
             }
-        ]
-    }
+         }
+      ]
+   }
 }
 ```
 
@@ -872,25 +872,25 @@ observation type (in **bold**) is described in the sections below:
 ## Uncategorised Data (JSON FHIR > XML HL7)
 
 Uncategorised data is mapped from an FHIR `Observation` to a HL7 `ObservationStatement` where it is not deemed to be a 
-Blood Pressure or Comment Note. 
+[Blood Pressure](#blood-pressure-json-fhir--xml-hl7) or [Comment Note](#comment-note-json-fhir--xml-hl7). 
 
-| Mapped to (XML HL7 ObservationStatement)             | Mapped from (JSON FHIR / other source )                                                                                                                                         |
-|------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| id \[@root]                                          | Unique ID generated by the adaptor                                                                                                                                              |
-| code                                                 | `Observation.code.coding` as described in the FHIR > XML section of [Codeable Concept](../codeable%20concept/README.md)                                                         |
-| statusCode                                           | fixed value = `"COMPLETE"`                                                                                                                                                      |
-| effectiveTime                                        | `Observation.effectiveDateTime` or else `Observation.effectivePeriod`                                                                                                           |
-| availabilityTime                                     | `Observation.effectiveDateTime` or else `Observation.effectivePeriod.start`                                                                                                     | 
-| value                                                | `Observation.valueQuantity` or `Observation.valueString`                                                                                                                        |
-| pertinentInformation / sequenceNumber \[@value]      | fixed value = `"+1"`                                                                                                                                                            |
-| pertinentInformation / pertinentAnnotation / text    | `Observation.bodySite.text` or else `Observation.bodySite.coding.extension[index].value` where `Observation.bodySite.coding.extension[index].url` equals `"descriptionDisplay"` |
-| interpretationCode \[@code]                          | `Observation.interpretation.coding.code`                                                                                                                                        | 
-| interpretationCode \[@codeSystem]                    | fixed value = `"2.16.840.1.113883.2.1.6.5"`                                                                                                                                     |
-| interpretationCode \[@displayName]                   | description of `Observation.interpretation.coding.code` e.g. if code = `"HI"` then displayName = `"Above high reference limit"`                                                 |
-| interpretationCode / originalText                    | `Observation.interpretation.coding.display`                                                                                                                                     |
-| referenceRange / referenceInterpretationRange / text | `Observation.referenceRange.text`                                                                                                                                               |
-| referenceRange / referenceInterpretationRang / value | `Observation.referenceRange.value`                                                                                                                                              |
-| Participant / agentRef / id \[@root]                 | `Observation.performer`                                                                                                                                                         | 
+| Mapped to (XML HL7 ObservationStatement)              | Mapped from (JSON FHIR / other source )                                                                                                         |
+|-------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------|
+| id \[@root]                                           | Unique ID generated by the adaptor                                                                                                              |
+| code                                                  | `Observation.code.coding` as described in the FHIR > XML section of [Codeable Concept](../codeable%20concept/README.md)                         |
+| statusCode                                            | fixed value = `"COMPLETE"`                                                                                                                      |
+| effectiveTime                                         | `Observation.effectiveDateTime` or else `Observation.effectivePeriod`                                                                           |
+| availabilityTime                                      | `Observation.effectiveDateTime` or else `Observation.effectivePeriod.start`                                                                     | 
+| value                                                 | `Observation.valueQuantity` or `Observation.valueString`                                                                                        |
+| pertinentInformation / sequenceNumber \[@value]       | fixed value = `"+1"`                                                                                                                            |
+| pertinentInformation / pertinentAnnotation / text     | mapped as described in [Mapping for Uncategorised Data's Pertinent Information](#mapping-for-uncategorised-datas-pertinent-information) (below) |
+| interpretationCode \[@code]                           | `Observation.interpretation.coding.code`                                                                                                        | 
+| interpretationCode \[@codeSystem]                     | fixed value = `"2.16.840.1.113883.2.1.6.5"`                                                                                                     |
+| interpretationCode \[@displayName]                    | description of `Observation.interpretation.coding.code` e.g. if code = `"HI"` then displayName = `"Above high reference limit"`                 |
+| interpretationCode / originalText                     | `Observation.interpretation.coding.display`                                                                                                     |
+| referenceRange / referenceInterpretationRange / text  | `Observation.referenceRange.text`                                                                                                               |
+| referenceRange / referenceInterpretationRange / value | `Observation.referenceRange.value` where `Observation.refenceRange` and `Observation.valueQuantity` are populated                               |
+| Participant / agentRef / id \[@root]                  | `Observation.performer`                                                                                                                         | 
 
 
 <details>
@@ -925,6 +925,54 @@ Blood Pressure or Comment Note.
 </ObservationStatement>
 ```
 </details>
+
+#### Mapping for Uncategorised Data's Pertinent Information
+
+The `pertinentInformation / pertinentAnnotation / text`  element is used to map fields that have no direct mapping in 
+the HL7 or add contextual information. Where each field is mapped to a comment it will be prepended as follows:
+
+- `Observation.referenceRange[0].high.unit` or `low.unit` (prepended with `Range Units: `)
+- `Observation.referenceRange[0]` where `Observation.valueQuantitiy` is not populated (prepended with `Range: `)
+- `Observation.interpretation` where the interpretation code is unrecognised (prepended with `"Interpretation: "`)
+- `Observation.comment`
+- `Observation.bodysite` (prepended with `BodySite: `)
+
+Where a [Condition](../conditions/README.md) references the mapped `Observation` in the actual problem extension 
+(`https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-ActualProblem-1`), the following comments can 
+be mapped (prepended with `Problem Info: `): 
+
+- `Condition.code` (prepended with `Transformed Observation problem header Originally coded: `) 
+- `Condition.notes` (prepended with `Problem Notes: ` and seperated with semicolons)
+- `Condition.extension[index].value` where `extension[index].url` equals 
+`"https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-RelatedProblemHeader-1"` 
+(prepended with `Related Problem: `)
+
+For `Observation.value[x]`, where it is not `valueQuantity` or `valueString` one of the following will be mapped
+
+- `Observation.valueCodeableConcept.coding.code` and `.display` (prepended with `Code Value: `)
+- `Observation.valueBoolean` (prepended with `Boolean Value: `)
+- `Observation.valueRange` (prepended with `Range Value: `)
+- `Observation.valueRatio.numerator` and `.denominator` (prepended with `Ratio Value: `)
+- `Observation.valueTimeType` (prepended with `Time Value: `)
+- `Observation.valueDateTimeType` (prepended with `DateTime Value: `)
+- `Observation.valuePeriod.start` and `.end` (formatted as `Period Value: Start {{start}} End {{end}}`)
+
+The following values will be grouped and appended with `"Component(s): ` and enclosed in square brackets  
+
+- `Observation.component.valueQuantity` (prepended with `Quantity Value: `)
+- `Observation.component.valueString` (prepended with `String Value: `)
+- `Observation.component.valueCodeableConcept.coding.code` and `.display` (prepended with `Code Value: `)
+- `Observation.component.valueBoolean` (prepended with `Boolean Value: `)
+- `Observation.component.valueRange` (prepended with `Range Value: `)
+- `Observation.component.valueRatio.numerator` and `.denominator` (prepended with `Ratio Value: `)
+- `Observation.component.valueTimeType` (prepended with `Time Value: `)
+- `Observation.component.valueDateTimeType` (prepended with `DateTime Value: `)
+- `Observation.component.valuePeriod.start` and `.end` (formatted as `Period Value: Start {{start}} End {{end}}`)
+- `Observation.component.code` (prepended with `code: `)
+- `Observation.component.interpretation.coding[index].code` (prepended with `Interpretation Code: `), where 
+`coding[index].userSelected` is preferred otherwise the first repetition is used   
+- `Observation.component.interpretation.text` (prepended with `Interpretation Text: `)
+- `Observation.component.referenceRange` (prepended with `Range: `)
 
 ## Blood Pressure (JSON FHIR > XML HL7)
 
