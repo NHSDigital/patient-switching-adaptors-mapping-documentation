@@ -917,6 +917,14 @@ Uncategorised data is mapped from an FHIR `Observation` to a HL7 `ObservationSta
          <text>BodySite: Example body site comment</text>
       </pertinentAnnotation>
    </pertinentInformation>
+   <referenceRange typeCode="REFV">
+      <referenceInterpretationRange classCode="OBS" moodCode="EVN.CRT">
+         <value>
+            <low value="0.000"/>
+            <high value="0.300"/>
+         </value>
+      </referenceInterpretationRange>
+   </referenceRange>
    <Participant contextControlCode="OP" typeCode="PRF">
       <agentRef classCode="AGNT">
          <id root="910543AF-6E56-47B9-970F-6724483D808C"/>
