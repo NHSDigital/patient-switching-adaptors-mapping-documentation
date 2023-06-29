@@ -205,7 +205,7 @@ This is part of the mapping for a `MedicationRequest` and is mandatory and only 
 
 ### EhrSupplyDiscontinue mapping
 
-This is part of the mapping for a `MedicationRequest` and is mapped when one of `MedicationRequest.extension.url` = `"https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1"` (Medication Status Reason Stopped URL).  If this is not present then this mapping is omitted.
+This is part of the mapping for a `MedicationRequest` and is mapped when one of `MedicationRequest.extension\[index].url` = `"https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1"` (Medication Status Reason Stopped URL).  If this is not present then this mapping is omitted.
 
 
 | Mapped to (EhrSupplyDiscontinue XML HL7)                                                                           | Mapped from (JSON FHIR / other source )                                                                                                                                                                                                                 |
