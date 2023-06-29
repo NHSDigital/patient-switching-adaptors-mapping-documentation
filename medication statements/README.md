@@ -8,7 +8,7 @@ When `ehrSupplyAuthorise` is referenced, it refers to `MedicationStatement / com
 
 When `ehrSupplyDiscontinue` is referenced, it refers to find the first matching `ehrSupplyDiscontinue` where `ehrSupplyDiscontinue / reversalOf / priorMedicationRef / id [@root]` matching `MedicationStatement / component [@typeCode="COMP"] / ehrSupplyAuthorise / id [@root]` in the `EhrExtract`.
 
-When `ehrSupplyPrescribe` is referenced, it refers to `MedicationStatement / component [@typeCode="COMP"] / ehrSupplyPrescribe`.
+When `ehrSupplyPrescribe` is referenced, it refers to `MedicationStatement / component [@typeCode="COMP"] / ehrSupplyPrescribe` where `MedicationStatement / component [@typeCode="COMP"] / ehrSupplyAuthorise / id [@root]` is present.
 
 When `EhrExtract` is referenced, it refers to the parent `EhrExtract` in the XML.
 
