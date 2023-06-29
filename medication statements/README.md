@@ -200,7 +200,7 @@ This is part of the mapping for a `MedicationRequest` and is mandatory and only 
 5. When `medicationRequest.extension.value.coding[0].code` = `"acute"` or `"acute-handwritten"` and `medicationRequest.extension.url` = `"https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescriptionType-1"` then value used is `0`.</br> When `medicationRequest.extension.value.coding[0].code` = `"delayed-prescribing"`, `"repeat"` or `"repeat-dispensing"` then `medicationRequest.extension[0].value` when `medicationRequest.extension[0].url` = `"numberOfRepeatPrescriptionsAllowed"`.</br> If no value is found in either case then a default value of `1` is used.
 6. When `medicationRequest.dispenseRequest.extension[0].url` = `"https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationQuantityText-1"`
 7. When 'medicationRequest.dispenseRequest.quantity.extension[0].url' = `"https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationQuantityText-1"`
-8. When no other values are found a default value of `"1"` is used.
+8. When no other values are found a default value of `"Unk UoM"` is used.
 
 
 ### EhrSupplyDiscontinue mapping
