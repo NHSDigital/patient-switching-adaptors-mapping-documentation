@@ -48,22 +48,22 @@ When `ehrSupplyPrescribe` is present this is considered a `"PLAN"` and the follo
 
 | Mapped to (JSON FHIR Medication Request field) | Mapped from (XML HL7 / other source)                                                                                                                                                              |
 |------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| id                                             | `ehrSupplyPrescribe / id \[@root]`                                                                                                                                                                |
+| id                                             | `ehrSupplyPrescribe / id [@root]`                                                                                                                                                                |
 | identifier.system                              | `https:\\PSSAdaptor\{{practiceCode}}` where `{{practiceCode}}` is losing practice ODS Code.                                                                                                       |
-| identifier.value                               | `ehrSupplyPrescribe / id \[@root]`                                                                                                                                                                |
+| identifier.value                               | `ehrSupplyPrescribe / id [@root]`                                                                                                                                                                |
 | status                                         | fixed value = `"COMPLETED"`                                                                                                                                                                       |
 | intent                                         | fixed value = `"ORDER"`                                                                                                                                                                           |
 | dosageInstruction.text                         | `MedicationStatement / pertinentInformation / pertinentMedicationDosage / text`<sup>1</sup>                                                                                                       |
-| dispenseRequest.quantity.value                 | `ehrSupplyPrescribe / quantity \[@value]` when exists<sup>2<sup>                                                                                                                                  |
+| dispenseRequest.quantity.value                 | `ehrSupplyPrescribe / quantity [@value]` when exists<sup>2<sup>                                                                                                                                  |
 | dispenseRequest.quantity.unit                  | `ehrSupplyPrescribe / quantity / translation / originalText` when exists<sup>2</sup>                                                                                                              |
-| dispenseRequest.validityPeriod.start           | `ehrSupplyPrescribe / availabilityTime \[@value]` when exists otherwise omitted                                                                                                                   |
+| dispenseRequest.validityPeriod.start           | `ehrSupplyPrescribe / availabilityTime [@value]` when exists otherwise omitted                                                                                                                   |
 | note.text                                      | a list of all values of `ehrSupplyPrescribe / pertinentInformation / pertinentSupplyAnnotation / text` suffixed by a new line<sup>3</sup>                                                         |
-| medication.reference                           | contains a reference to a [Medication](../medications/README.md) using an id of `MedicationStatement / consumable / manufacturedMaterial \[@code]` when `medicationStatement / consumable` exists |
+| medication.reference                           | contains a reference to a [Medication](../medications/README.md) using an id of `MedicationStatement / consumable / manufacturedMaterial [@code]` when `medicationStatement / consumable` exists |
 
 1. If there is no pertinentInformation which has a pertinentInformationDosage / text, then a default value of "No Information available" is used
 2. If `ehrSupplyPrescribe / quantity` does not exist then `dispenseRequest.quantity` is omitted
-3. If `ehrSupplyPrescribe / code \[@code] \[@displayName]` both exist and `\[@displayName]` is not equal to `"NHS prescription"` then an additional `note.text` is added with the value of `\[@displayName]` prefixed by `"Prescription type: "`
-4. When `ehrSupplyPrescribe / inFulfillmentOf / priorMedicationRef / id \[@root]` exists
+3. If `ehrSupplyPrescribe / code [@code]` and  `ehrSupplyPrescribe / code [@displayName]` both exist and `[@displayName]` is not equal to `"NHS prescription"` then an additional `note.text` is added with the value of `[@displayName]` prefixed by `"Prescription type: "`
+4. When `ehrSupplyPrescribe / inFulfillmentOf / priorMedicationRef / id [@root]` exists
 
 The following fields are also added if `ehrSupplyPrescribe / inFulfillmentOf / priorMedicationRef / id \[@root]` exists
 
