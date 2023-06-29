@@ -14,13 +14,13 @@ and `CompoundStatement / code [@code]` equals `"16488004"` (laboratory reporting
 | identifier\[0].system                        | `"https://PSSAdaptor/{{odsCode}}` where `{{odsCode}}` is the ODS Code of the losing practice                                                                                                                                                                                                                 |
 | identifier\[0].value                         | `CompoundStatement / id[0] [@root]`                                                                                                                                                                                                                                                                          |
 | identifier\[1].system                        | fixed value = `"2.16.840.1.113883.2.1.4.5.5"` <sup>1</sup>                                                                                                                                                                                                                                                   |
-| identifier\[1].value                         | `CompoundStatement / id[1] [@root]` <sup>1</sup>                                                                                                                                                                                                                                                             |
+| identifier\[1].value                         | `CompoundStatement / id[1] [@extension]` <sup>1</sup>                                                                                                                                                                                                                                                        |
 | status                                       | fixed value = `"unknown"`                                                                                                                                                                                                                                                                                    |
 | code.coding\[0].code                         | fixed value =  `"721981007"`                                                                                                                                                                                                                                                                                 |
 | code.coding\[0].system                       | fixed value = `"http://snomed.info/sct"`                                                                                                                                                                                                                                                                     |
 | code.coding\[0].display                      | fixed value = `"Diagnostic studies report"`                                                                                                                                                                                                                                                                  |
 | subject.reference                            | reference to the mapped [Patient](../patient/README.md)                                                                                                                                                                                                                                                      | 
-| context.reference                            | reference to the accociated [Encounter](../encounters/README.md)                                                                                                                                                                                                                                             |
+| context.reference                            | reference to the associated [Encounter](../encounters/README.md)                                                                                                                                                                                                                                             |
 | issued                                       | `CompoundStatement /availabilityTime [@value]` or else `ehrComposition / author / time [@value]` or else `EhrExtract / availabilityTime [@value]`                                                                                                                                                            |
 | specimen.reference                           | reference to the [Specimen(s)](#Specimen-(XML->-JSON)) the results are based on                                                                                                                                                                                                                              |
 | result\[index].reference                     | reference to the associated Observations, either [Test Result Header](../observations/README.md#Test-Group-Header-(XML-HL7->-JSON-FHIR)), [Test Result](../observations/README.md#Test-Result-(XML-HL7->-JSON-FHIR)) or [Test Report Filing](../observations/README.md#Filing-Comment-(XML-HL7->-JSON-FHIR)) |
@@ -99,8 +99,8 @@ The adaptor is not currently mapping the following Diagnostic Report fields:
 
 ### Specimen (XML > JSON)
 
-A Specimen is mapped from HL7 `CompoundStatement` where it is a **child component** of a `CompoundStatement`with code 
-`16488004` (laboratory reporting).    
+A Specimen is mapped from HL7 `CompoundStatement` with code `123038009` (specimen (specimen)) where it is a 
+**child component** of a `CompoundStatement`with code `16488004` (laboratory reporting).    
 
 | Mapped to (JSON FHIR Specimen field) | Mapped from (XML HL7 / other source)                                                          |
 |--------------------------------------|-----------------------------------------------------------------------------------------------|
@@ -247,18 +247,19 @@ Narrative Statements are created to preserve data from FHIR fields that have no 
 #### Text Element Mapping
 
  Narrative Statements are created in relation to each of the FHIR Fields / Logical Reasons below. The value of the field 
- is mapped to the Narrative Statement's `text` element as EDIFACT comment (see example in the XML above), the comment type 
- of which is shown in the table:
+ is mapped to the Narrative Statement's `text` element as EDIFACT comment (see example in the XML above) as the comment 
+ body. The commentDate is mapped from `DiagnosticReport.issued` and the commentType is dependent in the field / reason
+ shown in the table:
 
-| FHIR field / logical reason                                                                                                                                                                | EDIFACT Comment Type                                    |
-|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------|
-| `diagnosticReport.conclusion`                                                                                                                                                              | `LABORATORY RESULT COMMENT(E141)`                       |
-| concatenated from `dianosticReport.codedDiagnosis`                                                                                                                                         | `LABORATORY RESULT COMMENT(E141)`                       |
-| `dianosticReport.status`                                                                                                                                                                   | `LABORATORY RESULT COMMENT(E141)`                       |
-| none of the fields above are populated and `dianosticReport.result` is missing                                                                                                             | `AGGREGATE COMMENT SET` and fixed body = `EMPTY REPORT` |
-| `Observation.EffectiveDateTime` or `Observation.EffectivePeriod` where the Observation <br/> is a referenced in `dianosticReport.result` and the first Observation coded as `Comment note` | `AGGREGATE COMMENT SET`                                 |
-| Concatenated from `diagnosticReport.performer[index].name`                                                                                                                                 | `AGGREGATE COMMENT SET`                                 |
-| Concatenated from each `Observation.comment` where the Observation is referenced in <br/> `dianosticReport.result` and coded as a comment note                                             | `AGGREGATE_COMMENT_SET`                                 |
+| FHIR field / logical reason                                                                                                                                                                                 | EDIFACT Comment Type                                    | body prepended with |
+|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------|---------------------|
+| `diagnosticReport.conclusion`                                                                                                                                                                               | `LABORATORY RESULT COMMENT(E141)`                       | `Interpretation: `  |
+| concatenated from `dianosticReport.codedDiagnosis`                                                                                                                                                          | `LABORATORY RESULT COMMENT(E141)`                       | `Lab Diagnosis: `   |
+| `dianosticReport.status`                                                                                                                                                                                    | `LABORATORY RESULT COMMENT(E141)`                       | `Status: `          |
+| none of the fields above are populated and `dianosticReport.result` is missing                                                                                                                              | `AGGREGATE COMMENT SET` and fixed body = `EMPTY REPORT` |                     |
+| `Observation.EffectiveDateTime` or `Observation.EffectivePeriod` where the Observation <br/> is a referenced in `dianosticReport.result` and the first Observation coded as `37331000000100` (Comment note) | `AGGREGATE COMMENT SET`                                 |                     |
+| Concatenated from `diagnosticReport.performer[index].name`                                                                                                                                                  | `AGGREGATE COMMENT SET`                                 | `Participants: `    |
+| Concatenated from each `Observation.comment` where the Observation is referenced in <br/> `dianosticReport.result` and coded as `37331000000100` (comment note)                                             | `AGGREGATE_COMMENT_SET`                                 |                     |
 
 ### Specimen (JSON > HL7)
 
@@ -348,20 +349,23 @@ A Narrative Statement is created to preserve data from FHIR fields that have no 
 #### Text Element Mapping
 
 Unlike a diagnostic report `CompoundStatement`, which can have multiple `NarrativeStatement` components, the Specimen 
-`CompoundStatement` has a single `NarrativeStatement`. The Specimen fields without a direct mapping are concatenated and
-seperated by newlines, before being inserted into the `text` element of the `NarrativeStatement` as an EDIFACT comment 
-(example in the XML above). The comment type of the EDIFACT comment is fixed to `LAB SPECIMEN COMMENT(E271)`.
+`CompoundStatement` will only have a single `NarrativeStatement` if Specimen fields without a direct mapping are 
+populated. The fields are concatenated and seperated by newlines, before being inserted into the `text` element of the 
+`NarrativeStatement` as an EDIFACT comment(example in the XML above). The comment type of the EDIFACT comment is fixed 
+to `LAB SPECIMEN COMMENT(E271)`.
 
 The fields / values mapped to the comment are as follows:
 
 - fixed value = `"EMPTY SPECIMEN"` if no Observations referenced in `DiagnosticReport.result` reference the `Specimen`.  
 - `Specimen.receivedTime` prepended with `"Received Date:"`
-- `Specimen.collection.extention[index].valueCodeableConcept` prepended with `"Fasting Status:"`
-- `Specimen.collection.extention[index].valueDuration` prepended with  `"Fasting Duration:"`
+- `Specimen.collection.extension[index].valueCodeableConcept` prepended with `"Fasting Status:"`. Where 
+`Specimen.collection.extension[index].url` equals `"https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-FastingStatus-1"`
+- `Specimen.collection.extension[index].valueDuration` prepended with  `"Fasting Duration:"`
 - `Specimen.collection.quantity` prepended with `"Quantity:"`
 - `Specimen.collection.bodySite` prepended with `"Collection Site:"`
-- `Practitioner.name` where the Practitioner is referenced by `Specimen.collection.collector`, prepended with `"Collected By:"`
-- `Specimen.note` 
+-  Concatenates `Practitioner.name.prefix`, `Practitioner.name.given`, `Practitioner.name.family` where the `Practitioner` 
+is referenced by `Specimen.collection.collector`, prepended with `"Collected By:"`
+- Each `Specimen.note[index]` 
 
 ## Further documentation
 
