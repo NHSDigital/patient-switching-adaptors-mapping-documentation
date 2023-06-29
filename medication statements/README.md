@@ -151,7 +151,7 @@ For details of order mapping see the JSON FHIR > XML HL7 mapping for [Medication
 | MedicationStatement / participant / agentRef / id \[@root]                                                        | See <sup>3</sup>                                                                                                                   |
 
 1. If `medicationRequest.dispenseRequest.validityPeriod.end` does not exist then this value is not populated
-2. When `medicationRequest.requester.agent.referenceElement.resourceType` = `"Practitioner"` and `medicationRequest.requester.onBehalfOf` is populated then value is set from the reference to the `requester.agent` or `medicationRequest.requester.onBehalfOf`</br> Otherwise, when only `medicationRequest.requester.agent` exists then value is set from the reference to `requester.agent.reference` (when `resourceType` = `Practicioner`) or is the reference to the organisation (when `resourceType` = `Organisation`)</br>  If there are no matches for the previous options and `medicationRequest.recorder.reference` exists and the reference is either a `Practitioner`,`PractitionerRole` or `organisation` then the reference is set from the reference to `medicationRequest.recorder.reference` 
+2. When `medicationRequest.requester.agent.referenceElement.resourceType` = `"Practitioner"` and `medicationRequest.requester.onBehalfOf` is populated then value is set from the reference to the `medicationRequest.requester.agent` or `medicationRequest.requester.onBehalfOf`</br> Otherwise, when only `medicationRequest.requester.agent` exists then value is set from the reference to `medicationRequest.requester.agent.reference` (when `resourceType` = `Practicioner`) or is the reference to the organisation (when `resourceType` = `Organisation`)</br>  If there are no matches for the previous options and `medicationRequest.recorder.reference` exists and the reference is either a `Practitioner`,`PractitionerRole` or `Organisation` then the reference is set from the reference to `medicationRequest.recorder.reference` 
 
 
 ### Medication Code mapping
@@ -196,12 +196,12 @@ This is part of the mapping for a `MedicationRequest` and is mandatory and only 
 3. When `medicationRequest.extension.value.coding[0].code` = `"acute"` or `"acute-handwritten"` and `medicationRequest.extension.url` = `"https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescriptionType-1"` then value used is `0`.</br> When `medicationRequest.extension.value.coding[0].code` = `"delayed-prescribing"`, `"repeat"` or `"repeat-dispensing"` then `medicationRequest.extension[0].value` when `medicationRequest.extension[0].url` = `"numberOfRepeatPrescriptionsAllowed"`.</br> If no value is found in either case then a default value of `1` is used.
 4. When `medicationRequest.dispenseRequest.extension[0].url` = `"https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationQuantityText-1"`
 5. When 'medicationRequest.dispenseRequest.quantity.extension[0].url' = `"https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationQuantityText-1"`
-6. When no other values are found a default value of `"1"` is used.
+6. When no other values are found a default value of `"Unk UoM"` is used.
 
 
 ### EhrSupplyDiscontinue mapping
 
-This is part of the mapping for a `MedicationRequest` and is mapped when one of `MedicationRequest.extension.url` = `"https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1"` (Medication Status Reason Stopped URL).  If this is not present then this mapping is omitted.
+This is part of the mapping for a `MedicationRequest` and is mapped when one of `MedicationRequest.extension\[index].url` = `"https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1"` (Medication Status Reason Stopped URL).  If this is not present then this mapping is omitted.
 
 
 | Mapped to (EhrSupplyDiscontinue XML HL7)                                                                           | Mapped from (JSON FHIR / other source )                                                                                                                                                                                                                 |
