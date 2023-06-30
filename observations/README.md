@@ -26,7 +26,7 @@ or [Immunization](../immunisations/README.md).
 | Mapped to (JSON FHIR Observation resource field) | Mapped from (XML HL7 / other)                                                                                                                                                                                                                                 |
 |--------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | id                                               | `ObservationStatement / id \[@root]`                                                                                                                                                                                                                          |
-| meta / profile\[0]                               | fixed value = `"https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"`                                                                                                                                                                  |
+| meta.profile\[0]                                 | fixed value = `"https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"`                                                                                                                                                                  |
 | identifier\[0].system                            | `"https://PSSAdaptor/{{losingOdsCode}}"` - where the `{{losingOdsCode}}` is the ODS code of the losing practice                                                                                                                                               |
 | identifier\[0].value                             | `ObservationStatement / id \[@root]`                                                                                                                                                                                                                          |
 | status                                           | fixed value = `"final"`                                                                                                                                                                                                                                       |
@@ -151,7 +151,7 @@ known as a "blood pressure triple", where the SNOMED codes identify them as a bl
 | Mapped to (JSON FHIR Observation resource field)    | Mapped from (XML HL7 / other)                                                                                                                               |
 |-----------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | id                                                  | `CompoundStatement / id [@root]`                                                                                                                            |
-| meta / profile\[0]                                  | fixed value = `"https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"`                                                                |
+| meta.profile\[0]                                    | fixed value = `"https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"`                                                                |
 | identifier\[0].system                               | `"https://PSSAdaptor/{{losingOdsCode}}"` - where the `{{losingOdsCode}}` is the ODS code of the losing practice                                             |
 | identifier\[0].value                                | `CompoundStatement / id \[@root]`                                                                                                                           |
 | status                                              | fixed value = `"final"`                                                                                                                                     |
@@ -296,7 +296,7 @@ are identified by `RequestStatement / code / qualifier /value [@code]`, where it
 | Mapped to (JSON FHIR Observation resource field) | Mapped from (XML HL7 / other)                                                                                           |
 |--------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------|
 | id                                               | `RequestStatement / id [@root]`                                                                                         |
-| meta / profile\[0]                               | fixed value = `"https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"`                            |
+| meta.profile\[0]                                 | fixed value = `"https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"`                            |
 | identifier\[0].system                            | `"https://PSSAdaptor/{{losingOdsCode}}"` - where the `{{losingOdsCode}}` is the ODS code of the losing practice         |
 | identifier\[0].value                             | `RequestStatement / id \[@root]`                                                                                        |
 | status                                           | fixed value = `"final"`                                                                                                 |
@@ -607,24 +607,24 @@ Except for the fields outlined below, Test Result observations are mapped identi
 Filing Comment observations are mapped from `NarrativeStatements` where they are components of a 
 Test Group Header / Test Result `CompoundStatement` and the EDIFACT comment type is `USER COMMENT`.
 
-| Mapped to (JSON FHIR Observation resource field) | Mapped from (XML HL7 / other)                                                                                                                                |
-|--------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| id                                               | `NarrativeStatement / id [@root]`                                                                                                                            |
-| meta.profile\[0]                                 | fixed value = `"https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"`                                                                 |
-| identifier\[0].system                            | `"https://PSSAdaptor/{{losingOdsCode}}"` - where the `{{losingOdsCode}}` is the ODS code of the losing practice                                              |
-| identifier\[0].value                             | `NarrativeStatement / id \[@root]`                                                                                                                           |
-| status                                           | fixed value = `"final"`                                                                                                                                      |
-| code.coding\[0].system                           | fixed value = `"http://snomed.info/sct"`                                                                                                                     |
-| code.coding\[0].code                             | fixed value = `"37331000000100"`                                                                                                                             |
-| code.coding\[0].display                          | fixed value = `"Comment note"`                                                                                                                               |
-| subject.reference                                | reference to the mapped [Patient](../patient/README.md)                                                                                                      |
-| context.reference                                | reference to the associated [Encounter](../encounters/README.md) (if present)                                                                                |
-| issued                                           | `ehrCompostion / author / time [@value]` <sup>2</sup> or else `EhrExtract / availibilityTime [@value]`                                                       |
-| performer\[0].reference                          | Practitioner referenced in `NarrativeStatement / paticipant` <sup>3</sup>                                                                                    |
-| effectiveTime                                    | `NarrativeStatement / availibilityTime` where the `NarrativeStatement` is a child component of a [Test Group Header](#test-group-header-xml-hl7--json-fhir)  |
-| comment                                          | `NarrativeStatement / text`                                                                                                                                  |
-| related\[index].type                             | fixed value = `"derived-from"`                                                                                                                               |
-| related\[index].target                           | reference to the parent [Test Group Header](#test-group-header-xml-hl7--json-fhir) or [Test Result](#test-result-xml-hl7--json-fhir)                         |
+| Mapped to (JSON FHIR Observation resource field) | Mapped from (XML HL7 / other)                                                                                                                               |
+|--------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| id                                               | `NarrativeStatement / id [@root]`                                                                                                                           |
+| meta.profile\[0]                                 | fixed value = `"https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"`                                                                |
+| identifier\[0].system                            | `"https://PSSAdaptor/{{losingOdsCode}}"` - where the `{{losingOdsCode}}` is the ODS code of the losing practice                                             |
+| identifier\[0].value                             | `NarrativeStatement / id \[@root]`                                                                                                                          |
+| status                                           | fixed value = `"final"`                                                                                                                                     |
+| code.coding\[0].system                           | fixed value = `"http://snomed.info/sct"`                                                                                                                    |
+| code.coding\[0].code                             | fixed value = `"37331000000100"`                                                                                                                            |
+| code.coding\[0].display                          | fixed value = `"Comment note"`                                                                                                                              |
+| subject.reference                                | reference to the mapped [Patient](../patient/README.md)                                                                                                     |
+| context.reference                                | reference to the associated [Encounter](../encounters/README.md) (if present)                                                                               |
+| issued                                           | `ehrCompostion / author / time [@value]` <sup>2</sup> or else `EhrExtract / availibilityTime [@value]`                                                      |
+| performer\[0].reference                          | Practitioner referenced in `NarrativeStatement / paticipant` <sup>3</sup>                                                                                   |
+| effectiveTime                                    | `NarrativeStatement / availibilityTime` where the `NarrativeStatement` is a child component of a [Test Group Header](#test-group-header-xml-hl7--json-fhir) |
+| comment                                          | The body of the EDIFACT comment contained in `NarrativeStatement / text`                                                                                    |
+| related\[index].type                             | fixed value = `"derived-from"`                                                                                                                              |
+| related\[index].target.reference                 | reference to the parent [Test Group Header](#test-group-header-xml-hl7--json-fhir) or [Test Result](#test-result-xml-hl7--json-fhir)                        |
 
 
 <details>
@@ -859,6 +859,73 @@ With the exception of the related field, Componentised Observations are mapped i
 ```
 
 </details>
+
+## Unmapped fields
+
+The following Observation fields are not currently populated by the adaptor:
+
+- implicitRules
+- language
+- text
+- contained
+- modifierExtension
+- identifier.type
+- identifier.use
+- identifier.period
+- identifier.assigner
+- basedOn
+- category.id
+- category.coding.id
+- category.coding.version
+- category.coding.userSelected
+- category.coding.extension
+- category.text
+- subject.id
+- subject.identifier
+- subject.display
+- context.id
+- context.identifier
+- context.display
+- performer.id
+- performer.identifier
+- performer.display
+- dataAbsentReason
+- interpretation.coding.id
+- interpretation.coding.version
+- interpretation.coding.userSelected
+- bodySite
+- method
+- specimen.id
+- specimen.identifier
+- specimen.display
+- device
+- referenceRange.id
+- referenceRange.modifierExtension
+- referenceRange.low.id
+- referenceRange.low.unit
+- referenceRange.low.system
+- referenceRange.low.code
+- referenceRange.high.id
+- referenceRange.high.unit
+- referenceRange.high.system
+- referenceRange.high.code
+- referenceRange.type
+- referenceRange.appliesTo
+- referenceRange.age
+- related.id
+- related.modifierExtension
+- related.target.id
+- related.target.identifier
+- related.target.display
+- component.id
+- component.modifierExtension
+- component.code.id
+- component.dataAbsentReason
+- component.interpretation.id
+- component.interpretation.coding.id
+- component.interpretation.coding.version
+- component.interpretation.coding.userSelected
+- component.interpretation.text
 
 # JSON FHIR > XML HL7
 
