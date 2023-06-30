@@ -49,9 +49,10 @@ When `PracticeCode` is referenced, it refers to the losing practice ODS code.
 ### Unmapped fields
 
 The following Medication Statement fields are not currently populated by the adaptor:
+
 - dosage.patientInstruction
 - informationSource
-- dosage.patientInstruction
+- note
 
 
 
