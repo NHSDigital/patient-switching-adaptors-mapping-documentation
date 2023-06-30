@@ -4,28 +4,25 @@
 
 A Document Reference is primarily mapped from a Narrative Statement. Where the EHR Composition is used, it is the parent of the Narrative Statement.
 
-| Mapped to (JSON FHIR Document Reference field) | Mapped from (XML HL7 / other source)                                                                                                                                                    |
-|------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| meta.profile                                   | fixed value = `"https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"`                                                                                      |
-| id                                             | `NarrativeStatement / id [@root]`                                                                                                                                                       |
-| identifier\[0].system                          | `"https://PSSAdaptor/{{losingOdsCode}}"` - where the `{{losingOdsCode}}` is the ODS code of the losing practice                                                                         |
-| identifier\[0].value                           | `NarrativeStatement / id [@root]`                                                                                                                                                       |
-| status                                         | fixed value = `"current"`                                                                                                                                                               |
-| type.coding\[0].code                           | `NarrativeStatement / reference / referredToExternalDocument / code [@code]` or `NarrativeStatement / reference / referredToExternalDocument / code / translation [@code]` <sup>1</sup> |
-| type.coding\[0].system                         | fixed value = `"http://snomed.info/sct"` <sup>1</sup>                                                                                                                                   |
-| type.coding\[0].display                        | found by searching the adaptors SNOMED database for the appropriate description <sup>1</sup>                                                                                            |
-| type.text                                      | `NarrativeStatement / reference / referredToExternalDocument / code [@displayName]` or else `NarrativeStatement / reference / referredToExternalDocument / code / originalText`         |
-| subject                                        | reference to the mapped [Patient](../patient/README.md)                                                                                                                                 |
-| created                                        | `EhrComposition / AvailabilityTime`                                                                                                                                                     |
-| indexed                                        | `EhrComposition / author / time [@value]`                                                                                                                                               |
-| author\[0]                                     | `NarrativeStatement / participant / agentRef[0] / id [@root]`                                                                                                                           |
-| custodian                                      | reference to the losing [Organisation](../organisations/README.md)                                                                                                                      |
-| description                                    | `NarrativeStatement / text`                                                                                                                                                             |
-| content.attachment.url                         | The URL of the attachment in the Adaptors file storage area (S3 / Blob Storage) <sup>2</sup>                                                                                            |
-| content.attachment.size                        | The size of the file in the Adaptors file storage area (S3 / Blob Storage)                                                                                                              |
-| content.attachment.title                       | fixed value = `"GP2GP generated placeholder. Original document not available. See notes for details"` <sup>3</sup>                                                                      |
-| content.attachment.contentType                 | `NarrativeStatement / referredToExternalDocument / text [@mediaType]`                                                                                                                   |                                                       
-| context.encounter                              | reference to the associated [Encounter](../encounters/README.md) <sup>4</sup>                                                                                                           |                                                       
+| Mapped to (JSON FHIR Document Reference field) | Mapped from (XML HL7 / other source)                                                                                                                               |
+|------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| meta.profile                                   | fixed value = `"https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"`                                                                 |
+| id                                             | `NarrativeStatement / id [@root]`                                                                                                                                  |
+| identifier\[0].system                          | `"https://PSSAdaptor/{{losingOdsCode}}"` - where the `{{losingOdsCode}}` is the ODS code of the losing practice                                                    |
+| identifier\[0].value                           | `NarrativeStatement / id [@root]`                                                                                                                                  |
+| status                                         | fixed value = `"current"`                                                                                                                                          |
+| type                                           | `NarrativeStatement / reference / referredToExternalDocument / code` as described in the XML > FHIR section of [Codeable Concept](../codeable%20concept/README.md) |
+| subject                                        | reference to the mapped [Patient](../patient/README.md)                                                                                                            |
+| created                                        | `EhrComposition / AvailabilityTime`                                                                                                                                |
+| indexed                                        | `EhrComposition / author / time [@value]`                                                                                                                          |
+| author\[0]                                     | `NarrativeStatement / participant / agentRef[0] / id [@root]`                                                                                                      |
+| custodian                                      | reference to the losing [Organisation](../organisations/README.md)                                                                                                 |
+| description                                    | `NarrativeStatement / text`                                                                                                                                        |
+| content.attachment.url                         | The URL of the attachment in the Adaptors file storage area (S3 / Blob Storage) <sup>1</sup>                                                                       |
+| content.attachment.size                        | The size of the file in the Adaptors file storage area (S3 / Blob Storage)                                                                                         |
+| content.attachment.title                       | fixed value = `"GP2GP generated placeholder. Original document not available. See notes for details"` <sup>2</sup>                                                 |
+| content.attachment.contentType                 | `NarrativeStatement / referredToExternalDocument / text [@mediaType]`                                                                                              |                                                       
+| context.encounter                              | reference to the associated [Encounter](../encounters/README.md) <sup>3</sup>                                                                                      |                                                       
 
 <details>
     <summary>Example JSON</summary>
@@ -91,10 +88,9 @@ A Document Reference is primarily mapped from a Narrative Statement. Where the E
 
 </details>
 
-1. If a SNOMED CT code cannot be found `type.coding` will not be populated 
-2. Because placeholders are uploaded to storage the `content.attachment.url` field should always be populated.
-3. The `content.title` field will only be populated if a GP2GP absent attachment placeholder has been sent.  
-4. The Encounter referenced in `context.encounter` is mapped from the parent EhrComposition. However, this is not done if the EhrComposition has a SNOMED conceptId of Non-consultation data (196401000000100) or Non-consultation medication data (196391000000103).
+1. Because placeholders are uploaded to storage the `content.attachment.url` field should always be populated.
+2. The `content.title` field will only be populated if a GP2GP absent attachment placeholder has been sent.  
+3. The Encounter referenced in `context.encounter` is mapped from the parent EhrComposition. However, this is not done if the EhrComposition has a SNOMED conceptId of Non-consultation data (196401000000100) or Non-consultation medication data (196391000000103).
 
 ### Unmapped fields
 
@@ -111,12 +107,12 @@ A Document Reference is mapped to a Narrative Statement and an absent attachment
 | Mapped to (XML HL7)                                                          | Mapped from (JSON FHIR / other source )                                                         |
 |------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------|
 | NarrativeStatement / id \[@root]                                             | NarrativeStatement ID (UUID) generated by the Adaptor                                           |
-| NarrativeStatement / statusCode \[@code]                                     | fixed value = `"COMPLETE"`                                                                      |
+| NarrativeStatement / statusCode \[@code]                                     | fixed value = `"complete"`                                                                      |
 | NarrativeStatement / AvailabilityTime                                        | `DocumentReference.created` or else `DocumentReference.indexed`                                 |
 | NarrativeStatement / Participant / AgentRef                                  | `DocumentReference.author`                                                                      |
 | NarrativeStatement / referredToExternalDocument / id \[@root]                | NarrativeStatement ID (UUID) generated by the Adaptor (identical to the UUID above)             |
-| NarrativeStatement / referredToExternalDocument / text \[@mediaType]         | `DocumentReference.content.attachment.contentType` <sup>5</sup>                                 |
-| NarrativeStatement / referredToExternalDocument / text / reference \[@value] | "file://localhost/{{filename}}" - where `{{filename}}` is generated by the Adaptor <sup>6</sup> |
+| NarrativeStatement / referredToExternalDocument / text \[@mediaType]         | DocumentReference.content.attachment.contentType <sup>4</sup>                                   |
+| NarrativeStatement / referredToExternalDocument / text / reference \[@value] | "file://localhost/{{filename}}" - where `{{filename}}` is generated by the Adaptor <sup>5</sup> |
 
 <details>
     <summary>Example XML</summary>
@@ -146,8 +142,8 @@ A Document Reference is mapped to a Narrative Statement and an absent attachment
 
 </details>
 
-5. If the Adaptor has generated a placeholder the media type will have a fixed value of `plain/text`. 
-6. If the attachment is present, the generated filename will consist of the NarrativeStatement ID and a file extension derived from `DocumentReference.content.attachment.contentType`. If the Adaptor has generated a placeholder the 
+4. If the Adaptor has generated a placeholder the media type will have a fixed value of `plain/text`. 
+5. If the attachment is present, the generated filename will consist of the NarrativeStatement ID and a file extension derived from `DocumentReference.content.attachment.contentType`. If the Adaptor has generated a placeholder the 
 filename will be "AbsentAttachment<b>{{narrativeStatementId}}</b>.txt" e.g. AbsentAttachmentB2BAE43C-C540-4A0B-9EB7-D36D2F106F69.txt.
 
 ### Placeholder generation
