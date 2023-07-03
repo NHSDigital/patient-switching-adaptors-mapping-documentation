@@ -14,7 +14,7 @@ When `EhrExtract` is referenced, it refers to the parent `EhrExtract` in the XML
 
 When `ehrComposition` is referenced, it refers to the parent `ehrComposition` in the XML.</br></br>
 
-A new `MedicationRequest` is created for each `ehrSupplyPrescribe` and `ehrSupplyAuthorise` in the `MedicationStatement` and the fields mapped are added according to if medication request is a [PLAN](#plan)(`ehrSupplyPrescribe`) or an [ORDER](#order)(`ehrSupplyAuthorise`)
+A new `MedicationRequest` is created for each `ehrSupplyPrescribe` and `ehrSupplyAuthorise` in the `MedicationStatement` and the fields mapped are added according to if medication request is a [PLAN](#plan)(`ehrSupplyAuthorise`) or an [ORDER](#order)(`ehrSupplyPrescribe`)
 
 For each of the `MedicationRequest`s mapped from a single `MedicationStatement` the following fields are added:
 
@@ -42,9 +42,9 @@ The following MedicationRequest fields are not currently populated by the adapto
 - detectedIssue
 - eventHistory
 
-### Plan
+### Order
 
-When `ehrSupplyPrescribe` is present this is considered a `"PLAN"` and the following fields are mapped:
+When `ehrSupplyPrescribe` is present this is considered an `"ORDER"` and the following fields are mapped:
 
 | Mapped to (JSON FHIR Medication Request field) | Mapped from (XML HL7 / other source)                                                                                                                                                              |
 |------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -78,7 +78,7 @@ The following fields are also added if `ehrSupplyPrescribe / inFulfillmentOf / p
 1. When there is an `ehrSupplyAuthorise / id \[@root]` in the `EhrExtract` which equals `ehrSupplyPrescribe / inFulfillmentOf / priorMedicationRef / id \[@root]` and when that `EhrSupplyAuthorise \ repeatNumber /[@value]` = `0`
 
 <details>
-    <summary>Example JSON for Plan</summary>
+    <summary>Example JSON for Order</summary>
 
 ```
 {
@@ -152,35 +152,35 @@ The following fields are also added if `ehrSupplyPrescribe / inFulfillmentOf / p
 </details>
 
 
-### Order
+### Plan
 
-When `ehrSupplyAuthorise` is present, this is considered an `"ORDER"` and the following fields are added:
+When `ehrSupplyAuthorise` is present, this is considered a `PLAN` and the following fields are added:
 
 | Mapped to (JSON FHIR Medication Request field)    | Mapped from (XML HL7 / other source)                                                                                                                                                                         |
 |---------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | id                                                | `ehrSupplyAuthorise / id [@root]`                                                                                                                                                                            |
 | identifier.system                                 | `https:\\PSSAdaptor\{{practiceCode}}` where `{{practiceCode}}` is losing practice ODS Code.                                                                                                                  |
 | identifier.value                                  | `ehrSupplyAuthorise / id [@root]`                                                                                                                                                                            |
-| intent                                            | fixed value = `"ORDER"`                                                                                                                                                                                      |
+| intent                                            | fixed value = `"PLAN"`                                                                                                                                                                                       |
 | dosageInstruction.text                            | `MedicationStatement / pertinentInformation / pertinentMedicationDosage / text`<sup>1</sup>                                                                                                                  |
 | dispenseRequest.quantity.value                    | `ehrSupplyAuthorise / quantity [@value]` when exists<sup>2<sup>                                                                                                                                              |
 | dispenseRequest.quantity.unit                     | `ehrSupplyAuthorise / quantity / translation / originalText` when exists<sup>2</sup>                                                                                                                         |
 | dispenseRequest.validityPeriod.start              | `ehrSupplyAuthorise / effectiveTime / center [@value]`, `ehrSupplyAuthorise / effectiveTime / low [@value]` or `ehrSupplyAuthorise / availabilityTime [@value]`<sup>3</sup>                                  |
-| dispenseRequest.validityPeriod.end                | `ehrSupplyAuthorise / effectiveTime / high [@value]`, `MedicationStatement.effectiveTime / high [@value]`<sup>3</sup>                                                                                        |
+| dispenseRequest.validityPeriod.end                | `ehrSupplyAuthorise / effectiveTime / high [@value]`, `MedicationStatement.effectiveTime / high [@value]`                                                                                                    |
 | extension\[repeatInformationExtensions].url       | fixed value = `"https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationRepeatInformation-1"`                                                                                       |
 | extension\[repeatInformationExtensions].Extension | a list of extensions related to `Repeat Information`. Details below in [Repeat Information Extensions](#repeat-information-extensions)                                                                       |
 | extension\[statusChangeExtensions].url            | fixed value = `"https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1"`                                                                                            |
 | extension\[statusChangeExtensions].Extension      | a list of extensions related to `Status Change`. Details below in [Status Change Extensions](#status-change-extensions)                                                                                      |
-| status                                            | `"COMPLETED"`<sup>4></sup>, `"STOPPED"`<sup>5</sup> or `"ACTIVE"`<sup>6</sup> <sup>7</sup>                                                                                                                   |
+| status                                            | `"COMPLETED"`<sup>4</sup>, `"STOPPED"`<sup>5</sup> or `"ACTIVE"`<sup>6</sup> <sup>7</sup>                                                                                                                    |
 | note[].text                                       | a list of all values of `ehrSupplyAuthorise / pertinentInformation / pertinentSupplyAnnotation / text` suffixed by a new line<sup>7</sup>                                                                    |
 | priorPrescription.reference                       | contains a reference to a `MedicationRequest` with an id of `ehrSupplyAuthorise / predecessor[0] / priorMedicationRef / id [@root`<sup>8</sup>                                                               |
 | medication.reference                              | contains a reference to a mapped [Medication](../medications/README.md) using an id of `MedicationStatement / consumable / manufacturedMaterial \[@code]` when `medicationStatement / consumable` is present |
 
 1. If there is no `pertinentInformation` which has a `pertinentInformationDosage / text`, then a default value of `"No Information available"` is used
 2. If `ehrSupplyAuthorise / quantity` is not present then `dispenseRequest.quantity` is omitted
-3. For each of the `extension`s, if the value required to set `extension.value` is not present then that extension is not added
-4. When `ehrSupplyDiscontinue` is present and any [Status Change Extensions](#status-change-extensions) are present
-5. When `ehrSupplyDiscontinue` is present and no [Status Change Extensions](#status-change-extensions) are present, or when `ehrSupplyDiscontinue` is not present and `ehrSupplyAuthorise / statusCode / code` equals `"COMPLETE"`
+3. 
+4. When `ehrSupplyDiscontinue` is present and no [Status Change Extensions](#status-change-extensions) are present, or when `ehrSupplyDiscontinue` is not present and `ehrSupplyAuthorise / statusCode / code` equals `"COMPLETE"`
+5. When `ehrSupplyDiscontinue` is present and any [Status Change Extensions](#status-change-extensions) are present
 6. When `ehrSupplyDiscontinue` is not present and `ehrSupplyAuthorise / statusCode / code` is not equal to `"COMPLETE"`
 7. If `ehrSupplyAuthorise / code [@displayName]` both exist and `[@displayName]` is not equal to `"NHS prescription"` then an additional `note.text` is added with the value of `[@displayName]` prefixed by `"Prescription type: "`
 8. If `ehrSupplyAuthorise / predecessor[0] / priorMedicationRef / id [@root]` is not present then this is omitted 
@@ -188,7 +188,7 @@ When `ehrSupplyAuthorise` is present, this is considered an `"ORDER"` and the fo
 
 #### Repeat Information Extensions
 
-This is a list of extensions related to repeat information which are included when mapping an `"ORDER"`</br>
+This is a list of extensions related to repeat information which are included when mapping an `PLAN`</br>
 For each of the `extension`, if the value required to set `extension.value` is not present then that extension is not added
 
 | Mapped to (JSON FHIR MedicationRequest.extension.Extension field) | Mapped from (XML HL7 / other source)                                                                                                                                                                                                                     |
@@ -205,7 +205,7 @@ For each of the `extension`, if the value required to set `extension.value` is n
 
 #### Status Change Extensions
 
-This is a list of extensions related to status changes which are included when mapping an `"ORDER"`</br>
+This is a list of extensions related to status changes which are included when mapping a `PLAN`</br>
 If `EhrSupplyDiscontinue` exists and `EhrSupplyDiscontinue / availabilityTime [@value]` not present then these extensions are not added
 
 | Mapped to (JSON FHIR MedicationRequest.extension.Extension field) | Mapped from (XML HL7 / other source)                                                                                                                                                                                   |
@@ -293,13 +293,7 @@ If `EhrSupplyDiscontinue` exists and `EhrSupplyDiscontinue / availabilityTime [@
 
 ## JSON FHIR > XML HL7
 
-#### PLAN
-
-For details of plan mapping see the JSON FHIR > XML HL7 mapping for [MedicationStatement](../medication%20statements/README.md) 
-
-#### ORDER 
-
-For details of order mapping see the JSON FHIR > XML HL7 mapping for [Medication](../medications/README.md)
+For details of mapping for both `PLAN` and `ORDER`, see the JSON FHIR > XML HL7 mapping for [MedicationStatement](../medication%20statements/README.md) 
 
 ## Further documentation
 
