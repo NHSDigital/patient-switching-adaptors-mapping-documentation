@@ -44,7 +44,7 @@ The following MedicationRequest fields are not currently populated by the adapto
 
 ### Order
 
-When `ehrSupplyPrescribe` is present this is considered an `"ORDER"` and the following fields are mapped:
+When `ehrSupplyPrescribe` is present this is considered an `ORDER` and the following fields are mapped:
 
 | Mapped to (JSON FHIR Medication Request field) | Mapped from (XML HL7 / other source)                                                                                                                                                             |
 |------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
