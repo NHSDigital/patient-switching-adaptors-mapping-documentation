@@ -17,7 +17,7 @@ A Referral Request is mapped from a `RequestStatement`
 | authoredOn                                   | `RequestStatement / availabilityTime [@value]`                                                                                                                                                      |
 | requester.agent                              | reference to mapped [Practitioner](../practioners/README.md) from `RequestStatement / Participent / agentRef` or `Composition / Participent / agentRef`                                             |
 | recipient                                    | reference to mapped [Practitioner](../practioners/README.md) from `RequestStatement / responsibleParty / agentRef`                                                                                  |
-| reasonCode                                   | mapped CodeableConcept from `RequestStatement / code` <sup>1</sup>                                                                                                                                  |
+| reasonCode                                   | mapped CodeableConcept from `RequestStatement / code` <sup>1</sup> as described in the XML > FHIR section of [Codeable Concept](../codeable%20concept/README.md)                                    |
 | note                                         | mapped Annotation from `RequestStatement / text` & `RequestStatement / priorityCode` & `RequestStatement / priorityCode`                                                                            |
 
 1.  If the SNOMED code is not found then a `Transfer-degraded referral` code is inserted instead (96431000000106)
