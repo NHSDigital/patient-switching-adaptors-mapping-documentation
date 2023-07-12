@@ -784,10 +784,10 @@ Additionally, any `ObservationStatement` component will be mapped to a separate 
 
 With the exception of the related field, Componentised Observations are mapped identically to [Uncategorised Data](#uncategorised-data-xml-hl7--json-fhir).
 
-| Mapped to (JSON FHIR Observation resource field) | Mapped from (XML HL7 / other)                                                        |
-|--------------------------------------------------|--------------------------------------------------------------------------------------|
-| related\[index].type                             | fixed value = `"derived-from"`                                                       |
-| related\[index].target                           | reference to the parent [Test Group Header](#test-group-header-xml-hl7--json-fhir)   |
+| Mapped to (JSON FHIR Observation resource field) | Mapped from (XML HL7 / other)                                                                                     |
+|--------------------------------------------------|-------------------------------------------------------------------------------------------------------------------|
+| related\[index].type                             | fixed value = `"derived-from"`                                                                                    |
+| related\[index].target                           | reference to the parent [Componentised Observation Header](#componentised-observation-header-xml-hl7--json-fhir)) |
 
 <details>
 <summary>Example JSON</summary>
