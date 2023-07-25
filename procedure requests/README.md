@@ -131,5 +131,5 @@ A Procedure Request is mapped to a Plan Statement.
 
 ## Further documentation
 
-[GP Connect Procedure Request](https://developer.nhs.uk/apis/gpconnect-1-6-0/accessrecord_structured_development_ProcedureRequest.html)
-[MIM 4.2.00](https://data.developer.nhs.uk/dms/mim/4.2.00/Index.htm) 
+- [GP Connect ProcedureRequest](https://developer.nhs.uk/apis/gpconnect-1-6-0/accessrecord_structured_development_ProcedureRequest.html)
+- [MIM 4.2.00](https://data.developer.nhs.uk/dms/mim/4.2.00/Index.htm) 

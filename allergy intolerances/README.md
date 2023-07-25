@@ -181,6 +181,6 @@ An Allergy Intolerance is mapped to a CompoundStatement with inner ObservationSt
 </details>
 
 ## Further documentation
-[GP Connect Allergy Intolerance](https://developer.nhs.uk/apis/gpconnect-1-6-0/accessrecord_structured_development_allergyintolerance.html)
 
-[MIM 4.2.00](https://data.developer.nhs.uk/dms/mim/4.2.00/Index.htm) 
+- [GP Connect Allergy Intolerance](https://developer.nhs.uk/apis/gpconnect-1-6-0/accessrecord_structured_development_allergyintolerance.html)
+- [MIM 4.2.00](https://data.developer.nhs.uk/dms/mim/4.2.00/Index.htm) 

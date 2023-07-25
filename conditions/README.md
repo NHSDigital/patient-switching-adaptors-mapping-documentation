@@ -352,6 +352,6 @@ is SNOMED CT (`"http://snomed.info/sct"`).
 
 ## Further documentation
 
-[Problems guidance](https://developer.nhs.uk/apis/gpconnect-1-6-0/accessrecord_structured_development_problems_guidance.html)
-[FHIR Condition](https://developer.nhs.uk/apis/gpconnect-1-6-0/accessrecord_structured_problems.html)
-[MIM 4.2.00](https://data.developer.nhs.uk/dms/mim/4.2.00/Index.htm) 
+- [Problems guidance](https://developer.nhs.uk/apis/gpconnect-1-6-0/accessrecord_structured_development_problems_guidance.html)
+- [GP Connect ProblemHeader (Condition)](https://developer.nhs.uk/apis/gpconnect-1-6-0/accessrecord_structured_problems.html)
+- [MIM 4.2.00](https://data.developer.nhs.uk/dms/mim/4.2.00/Index.htm) 

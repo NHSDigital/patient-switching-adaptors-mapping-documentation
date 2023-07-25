@@ -289,6 +289,6 @@ was given to the Organisation as a performer.
 3. The first instance of `Organization.telecom` where `Organization.telecom.system.display` is equal to `"phone"` and `Organization.telecom.use` is equal to `"work"`
 
 ## Further documentation
-[GP Connect Organisation structure definition](https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Organization-1)
 
-[MIM 4.2.00](https://data.developer.nhs.uk/dms/mim/4.2.00/Index.htm)
+- [GP Connect Organisation structure definition](https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Organization-1)
+- [MIM 4.2.00](https://data.developer.nhs.uk/dms/mim/4.2.00/Index.htm)

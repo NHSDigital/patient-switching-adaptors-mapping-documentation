@@ -165,5 +165,5 @@ An Immunization is primarily mapped from an Observation Statement.
 
 ## Further documentation
 
-[GP Connect Immunisation](https://developer.nhs.uk/apis/gpconnect-1-6-0/accessrecord_structured_development_immunization.html)
-[MIM 4.2.00](https://data.developer.nhs.uk/dms/mim/4.2.00/Index.htm)
+- [GP Connect Immunisation](https://developer.nhs.uk/apis/gpconnect-1-6-0/accessrecord_structured_development_immunization.html)
+- [MIM 4.2.00](https://data.developer.nhs.uk/dms/mim/4.2.00/Index.htm)

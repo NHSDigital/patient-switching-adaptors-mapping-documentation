@@ -169,6 +169,6 @@ Where:
 - `{{conversationID}}` = the conversation ID of the migration
 
 ## Further documentation
-[GP Connect Document Reference](https://developer.nhs.uk/apis/gpconnect-1-6-0/access_documents_development_documentreference.html)
 
-[MIM 4.2.00](https://data.developer.nhs.uk/dms/mim/4.2.00/Index.htm) 
+- [GP Connect DocumentReference](https://developer.nhs.uk/apis/gpconnect-1-6-0/access_documents_development_documentreference.html)
+- [MIM 4.2.00](https://data.developer.nhs.uk/dms/mim/4.2.00/Index.htm) 

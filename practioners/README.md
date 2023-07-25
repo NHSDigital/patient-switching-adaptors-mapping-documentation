@@ -193,8 +193,7 @@ A Practitioner is mapped to an `Agent` with a role of `AgentPerson`.
 </details>
 
 ## Further documentation
-[GP Connect Practitioner structure definition](https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Practitioner-1)
 
-[GP Connect PractitionerRole structure definition](https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-PractitionerRole-1)
-
-[MIM 4.2.00](https://data.developer.nhs.uk/dms/mim/4.2.00/Index.htm)
+- [GP Connect Practitioner structure definition](https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Practitioner-1)
+- [GP Connect PractitionerRole structure definition](https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-PractitionerRole-1)
+- [MIM 4.2.00](https://data.developer.nhs.uk/dms/mim/4.2.00/Index.htm)

@@ -101,5 +101,5 @@ A Patient record is inserted into the EhrExtracts recordTarget.
 
 ## Further documentation
 
-[FHIR Patient](https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Patient-1)
-[MIM 4.2.00](https://data.developer.nhs.uk/dms/mim/4.2.00/Index.htm) 
+- [FHIR Patient](https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Patient-1)
+- [MIM 4.2.00](https://data.developer.nhs.uk/dms/mim/4.2.00/Index.htm)

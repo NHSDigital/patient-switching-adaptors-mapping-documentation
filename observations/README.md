@@ -1420,22 +1420,17 @@ CommentDate:20100326134545
 
 ### GP Connect Uncategorised data
 
-[GP Connect uncategorised data guidance](https://developer.nhs.uk/apis/gpconnect-1-6-0/accessrecord_structured_development_uncategorisedData_guidance.html)
-
-[GP Connect Observation - uncategorised data](https://developer.nhs.uk/apis/gpconnect-1-6-0/accessrecord_structured_development_observation_uncategorisedData.html)
-
-[GP Connect Observation - blood pressure](https://developer.nhs.uk/apis/gpconnect-1-6-0/accessrecord_structured_development_observation_bloodPressure.html)
+- [GP Connect uncategorised data guidance](https://developer.nhs.uk/apis/gpconnect-1-6-0/accessrecord_structured_development_uncategorisedData_guidance.html)
+- [GP Connect Observation - uncategorised data](https://developer.nhs.uk/apis/gpconnect-1-6-0/accessrecord_structured_development_observation_uncategorisedData.html)
+- [GP Connect Observation - blood pressure](https://developer.nhs.uk/apis/gpconnect-1-6-0/accessrecord_structured_development_observation_bloodPressure.html)
 
 ### GP Connect Investigations
 
-[GP Connect Investigations guidance](https://developer.nhs.uk/apis/gpconnect-1-6-0/accessrecord_structured_development_pathology_guidance.html)
-
-[GP Connect Observation - test group header](https://developer.nhs.uk/apis/gpconnect-1-6-0/accessrecord_structured_development_observation_testGroup.html)
-
-[GP Connect Observation - test result](https://developer.nhs.uk/apis/gpconnect-1-6-0/accessrecord_structured_development_observation_testResult.html)
-
-[GP Connect Observation - filing comment](https://developer.nhs.uk/apis/gpconnect-1-6-0/accessrecord_structured_development_observation_filingComments.html)
+- [GP Connect Investigations guidance](https://developer.nhs.uk/apis/gpconnect-1-6-0/accessrecord_structured_development_pathology_guidance.html)
+- [GP Connect Observation - test group header](https://developer.nhs.uk/apis/gpconnect-1-6-0/accessrecord_structured_development_observation_testGroup.html)
+- [GP Connect Observation - test result](https://developer.nhs.uk/apis/gpconnect-1-6-0/accessrecord_structured_development_observation_testResult.html)
+- [GP Connect Observation - filing comment](https://developer.nhs.uk/apis/gpconnect-1-6-0/accessrecord_structured_development_observation_filingComments.html)
 
 ### HL7v3 MIM
 
-[MIM 4.2.00](https://data.developer.nhs.uk/dms/mim/4.2.00/Index.htm)
+- [MIM 4.2.00](https://data.developer.nhs.uk/dms/mim/4.2.00/Index.htm)
