@@ -369,10 +369,7 @@ is referenced by `Specimen.collection.collector`, prepended with `"Collected By:
 
 ## Further documentation
 
-[GP Connect Diagnostic report documentation](https://developer.nhs.uk/apis/gpconnect-1-6-0/accessrecord_structured_development_DiagnosticReport.html)
-
-[GP Connect Specimen documentation](https://developer.nhs.uk/apis/gpconnect-1-6-0/accessrecord_structured_development_specimen.html)
-
-[GP Connect Investigations Guidance](https://developer.nhs.uk/apis/gpconnect-1-6-0/accessrecord_structured_development_pathology_guidance.html)
-
-[MIM 4.2.00](https://data.developer.nhs.uk/dms/mim/4.2.00/Index.htm) 
+- [GP Connect Diagnostic report documentation](https://developer.nhs.uk/apis/gpconnect-1-6-0/accessrecord_structured_development_DiagnosticReport.html)
+- [GP Connect Specimen documentation](https://developer.nhs.uk/apis/gpconnect-1-6-0/accessrecord_structured_development_specimen.html)
+- [GP Connect Investigations Guidance](https://developer.nhs.uk/apis/gpconnect-1-6-0/accessrecord_structured_development_pathology_guidance.html)
+- [MIM 4.2.00](https://data.developer.nhs.uk/dms/mim/4.2.00/Index.htm) 

@@ -190,8 +190,6 @@ then that code and display name is used. Otherwise, the SNOMED code `24591000000
 
 ## Further documentation
 
-[GP Connect Encounter](https://developer.nhs.uk/apis/gpconnect-1-6-0/accessrecord_structured_development_encounter.html)
-
-[MIM 4.2.00](https://data.developer.nhs.uk/dms/mim/4.2.00/Index.htm) 
-
-[EHR Composition Name Vocabulary](https://data.developer.nhs.uk/dms/mim/6.3.01/Vocabulary/EhrCompositionName.htm)
+- [GP Connect Encounter](https://developer.nhs.uk/apis/gpconnect-1-6-0/accessrecord_structured_development_encounter.html)
+- [MIM 4.2.00](https://data.developer.nhs.uk/dms/mim/4.2.00/Index.htm)
+- [EHR Composition Name Vocabulary](https://data.developer.nhs.uk/dms/mim/6.3.01/Vocabulary/EhrCompositionName.htm)

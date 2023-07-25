@@ -98,5 +98,5 @@ An Encounter with linked Location is mapped to a composition containing a locati
 
 ## Further documentation
 
-[FHIR specification](https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Location-1)
-[MIM 4.2.00](https://data.developer.nhs.uk/dms/mim/4.2.00/Index.htm) 
+- [FHIR specification](https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Location-1)
+- [MIM 4.2.00](https://data.developer.nhs.uk/dms/mim/4.2.00/Index.htm)

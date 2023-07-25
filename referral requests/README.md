@@ -171,6 +171,6 @@ A ReferralRequest is mapped to a RequestStatement
 </details>
 
 ## Further documentation
-[GP Connect Referral Request](https://developer.nhs.uk/apis/gpconnect-1-6-0/accessrecord_structured_development_referralrequest.html)
 
-[MIM 4.2.00](https://data.developer.nhs.uk/dms/mim/4.2.00/Index.htm) 
+- [GP Connect ReferralRequest](https://developer.nhs.uk/apis/gpconnect-1-6-0/accessrecord_structured_development_referralrequest.html)
+- [MIM 4.2.00](https://data.developer.nhs.uk/dms/mim/4.2.00/Index.htm)

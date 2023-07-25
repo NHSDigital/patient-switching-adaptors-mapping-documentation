@@ -430,6 +430,5 @@ This is mapped from `Medication.code` where `Medication` is the resource to refe
 
 ## Further documentation
 
-[GP Connect Medication Statement](https://developer.nhs.uk/apis/gpconnect-1-6-0/accessrecord_structured_development_medicationstatement.html)
-
-[MIM 4.2.00](https://data.developer.nhs.uk/dms/mim/4.2.00/Index.htm) 
+- [GP Connect MedicationStatement](https://developer.nhs.uk/apis/gpconnect-1-6-0/accessrecord_structured_development_medicationstatement.html)
+- [MIM 4.2.00](https://data.developer.nhs.uk/dms/mim/4.2.00/Index.htm)
