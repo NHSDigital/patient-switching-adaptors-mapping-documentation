@@ -12,7 +12,7 @@ An Immunization is mapped from a ObservationStatement.
 | extension\[0].valueExtension.url                       | fixed value = `https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid`                                                              |
 | extension\[0].valueExtension.valueCodeableConcept.text | `ObservationStatement / code / displayname`                                                                                                          |
 | extension\[1].url                                      | fixed value = `https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-DateRecorded-1`                                                |
-| extension\[1].valueString                              | `ehrComposition / availabilityTime [@value]`                                                                                                         |
+| extension\[1].valueDateTime                            | `ehrComposition / author / time [@value]` or `ehrComposition / availabilityTime [@value]`                                                            |
 | identifier\[0].system                                  | "https://PSSAdaptor/{{losingOdsCode}}" - where the {{losingOdsCode}} is the ODS code of the losing practice                                          |
 | identifier\[0].value \[@root]                          | `ObservationStatement / id`                                                                                                                          |
 | status                                                 | fixed value = `COMPLETED`                                                                                                                            |
