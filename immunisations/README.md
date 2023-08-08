@@ -50,7 +50,7 @@ An Immunization is mapped from a ObservationStatement.
              },
              {
                  "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-DateRecorded-1",
-                 "valueString": "20100113151332"
+                 "valueDateTime": "2010-01-13T15:13:32+00:00.00"
              }
          ],
          "identifier": [
