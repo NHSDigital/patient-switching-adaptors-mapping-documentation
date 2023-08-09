@@ -39,9 +39,9 @@ or [Immunization](../immunisations/README.md).
 | valueQuantity.extension\[0].url                  | fixed value = `"https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-ValueApproximation-1"` <sup>1</sup>                                                                                                                                    |
 | valueQuantity.extension\[0].value                | fixed value = `true` <sup>1</sup>                                                                                                                                                                                                                             |
 | valueString                                      | `ObservationStatement / value` where valueQuantity is not populated                                                                                                                                                                                           |
-| effectiveDateTime                                | `ObservationStatement / effectiveTime` or else `ObservationStatement / availibiltyTime [@value]`                                                                                                                                                              |
-| issued                                           | `ehrCompostion / author / time [@value]` <sup>2</sup> or else `EhrExtract / availibilityTime [@value]`                                                                                                                                                        |
-| performer\[0].reference                          | Practitioner referenced in `ObservationStatement / paticipant` <sup>3</sup>                                                                                                                                                                                   |
+| effective(x) <sup>2</sup>                        | `ObservationStatement / effectiveTime`<sup>2</sup> or else `ObservationStatement / availibiltyTime [@value]` <sup>2</sup>                                                                                                                                     |
+| issued                                           | `ehrCompostion / author / time [@value]` <sup>3</sup> or else `EhrExtract / availibilityTime [@value]`                                                                                                                                                        |
+| performer\[0].reference                          | Practitioner referenced in `ObservationStatement / paticipant` <sup>4</sup>                                                                                                                                                                                   |
 | interpretation.coding\[0].code                   | `ObservationStatement / interpretationCode [@code]`                                                                                                                                                                                                           |
 | interpretation.coding\[0].display                | `ObservationStatement / interpretationCode [@code]` - human readable translation i.e. `"High"`, `"Low"`, `"Abnormal"`                                                                                                                                         |
 | interpretation.coding\[0].system                 | fixed value = `"http://hl7.org/fhir/v2/0078"`                                                                                                                                                                                                                 |
@@ -137,8 +137,9 @@ or [Immunization](../immunisations/README.md).
 </details>
 
 1. If `ObservationStatement / uncertaintyCode` is present.
-2. Where the `ehrComposition` is the parent of mapped statement.
-3. Where `paticipant [@typecode]` is `"PPRF"` (Primary performer) or `"PRF"` (Performer).
+2. Where `ObservationStatement / effectiveTime` does not contain the `center` element but does contain either `low` or `high` the values are mapped to **effectivePeriod.start** and **effectivePeriod.end** respectfully. Otherwise, `ObservationStatement / effectiveTime / center` or else `ObservationStatement / availibiltyTime [@value]` are mapped to **effectiveDateTime**.       
+3. Where the `ehrComposition` is the parent of mapped statement.
+4. Where `paticipant [@typecode]` is `"PPRF"` (Primary performer) or `"PRF"` (Performer).
 
 ## Blood Pressure (XML HL7 > JSON FHIR)
 
@@ -158,11 +159,11 @@ known as a "blood pressure triple", where the SNOMED codes identify them as a bl
 | code                                                | `CompoundStatement / code` as described in the XML > FHIR section of [Codeable Concept](../codeable%20concept/README.md)                                    | 
 | subject.reference                                   | reference to the mapped [Patient](../patient/README.md)                                                                                                     |
 | context.reference                                   | reference to the associated [Encounter](../encounters/README.md) (if present)                                                                               |
-| effectiveDateTime                                   | `CompoundStatement / effectiveTime` or else `CompoundStatement / availibiltyTime [@value]`                                                                  |
-| issued                                              | `ehrCompostion / author / time [@value]` <sup>2</sup> or else `EhrExtract / availibilityTime [@value]`                                                      | 
-| performer\[0].reference                             | Practitioner referenced in `CompoundStatement / paticipant` <sup>3</sup>                                                                                    |
-| component\[index].code                              | `ObservationStatement.code` <sup>4</sup>   as described in the XML > FHIR section of [Codeable Concept](../codeable%20concept/README.md)                    |
-| component\[index].valueQuantity                     | `ObservationStatement / value` where `ObservationStatement / value [@type]` is `"PQ"` or `"IVLPQ"` <sup>4</sup>                                             |
+| effective(x) <sup>2</sup>                           | `CompoundStatement / effectiveTime` <sup>2</sup> or else `CompoundStatement / availibiltyTime [@value]` <sup>2</sup>                                        |
+| issued                                              | `ehrCompostion / author / time [@value]` <sup>3</sup> or else `EhrExtract / availibilityTime [@value]`                                                      | 
+| performer\[0].reference                             | Practitioner referenced in `CompoundStatement / paticipant` <sup>4</sup>                                                                                    |
+| component\[index].code                              | `ObservationStatement.code` <sup>5</sup>   as described in the XML > FHIR section of [Codeable Concept](../codeable%20concept/README.md)                    |
+| component\[index].valueQuantity                     | `ObservationStatement / value` where `ObservationStatement / value [@type]` is `"PQ"` or `"IVLPQ"` <sup>5</sup>                                             |
 | component\[index].valueQuantity.extension\[0].url   | fixed value = `"https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-ValueApproximation-1"` <sup>1</sup>                                  |
 | component\[index].valueQuantity.extension\[0].value | fixed value = `true` <sup>1</sup>                                                                                                                           |
 | component\[index].interpretation.coding\[0].code    | `ObservationStatement / interpretationCode [@code]`                                                                                                         |
@@ -171,7 +172,7 @@ known as a "blood pressure triple", where the SNOMED codes identify them as a bl
 | component\[index].referenceRange\[index].text       | `ObservationStatement / referenceRange[index] / referenceInterpretationRange / text`                                                                        |
 | component\[index].referenceRange\[index].high.value | `ObservationStatement / referenceRange\[index] / referenceInterpretationRange / value / high`                                                               |
 | component\[index].referenceRange\[index].low.value  | `ObservationStatement / referenceRange\[index] / referenceInterpretationRange / value / low`                                                                |
-| comment                                             | concatenated from each `ObservationStatement / pertinentInformation / pertinentAnnotation / text` <sup>5</sup> and `NarrativeStatement / text` <sup>6</sup> |
+| comment                                             | concatenated from each `ObservationStatement / pertinentInformation / pertinentAnnotation / text` <sup>6</sup> and `NarrativeStatement / text` <sup>7</sup> |
 
 <details>
 <summary>Example JSON</summary>
@@ -282,10 +283,10 @@ known as a "blood pressure triple", where the SNOMED codes identify them as a bl
 
 </details>
 
-4. Mapped for the both `ObservationStatement` elements that form part of the blood pressure triple.
-5. Text from a `pertinentAnnotation` is prepended with `"Systolic Note: "` or `"Diastolic Note: "`,
+5. Mapped for the both `ObservationStatement` elements that form part of the blood pressure triple.
+6. Text from a `pertinentAnnotation` is prepended with `"Systolic Note: "` or `"Diastolic Note: "`,
    determined by the SNOMED code of the `OberservationStatement`. If an appropriate code isn't present, it is not mapped.
-6. Where the `NarrativeStatement` is a child of the blood pressure triple's `CompoundStatement`. Prepended
+7. Where the `NarrativeStatement` is a child of the blood pressure triple's `CompoundStatement`. Prepended
    with `"BP Note: "` when mapped.
 
 ## Self Referral (XML HL7 > JSON FHIR)
@@ -301,11 +302,11 @@ are identified by `RequestStatement / code / qualifier /value [@code]`, where it
 | identifier\[0].value                             | `RequestStatement / id \[@root]`                                                                                        |
 | status                                           | fixed value = `"final"`                                                                                                 |
 | code                                             | `RequestStatement / code` as described in the XML > FHIR section of [Codeable Concept](../codeable%20concept/README.md) |
-| issued                                           | `ehrCompostion / author / time [@value]` <sup>2</sup> or else `EhrExtract / availibilityTime [@value]`                  |
+| issued                                           | `ehrCompostion / author / time [@value]` <sup>3</sup> or else `EhrExtract / availibilityTime [@value]`                  |
 | subject.reference                                | reference to the mapped [Patient](../patient/README.md)                                                                 |  
 | context.reference                                | reference to the associated [Encounter](../encounters/README.md) (if present)                                           |
-| effectiveDateTime                                | `RequestStatement / effectiveTime` or else `RequestStatement / availibiltyTime [@value]`                                | 
-| performer\[0].reference                          | [Practitioner](../practioners/README.md) referenced in `RequestStatement / paticipant` <sup>7</sup>                     |      
+| effective(x) <sup>2</sup>                        | `RequestStatement / effectiveTime` <sup>2</sup> or else `RequestStatement / availibiltyTime [@value]` <sup>2</sup>      | 
+| performer\[0].reference                          | [Practitioner](../practioners/README.md) referenced in `RequestStatement / paticipant` <sup>8</sup>                     |      
 | comment                                          | fixed value = `"SelfRerreral"`                                                                                          |
 | component\[0].code.text                          | fixed value = `"Urgency"`                                                                                               |
 | component\[0].valueString                        | `RequestStatement / priorityCode / originalText`                                                                        |
@@ -391,7 +392,7 @@ are identified by `RequestStatement / code / qualifier /value [@code]`, where it
 
 </details>
 
-7. Where `ObservationStatement / paticipant [@typecode]` is `"PPRF"` (Primary performer) or `"PRF"` (Performer).
+8. Where `ObservationStatement / paticipant [@typecode]` is `"PPRF"` (Primary performer) or `"PRF"` (Performer).
 
 ## Investigations
 
@@ -416,8 +417,8 @@ the parent compound statements are deemed to from a [Diagnostic Report](../diagn
 | code                                             | `CompoundStatement / code` as described in the XML > FHIR section of [Codeable Concept](../codeable%20concept/README.md)          |
 | subject.reference                                | reference to the mapped [Patient](../patient/README.md)                                                                           |  
 | context.reference                                | reference to the associated [Encounter](../encounters/README.md) (if present)                                                     |
-| effectiveDateTime                                | `CompoundStatement / effectiveTime` or else `CompoundStatement / availibiltyTime [@value]`                                        |
-| issued                                           | `ehrCompostion / author / time [@value]` <sup>2</sup> or else `EhrExtract / availibilityTime [@value]`                            |
+| effective(x) <sup>2</sup>                        | `CompoundStatement / effectiveTime` <sup>2</sup> or else `CompoundStatement / availibiltyTime [@value]` <sup>2</sup>              |
+| issued                                           | `ehrCompostion / author / time [@value]` <sup>3</sup> or else `EhrExtract / availibilityTime [@value]`                            |
 | performer\[0].reference                          | [Practitioner](../practioners/README.md) referenced in `CompoundStatement / paticipant` or else `CompoundStatement / paticipant2` |
 | comment                                          | concatenated with newlines from child `NarrativeStatement / text` where the EDIFACT comment type is not `USER COMMENT`            |
 | specimen.reference                               | reference to the [Specimen](../diagnostic%20reports/README.md)                                                                    |
@@ -619,8 +620,8 @@ Test Group Header / Test Result `CompoundStatement` and the EDIFACT comment type
 | code.coding\[0].display                          | fixed value = `"Comment note"`                                                                                                                              |
 | subject.reference                                | reference to the mapped [Patient](../patient/README.md)                                                                                                     |
 | context.reference                                | reference to the associated [Encounter](../encounters/README.md) (if present)                                                                               |
-| issued                                           | `ehrCompostion / author / time [@value]` <sup>2</sup> or else `EhrExtract / availibilityTime [@value]`                                                      |
-| performer\[0].reference                          | Practitioner referenced in `NarrativeStatement / paticipant` <sup>3</sup>                                                                                   |
+| issued                                           | `ehrCompostion / author / time [@value]` <sup>3</sup> or else `EhrExtract / availibilityTime [@value]`                                                      |
+| performer\[0].reference                          | Practitioner referenced in `NarrativeStatement / paticipant` <sup>4</sup>                                                                                   |
 | effectiveTime                                    | `NarrativeStatement / availibilityTime` where the `NarrativeStatement` is a child component of a [Test Group Header](#test-group-header-xml-hl7--json-fhir) |
 | comment                                          | The body of the EDIFACT comment contained in `NarrativeStatement / text`                                                                                    |
 | related\[index].type                             | fixed value = `"derived-from"`                                                                                                                              |
@@ -702,9 +703,9 @@ Additionally, any `ObservationStatement` component will be mapped to a separate 
 | code                                             | `CompoundStatement / code` as described in the XML > FHIR section of [Codeable Concept](../codeable%20concept/README.md) |
 | subject.reference                                | reference to the mapped [Patient](../patient/README.md)                                                                  |
 | context.reference                                | reference to the associated [Encounter](../encounters/README.md) (if present)                                            |
-| effectiveDateTime                                | `CompoundStatement / effectiveTime` or else `CompoundStatement / availibiltyTime [@value]`                               |
-| issued                                           | `ehrCompostion / author / time [@value]` <sup>2</sup> or else `EhrExtract / availibilityTime [@value]`                   |
-| performer\[0].reference                          | Practitioner referenced in `ObservationStatement / paticipant` <sup>3</sup>                                              |
+| effective(x) <sup>2</sup>                        | `CompoundStatement / effectiveTime` <sup>2</sup> or else `CompoundStatement / availibiltyTime [@value]` <sup>2</sup>     |
+| issued                                           | `ehrCompostion / author / time [@value]` <sup>3</sup> or else `EhrExtract / availibilityTime [@value]`                   |
+| performer\[0].reference                          | Practitioner referenced in `ObservationStatement / paticipant` <sup>4</sup>                                              |
 | related\[index].type                             | fixed value = `"has-member"`                                                                                             |
 | related\[index].target                           | reference to the child Observation - [Test Result](#test-result-xml-hl7--json-fhir)                                      |
 
@@ -1227,7 +1228,7 @@ nested as components of the header.
 | availabilityTime                          | `Observation.effectiveDateTime` or else `Observation.effectivePeriod.start`                                                                                                                                                                               |
 | component\[index] / ObservationStatement  | Mapped [Test Results](#test-result-json-fhir--xml-hl7)                                                                                                                                                                                                    |  
 | component\[index] / CompoundStatement     | Mapped [Test Results](#test-result-json-fhir--xml-hl7)                                                                                                                                                                                                    |
-| component\[index] / NarrativeStatement    | Mapped from `Observation` as outlined in [Narrative statement mapping for Test Group Header and Test Result](#narrative-statement-mapping-for-test-group-header-and-test-result) <sup>8</sup> and [Filing comments](#filing-comment-json-fhir--xml-hl7)   |
+| component\[index] / NarrativeStatement    | Mapped from `Observation` as outlined in [Narrative statement mapping for Test Group Header and Test Result](#narrative-statement-mapping-for-test-group-header-and-test-result) <sup>9</sup> and [Filing comments](#filing-comment-json-fhir--xml-hl7)   |
 
 
 <details>
@@ -1274,7 +1275,7 @@ See FATS/Healthy Hearts guidelines for interpretation of lipids</text>
 * note - the Transfer-degraded record entry was present in the FHIR, it has not been added by the Adaptor.
 </details>
 
-8. `NarrativeStatement` components are created for each of the fields stated in [Observation Fields mapped to Narrative Statement](#observation-fields-mapped-to-narrative-statement) above. If none of
+9. `NarrativeStatement` components are created for each of the fields stated in [Observation Fields mapped to Narrative Statement](#observation-fields-mapped-to-narrative-statement) above. If none of
    these fields are present, and no [Filing Comments](#filing-comment-json-fhir--xml-hl7) are present the `NarrativeStatement` will be omitted.
 
 ### Narrative statement mapping for Test Group Header and Test Result
@@ -1336,7 +1337,7 @@ is described in [Narrative statement mapping for Test Group Header and Test Resu
 | effectiveTime                         | `Observation.effectiveDateTime` or else `Observation.effectivePeriod`                                                                                                                                                                                     |
 | availabilityTime                      | `Observation.effectiveDateTime` or else `Observation.effectivePeriod.start`                                                                                                                                                                               |
 | component / ObservationStatement      | The Observation Statement as mapped above                                                                                                                                                                                                                 |
-| component / NarrativeStatement        | Mapped from `Observation` as outlined in [Narrative statement mapping for Test Group Header and Test Result](#narrative-statement-mapping-for-test-group-header-and-test-result) <sup>8</sup> and [Filing Comments](#filing-comment-json-fhir--xml-hl7)   |
+| component / NarrativeStatement        | Mapped from `Observation` as outlined in [Narrative statement mapping for Test Group Header and Test Result](#narrative-statement-mapping-for-test-group-header-and-test-result) <sup>9</sup> and [Filing Comments](#filing-comment-json-fhir--xml-hl7)   |
 
 <details>
 <summary>Example XML</summary>
@@ -1394,7 +1395,7 @@ to `NarrativeStatements` and inserted as components of the Test Group Header / T
 |----------------------------------------|------------------------------------------------------------------------------------------------------------------|
 | id \[@root]                            | Unique ID generated by the adaptor                                                                               |
 | text \[@mediaType]                     | fixed value = `"text/x-h7uk-pmip"`                                                                               | 
-| text                                   | EDIFACT comment type of USER COMMENT where the comment body is mapped from `Observation.comment` <sup>9</sup>    |
+| text                                   | EDIFACT comment type of USER COMMENT where the comment body is mapped from `Observation.comment` <sup>10</sup>    |
 | availabilityTime                       | `Observation.effectiveDateTime` or else `Observation.effectivePeriod.start`                                      |
 
 <details>
@@ -1414,7 +1415,7 @@ CommentDate:20100326134545
 ```
 </details>
 
-9. If there is more than one filing comment for a given Observation, the comments are seperated by newlines and appended to the EDIFACT comment body.
+10. If there is more than one filing comment for a given Observation, the comments are seperated by newlines and appended to the EDIFACT comment body.
 
 ## Further documentation
 
