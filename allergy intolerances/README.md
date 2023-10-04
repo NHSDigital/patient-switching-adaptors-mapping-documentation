@@ -16,7 +16,7 @@ the `compoundStatement` has a code of `SN53.00` or `14L..00` from Read Codes ver
 | clinicalStatus                                  | fixed value = `active`                                                                                                                                                                   |
 | verificationStatus                              | fixed value = `unconfirmed`                                                                                                                                                              |
 | category\[0]                                    | fixed value = `medication` if `CompoundStatement / code [@code] == 14L..00` otherwise fixed value = `environment`                                                                        |
-| code                                            | Mapped from `ObservationStatement / value` or `ObservationStatement / code` <sup>1</sup> as described in the XML > FHIR section of [Codeable Concept](../codeable%20concept/README.md)   |
+| code                                            | Mapped from `ObservationStatement / value` or `ObservationStatement / code` <sup>1</sup> as described in the XML > FHIR section of [Codeable Concept](../codeable%20concept/README.md). <sup>2</sup>    |
 | patient                                         | reference to the mapped [Patient](../patient/README.md)                                                                                                                                  |
 | onsetDateTime                                   | `CompoundStatement / effectiveTime / low [@value]`                                                                                                                                       |
 | assertedDate                                    | `CompoundStatement / availabilityTime [@value]`                                                                                                                                          |
@@ -25,7 +25,8 @@ the `compoundStatement` has a code of `SN53.00` or `14L..00` from Read Codes ver
 | note\[0].text                                   | `ObservationStatement / pertinentInformation / pertinentAnnotation / text`                                                                                                               |
 
 1. Where a valid SNOMED code isn't provided, a value of Transfer-degraded non-drug allergy (196471000000108), 
-or Transfer-degraded drug allergy (196461000000101) is inserted by the adaptor instead
+or Transfer-degraded drug allergy (196461000000101) is inserted by the adaptor instead.
+2. `code.text` will be set from the `ObservationStatement / value [@displayName]` when this is present. 
 
 ### Unmapped fields
 
