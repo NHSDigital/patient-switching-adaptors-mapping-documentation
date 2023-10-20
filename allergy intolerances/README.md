@@ -133,7 +133,7 @@ An Allergy Intolerance is mapped to a CompoundStatement with inner ObservationSt
 | ObservationStatement / availabilityTime                                      | `AllergyIntolerance.assertedDate`                                                                            |
 | ObservationStatement / pertinentInformation / pertinentAnnotation / text     | `AllergyIntolerance.note\[0].text`                                                                           |
 | ObservationStatement / Participant \[@typeCode=AUT] / agentRef / id \[@root] | `AllergyIntolerance.recorder`                                                                                |
-| ObservationStatement / Participant \[@typeCode=PRF] / agentRef / id \[@root] | `AllergyIntolerance.asserter` or `AllergyIntolerance.recorder`                                               |            
+| ObservationStatement / Participant \[@typeCode=PRF] / agentRef / id \[@root] | `AllergyIntolerance.asserter` or `AllergyIntolerance.recorder`                                               |
 
 <details><summary>Example XML</summary>
 
