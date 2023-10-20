@@ -20,8 +20,8 @@ the `compoundStatement` has a code of `SN53.00` or `14L..00` from Read Codes ver
 | patient                                         | reference to the mapped [Patient](../patient/README.md)                                                                                                                                  |
 | onsetDateTime                                   | `CompoundStatement / effectiveTime / low [@value]`                                                                                                                                       |
 | assertedDate                                    | `CompoundStatement / availabilityTime [@value]`                                                                                                                                          |
-| recorder                                        | reference to the mapped [Practitioner](../practioners/README.md)                                                                                                                         |
-| asserter                                        | reference to the mapped [Practitioner](../practioners/README.md)                                                                                                                         |
+| recorder                                        | reference to the mapped [Practitioner](../practitioners/README.md)                                                                                                                         |
+| asserter                                        | reference to the mapped [Practitioner](../practitioners/README.md)                                                                                                                         |
 | note\[0].text                                   | `ObservationStatement / pertinentInformation / pertinentAnnotation / text`                                                                                                               |
 
 1. Where a valid SNOMED code isn't provided, a value of Transfer-degraded non-drug allergy (196471000000108), 
@@ -101,7 +101,7 @@ The following Allergy Intolerance fields are not currently populated by the adap
         "onsetDateTime": "2010-01-13",
         "assertedDate": "2010-01-13",
         "recorder": {
-            "reference": "Practitioner/3707E1F0-9011-11EC-B1E5-0800200C9A66"
+            "reference": "Practitioner/9F2ABD26-1682-FDFE-1E88-19673307C67A"
         },
         "asserter": {
             "reference": "Practitioner/3707E1F0-9011-11EC-B1E5-0800200C9A66"
@@ -133,7 +133,7 @@ An Allergy Intolerance is mapped to a CompoundStatement with inner ObservationSt
 | ObservationStatement / availabilityTime                                      | `AllergyIntolerance.assertedDate`                                                                            |
 | ObservationStatement / pertinentInformation / pertinentAnnotation / text     | `AllergyIntolerance.note\[0].text`                                                                           |
 | ObservationStatement / Participant \[@typeCode=AUT] / agentRef / id \[@root] | `AllergyIntolerance.recorder`                                                                                |
-| ObservationStatement / Participant \[@typeCode=PRF] / agentRef / id \[@root] | `AllergyIntolerance.asserter` or `AllergyIntolerance.recorder`                                               |
+| ObservationStatement / Author \[@typeCode=AUT] / agentRef / id \[@root]      | `AllergyIntolerance.asserter` -> value from Author field otherwise take it from Participant field            |
 
 <details><summary>Example XML</summary>
 
@@ -164,6 +164,12 @@ An Allergy Intolerance is mapped to a CompoundStatement with inner ObservationSt
 						<text>Status: Active This is a note</text>
 					</pertinentAnnotation>
 				</pertinentInformation>
+				<author typeCode="AUT" contextControlCode="OP">
+                    <time value="20231004123014" />
+                    <agentRef classCode="AGNT">
+                      <id root="E7E7B550-09EF-BE85-C20F-34598014166C" />
+                    </agentRef>
+                </author>
 				<Participant typeCode="AUT" contextControlCode="OP">
 					<agentRef classCode="AGNT">
 						<id root="0BA5C685-D2AA-4E82-8857-484CC3B2CCD8"/>
