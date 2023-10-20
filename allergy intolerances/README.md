@@ -165,11 +165,11 @@ An Allergy Intolerance is mapped to a CompoundStatement with inner ObservationSt
 					</pertinentAnnotation>
 				</pertinentInformation>
 				<author typeCode="AUT" contextControlCode="OP">
-                    <time value="20231004123014" />
-                    <agentRef classCode="AGNT">
-                      <id root="E7E7B550-09EF-BE85-C20F-34598014166C" />
-                    </agentRef>
-                </author>
+					<time value="20231004123014" />
+					<agentRef classCode="AGNT">
+						<id root="E7E7B550-09EF-BE85-C20F-34598014166C" />
+					</agentRef>
+				</author>
 				<Participant typeCode="AUT" contextControlCode="OP">
 					<agentRef classCode="AGNT">
 						<id root="0BA5C685-D2AA-4E82-8857-484CC3B2CCD8"/>
