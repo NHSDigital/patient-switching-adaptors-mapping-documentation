@@ -22,7 +22,8 @@ the `compoundStatement` has a code of `SN53.00` or `14L..00` from Read Codes ver
 | assertedDate                                    | `CompoundStatement / availabilityTime [@value]`                                                                                                                                                      |
 | recorder                                        | reference to the mapped [Practitioner](../practitioners/README.md)                                                                                                                                   |
 | asserter                                        | Mapped from 'ObservationStatement / Author' field otherwise (if 'Author' value is not provided) take it from Participant field, reference to the mapped [Practitioner](../practitioners/README.md)   |
-| note\[0].text                                   | `ObservationStatement / pertinentInformation / pertinentAnnotation / text`                                                                                                                           |
+| note.text\[0]                                  | `ObservationStatement / pertinentInformation / pertinentAnnotation / text`                                                                                                                           |
+| note.text\[1]                                   | `"Episodicity : "` + `ObservationStatement / code / qualifer / name / text [@displayName]` + `ObservationStatement / code / qualifer / name / text / originalText`, where present |
 
 1. Where a valid SNOMED code isn't provided, a value of Transfer-degraded non-drug allergy (196471000000108), 
 or Transfer-degraded drug allergy (196461000000101) is inserted by the adaptor instead.
