@@ -34,4 +34,4 @@ the following method of mapping has been used.
 | code \[@displayName] <sup>5</sup> | `coding.extension[index].value` where `coding.extension[index].url` equals `"descriptionDisplay"` or else `coding.display`                       |
 | code / originalText               | `coding.text` or else `coding.display` or else `coding.extension[index].value` where `coding.extension[index].url` equals `"descriptionDisplay"` |
 
-2. If no SNOMED code is present, the code element will only have the attribute `nullFlavor="UNK"` i.e. unknown.   
+5. If no SNOMED code is present, the code element will only have the attribute `nullFlavor="UNK"` i.e. unknown.   
