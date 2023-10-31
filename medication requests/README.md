@@ -216,7 +216,7 @@ If `EhrSupplyDiscontinue` exists and `EhrSupplyDiscontinue / availabilityTime [@
 17. When there are no `ehrSupplyDiscontinue / pertinentInformation / pertinentSupplyAnnotation / text` present then a value of `"No information available"` is added instead 
 
 <details>
-    <summary>Example JSON for Order</summary>
+    <summary>Example JSON for Plan</summary>
 
 ```
 {
