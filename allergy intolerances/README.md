@@ -5,29 +5,30 @@
 An `AllergyIntolerance` is mapped from a `CompoundStatement` with an `ObservationStatement` component as a child. Where 
 the `compoundStatement` has a code of `SN53.00` or `14L..00` from Read Codes version 2 (`2.16.840.1.113883.2.1.6.2`).   
 
-| Mapped to (JSON FHIR Allergy Intolerance field) | Mapped from (XML HL7 / other source)                                                                                                                                                                 |
-| ----------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| id                                              | `ObservationStatement / id [@root] `                                                                                                                                                                 |
-| meta.profile\[0]                                | fixed value = `"https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-AllergyIntolerance-1"`                                                                                                  |
-| extension[0].url                                | fixed value = `http://hl7.org/fhir/StructureDefinition/encounter-associatedEncounter`                                                                                                                |
-| extension[0].valueReference.reference           | reference to the associated [Encounter](../encounters/README.md)                                                                                                                                     |
-| identifier\[0].system                           | `"https://PSSAdaptor/{{losingOdsCode}}"` - where the `{{losingOdsCode}}` is the ODS code of the losing practice                                                                                      |
-| identifier\[0].value                            | `ObservationStatement / id [@root]`                                                                                                                                                                  |
-| clinicalStatus                                  | fixed value = `active`                                                                                                                                                                               |
-| verificationStatus                              | fixed value = `unconfirmed`                                                                                                                                                                          |
-| category\[0]                                    | fixed value = `medication` if `CompoundStatement / code [@code] == 14L..00` otherwise fixed value = `environment`                                                                                    |
-| code                                            | Mapped from `ObservationStatement / value` or `ObservationStatement / code` <sup>1</sup> as described in the XML > FHIR section of [Codeable Concept](../codeable%20concept/README.md). <sup>2</sup> |
-| patient                                         | reference to the mapped [Patient](../patient/README.md)                                                                                                                                              |
-| onsetDateTime                                   | `CompoundStatement / effectiveTime / low [@value]`                                                                                                                                                   |
-| assertedDate                                    | `CompoundStatement / availabilityTime [@value]`                                                                                                                                                      |
-| recorder                                        | reference to the mapped [Practitioner](../practitioners/README.md)                                                                                                                                   |
-| asserter                                        | Mapped from 'ObservationStatement / Author' field otherwise (if 'Author' value is not provided) take it from Participant field, reference to the mapped [Practitioner](../practitioners/README.md)   |
-| note.text\[0]                                   | `ObservationStatement / pertinentInformation / pertinentAnnotation / text`                                                                                                                           |
-| note.text\[1]                                   | `"Episodicity : "` + `ObservationStatement / code / qualifer / name / text [@displayName]` + `ObservationStatement / code / qualifer / name / text / originalText`, where present                    |
+| Mapped to (JSON FHIR Allergy Intolerance field) | Mapped from (XML HL7 / other source)                                                                                                                                                                                 |
+| ----------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| id                                              | `ObservationStatement / id [@root] `                                                                                                                                                                                 |
+| meta.profile\[0]                                | fixed value = `"https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-AllergyIntolerance-1"`                                                                                                                  |
+| extension[0].url                                | fixed value = `http://hl7.org/fhir/StructureDefinition/encounter-associatedEncounter`                                                                                                                                |
+| extension[0].valueReference.reference           | reference to the associated [Encounter](../encounters/README.md)                                                                                                                                                     |
+| identifier\[0].system                           | `"https://PSSAdaptor/{{losingOdsCode}}"` - where the `{{losingOdsCode}}` is the ODS code of the losing practice                                                                                                      |
+| identifier\[0].value                            | `ObservationStatement / id [@root]`                                                                                                                                                                                  |
+| clinicalStatus                                  | fixed value = `active`                                                                                                                                                                                               |
+| verificationStatus                              | fixed value = `unconfirmed`                                                                                                                                                                                          |
+| category\[0]                                    | fixed value = `medication` if `CompoundStatement / code [@code] == 14L..00` otherwise fixed value = `environment`                                                                                                    |
+| code                                            | Mapped from `ObservationStatement / value` or `ObservationStatement / code` <sup>1</sup> as described in the XML > FHIR section of [Codeable Concept](../codeable%20concept/README.md). <sup>2</sup>                 |
+| patient                                         | reference to the mapped [Patient](../patient/README.md)                                                                                                                                                              |
+| onsetDateTime                                   | `CompoundStatement / effectiveTime / low [@value]`                                                                                                                                                                   |
+| assertedDate                                    | `CompoundStatement / availabilityTime [@value]`                                                                                                                                                                      |
+| recorder                                        | reference to the mapped [Practitioner](../practitioners/README.md)                                                                                                                                                   |
+| asserter                                        | Mapped from 'ObservationStatement / Author' field otherwise (if 'Author' value is not provided) take it from Participant field, reference to the mapped [Practitioner](../practitioners/README.md)                   |
+| note.text\[0]                                   | `ObservationStatement / pertinentInformation / pertinentAnnotation / text`                                                                                                                                           |
+| note.text\[1]                                   | `"Episodicity : code={[@code]}, displayName={[@displayName]}, originalText={originalText}"` Where the values in `{}` are extracted from `ObservationStatement / code / qualifer / name`, when present. <sup>3></sup> |
 
 1. Where a valid SNOMED code isn't provided, a value of Transfer-degraded non-drug allergy (196471000000108), 
 or Transfer-degraded drug allergy (196461000000101) is inserted by the adaptor instead.
 2. `code.text` will be set from the `ObservationStatement / value [@displayName]` when this is present. 
+3. Where an `originalText` element is not present in the HL7, then the note will contain `"Episodicity : code=..., displayName=..."`.
 
 ### Unmapped fields
 
@@ -110,6 +111,9 @@ The following Allergy Intolerance fields are not currently populated by the adap
         "note": [
             {
                 "text": "Drug Allergy - Apsrin"
+            },
+            {
+                "text": "Episodicity : code=255217005, displayName=First"
             }
         ]
     }
