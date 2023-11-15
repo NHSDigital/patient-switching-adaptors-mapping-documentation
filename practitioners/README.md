@@ -9,6 +9,8 @@ The FHIR `Practitioner` and `PractitionerRole` resources are mapped from the HL7
 | Mapped to (JSON FHIR Practitioner resource field) | Mapped from (XML HL7 / other)                                                                 |
 |---------------------------------------------------|-----------------------------------------------------------------------------------------------|
 | id                                                | `Agent / id [@root]`                                                                          |
+| identifier\[0].value                              | `Agent / id [@extension] `                                                                    |
+| identifier\[0].system                             | `https://fhir.hl7.org.uk/Id/gmp-number`                                                       |
 | meta.profile\[0]                                  | fixed value = `"https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Practitioner-1"` |
 | name\[0].use                                      | fixed value = `official`                                                                      |
 | name\[0].family                                   | `Agent / AgentPerson / name / family` or else `"unknown"`                                     |
@@ -39,7 +41,11 @@ The FHIR `Practitioner` and `PractitionerRole` resources are mapped from the HL7
                     "Dr"
                 ]
             }
-        ]
+        ],
+        "identifier": [ {
+          "system": "https://fhir.hl7.org.uk/Id/gmp-number",
+          "value": "112233"
+        } ]
     }
 }
 ```
@@ -56,7 +62,6 @@ The following `Practitioner` fields are not currently populated by the adaptor:
 - contained
 - extension
 - modifierExtension
-- identifier
 - active
 - name.id
 - name.text
