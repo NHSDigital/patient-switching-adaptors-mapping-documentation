@@ -85,6 +85,9 @@ A `PractionerRole` resource will only be added if the HL7 `AgentPerson` has an a
 | practitioner.reference                                | Reference to the mapped Practitioner (see above)                                                          |
 | organization.reference                                | Reference to the [Organisation](../organisations/README.md) mapped from `Agent / representedOrganization` |
 | code\[0].text                                         | `Agent / code / orginalText` or else `Agent / code [@displayName]`                                        |
+| code\[0]\coding.code                                  | `Agent / code / code`                                                                                     |
+| code\[0]\coding.codeSystem                            | `Agent / code / system`                                                                                   |
+| code\[0]\coding.displayName                           | `Agent / code / display`                                                                                  |
 
 <details>
     <summary>Example JSON</summary>
@@ -105,11 +108,13 @@ A `PractionerRole` resource will only be added if the HL7 `AgentPerson` has an a
         "organization": {
             "reference": "Organization/94F00D99-0601-4A8E-AD1D-1B564307B0A6-ORG"
         },
-        "code": [
-            {
-                "text": "General Medical Practitioner"
-            }
-        ]
+        "code": [ {
+        "coding": [ {
+          "code": "309394004",
+          "display": "General Practitioner Principal"
+        } ],
+        "text": "Partner"
+      } ]
     }
 }
 ```
@@ -134,7 +139,6 @@ The following `PractitionerRole` fields are not currently populated by the adapt
 - organization.identifier
 - organization.display
 - code.id
-- code.coding
 - specialty
 - location
 - healthcareService
