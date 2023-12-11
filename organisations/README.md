@@ -13,7 +13,9 @@ or an `AgentPerson` with an associated `representedOrganization`.
 | identifier\[0].system                             | fixed value = `"https://fhir.nhs.uk/Id/ods-organization-code"`                              |   
 | identifier\[0].value                              | `Agent / agentOrganization / id [@root]`                                                    |
 | name                                              | `Agent / agentOrganization / name`                                                          | 
-| type\[0].text                                     | `Agent / code / originalText` or `Agent / code [@displayName]`                              |
+| type\[0].coding\code                              | `Agent / code / code`                                                                       |
+| type\[0].coding\system                            | `Agent / code / codeSystem`                                                                 |
+| type\[0].coding\display                           | `Agent / code / displayName`                                                                |
 | address\[0].use                                   | fixed value = `"work"`                                                                      |
 | address\[0].type                                  | fixed value = `"physical"`                                                                  |
 | address\[0].line[]                                | `Agent / agentOrganization / addr / streetAddressLine` <sup>1</sup>                         |
@@ -42,11 +44,13 @@ or an `AgentPerson` with an associated `representedOrganization`.
                 "value": "A86005"
             }
         ],
-        "type": [
-            {
-                "text": "Other person"
-            }
-        ],
+        "type": [ {
+           "coding": [ {
+             "system": "394745000",
+             "code": "2.16.840.1.113883.2.1.3.2.4.15",
+             "display": "General practice (organisation)"
+           } ]
+        } ],
         "name": "West Farm Surgery",
         "telecom": [
             {
@@ -197,7 +201,6 @@ The following Organisation fields are not currently populated by the adaptor:
 - identifier.assigner
 - active
 - type.id
-- type.coding
 - alias
 - telecom.id
 - telecom.period
