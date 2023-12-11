@@ -1,6 +1,14 @@
-# integration-adaptors-mappings-documentation
+# GP2GP Sending and Receiving adaptor mappings
 
-This repository contains the documentation required for assurance to explain how the [GP2GP Adaptor](https://github.com/nhsconnect/integration-adaptor-gp2gp) and [Patient Switching Adaptor](https://github.com/NHSDigital/nia-patient-switching-standard-adaptor) map data resources for HL7 to FHIR and FHIR to HL7. These resources include the following...
+This repository contains documentation explaining how the [GP2GP Adaptor][gp2gp_adaptor] and [Patient Switching Adaptor][ps_adaptor] map data resources between [HL7 GP2GP representation][mim] to [FHIR GP Connect representation][gpconnect] and vice versa.
+
+[gp2gp_adaptor]: https://github.com/nhsconnect/integration-adaptor-gp2gp
+[ps_adaptor]: https://github.com/NHSDigital/nia-patient-switching-standard-adaptor
+[mim]: https://data.developer.nhs.uk/dms/mim/4.2.00/Domains/GP2GP/Tabular%20View/RCMR_RM030000UK04.htm
+[gpconnect]: https://developer.nhs.uk/apis/gpconnect-1-6-0/accessrecord_structured_development_migrate_patient_record.html
+
+
+## Table of contents
 
 * [Patient](https://github.com/NHSDigital/patient-switching-adaptors-mapping-documentation/tree/main/patient)
 * [Organisations](https://github.com/NHSDigital/patient-switching-adaptors-mapping-documentation/tree/main/organisations)
