@@ -78,13 +78,13 @@ The following `Practitioner` fields are not currently populated by the adaptor:
 
 A `PractionerRole` resource will only be added if the HL7 `AgentPerson` has an associated `representedOrganization`.
 
-| Mapped to (JSON FHIR PractitionerRole resource field) | Mapped from (XML HL7 / other)                                                                             |
-|-------------------------------------------------------|-----------------------------------------------------------------------------------------------------------|
-| id                                                    | `Agent / id [@root]` appended with `-PR`                                                                  |
-| meta                                                  | fixed value = `"https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-PractitionerRole-1"`         |
-| practitioner.reference                                | Reference to the mapped Practitioner (see above)                                                          |
-| organization.reference                                | Reference to the [Organisation](../organisations/README.md) mapped from `Agent / representedOrganization` |
-| code\[0].text                                         | `Agent / code / orginalText` or else `Agent / code [@displayName]`                                        |
+| Mapped to (JSON FHIR PractitionerRole resource field) | Mapped from (XML HL7 / other)                                                                                 |
+|-------------------------------------------------------|---------------------------------------------------------------------------------------------------------------|
+| id                                                    | `Agent / id [@root]` appended with `-PR`                                                                      |
+| meta                                                  | fixed value = `"https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-PractitionerRole-1"`             |
+| practitioner.reference                                | Reference to the mapped Practitioner (see above)                                                              |
+| organization.reference                                | Reference to the [Organisation](../organisations/README.md) mapped from `Agent / representedOrganization`     |
+| code                                                  | `Agent / code`  as described in the XML > FHIR section of [Codeable Concept](../codeable%20concept/README.md) |
 
 <details>
     <summary>Example JSON</summary>
@@ -107,7 +107,14 @@ A `PractionerRole` resource will only be added if the HL7 `AgentPerson` has an a
         },
         "code": [
             {
-                "text": "General Medical Practitioner"
+                "coding": [
+                    {
+                        "system": "http://snomed.info/sct",
+                        "code": "309394004",
+                        "display": "General Practitioner Principal"
+                    }
+                ],
+                "text": "Partner"
             }
         ]
     }

@@ -6,22 +6,22 @@ Organisations are generated from the HL7v3 Agent Directory entries which represe
 or an `AgentPerson` with an associated `representedOrganization`.
 
 ### AgentOrganisation
-| Mapped to (JSON FHIR Organisation resource field) | Mapped from (XML HL7 / other)                                                               |
-|---------------------------------------------------|---------------------------------------------------------------------------------------------|
-| id                                                | `Agent / id [@root]`                                                                        |
-| meta.profile\[0]                                  | fixed value = `https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Organization-1` |
-| identifier\[0].system                             | fixed value = `"https://fhir.nhs.uk/Id/ods-organization-code"`                              |   
-| identifier\[0].value                              | `Agent / agentOrganization / id [@root]`                                                    |
-| name                                              | `Agent / agentOrganization / name`                                                          | 
-| type\[0].text                                     | `Agent / code / originalText` or `Agent / code [@displayName]`                              |
-| address\[0].use                                   | fixed value = `"work"`                                                                      |
-| address\[0].type                                  | fixed value = `"physical"`                                                                  |
-| address\[0].line[]                                | `Agent / agentOrganization / addr / streetAddressLine` <sup>1</sup>                         |
-| address\[0].postalCode                            | `Agent / agentOrganization / addr / postalCode`                                             |
-| telecom\[0].system                                | fixed value = `"phone"`                                                                     |
-| telecom\[0].use                                   | fixed value = `"work"`                                                                      |
-| telecom\[0].rank                                  | fixed value = `1`                                                                           |
-| telecom\[0].value                                 | `Agent / agentOrganization / telecom[0] [@value]`                                           |
+| Mapped to (JSON FHIR Organisation resource field) | Mapped from (XML HL7 / other)                                                                                |
+|---------------------------------------------------|--------------------------------------------------------------------------------------------------------------|
+| id                                                | `Agent / id [@root]`                                                                                         |
+| meta.profile\[0]                                  | fixed value = `https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Organization-1`                  |
+| identifier\[0].system                             | fixed value = `"https://fhir.nhs.uk/Id/ods-organization-code"`                                               |   
+| identifier\[0].value                              | `Agent / agentOrganization / id [@root]`                                                                     |
+| name                                              | `Agent / agentOrganization / name`                                                                           | 
+| type                                              | `Agent / code` as described in the XML > FHIR section of [Codeable Concept](../codeable%20concept/README.md) |
+| address\[0].use                                   | fixed value = `"work"`                                                                                       |
+| address\[0].type                                  | fixed value = `"physical"`                                                                                   |
+| address\[0].line[]                                | `Agent / agentOrganization / addr / streetAddressLine` <sup>1</sup>                                          |
+| address\[0].postalCode                            | `Agent / agentOrganization / addr / postalCode`                                                              |
+| telecom\[0].system                                | fixed value = `"phone"`                                                                                      |
+| telecom\[0].use                                   | fixed value = `"work"`                                                                                       |
+| telecom\[0].rank                                  | fixed value = `1`                                                                                            |
+| telecom\[0].value                                 | `Agent / agentOrganization / telecom[0] [@value]`                                                            |
 
 <details>
 <summary>Example JSON</summary>
@@ -44,7 +44,13 @@ or an `AgentPerson` with an associated `representedOrganization`.
         ],
         "type": [
             {
-                "text": "Other person"
+                "coding": [
+                    {
+                        "system": "http://snomed.info/sct",
+                        "code": "394745000",
+                        "display": "General practice (organisation)"
+                    }
+                ]
             }
         ],
         "name": "West Farm Surgery",
