@@ -12,7 +12,7 @@ A Procedure Request is mapped primarily from a PlanStatement.
 | id                                             | ` PlanStatement / id \[@root] `                                                                                                                  |
 | status                                         | fixed value = `"active"`                                                                                                                         |
 | intent                                         | fixed value = `"plan"`                                                                                                                           |
-| authoredOn                                     | ` PlanStatement / availabilityTime \[@value] ` or ` EhrComposition / availabilityTime \[@value] ` or ` EhrExtract / availabilityTime \[@value] ` |
+| authoredOn                                     | ` PlanStatement / availabilityTime \[@value] ` or ` EhrComposition / availabilityTime \[@value] ` or `EhrComposition / author / time \[@value]`  |
 | occurrenceDateTime                             | ` PlanStatement / effectiveTime / center \[@value] `                                                                                             |
 | subject                                        | reference to the mapped [Patient](../patient/README.md)                                                                                          |
 | note                                           | ` PlanStatement / text `                                                                                                                         |
