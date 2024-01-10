@@ -4,25 +4,26 @@
 
 An Immunization is mapped from a ObservationStatement.
 
-| Mapped to (JSON FHIR Immunization field)   | Mapped from (XML HL7 / other source)                                                                                                                 |
-|--------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
-| id                                         | `ObservationStatement / id / [root]`                                                                                                                 |
-| meta.profile                               | fixed value = `https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Immunization-1`                                                          |
-| extension\[0].url                          | fixed value = `https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-VaccinationProcedure-1`                                        |
-| extension\[0].valueCodeableConcept.text    | `ObservationStatement / code / displayname`                                                                                                          |
-| extension\[1].url                          | fixed value = `https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-DateRecorded-1`                                                |
-| extension\[1].valueDateTime                | `ehrComposition / author / time [@value]` or `ehrComposition / availabilityTime [@value]`                                                            |
-| identifier\[0].system                      | "https://PSSAdaptor/{{losingOdsCode}}" - where the {{losingOdsCode}} is the ODS code of the losing practice                                          |
-| identifier\[0].value \[@root]              | `ObservationStatement / id`                                                                                                                          |
-| status                                     | fixed value = `COMPLETED`                                                                                                                            |
-| notGiven                                   | fixed boolean value = `false`                                                                                                                        |
-| patient.reference                          | reference to the mapped [patient](../patient/README.md)                                                                                              |
-| encounter.reference                        | reference to the associated [encounter](../encounters/README.md)                                                                                     |
-| date                                       | `ObservationStatement / effectiveTime / center` or else `ObservationStatement / effectiveTime / low` or else `ObservationStatement.availabilityTime` |
-| primarySource                              | fixed boolean value = `false`                                                                                                                        |
-| practitioner.actor.reference               | `ObservationStatement / Participant / typeCode / agentRef / id [@root]`                                                                              |
-| note\[0].text                              | `ObservationStatement / pertiinentInformation / pertiantAnnotation / text` - Built from multiple                                                     |
-| note\[1].text\[1]                          | `ObservationStatement / effectiveTime / high` prepended with End Date:                                                                               |
+| Mapped to (JSON FHIR Immunization field)  | Mapped from (XML HL7 / other source)                                                                                                                 |
+|-------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
+| id                                        | `ObservationStatement / id / [root]`                                                                                                                 |
+| meta.profile                              | fixed value = `https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Immunization-1`                                                          |
+| extension\[0].url                         | fixed value = `https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-VaccinationProcedure-1`                                        |
+| extension\[0].valueCodeableConcept.text   | `ObservationStatement / code / displayname`                                                                                                          |
+| extension\[1].url                         | fixed value = `https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-DateRecorded-1`                                                |
+| extension\[1].valueDateTime               | `ehrComposition / author / time [@value]` or `ehrComposition / availabilityTime [@value]`                                                            |
+| identifier\[0].system                     | "https://PSSAdaptor/{{losingOdsCode}}" - where the {{losingOdsCode}} is the ODS code of the losing practice                                          |
+| identifier\[0].value \[@root]             | `ObservationStatement / id`                                                                                                                          |
+| status                                    | fixed value = `COMPLETED`                                                                                                                            |
+| notGiven                                  | fixed boolean value = `false`                                                                                                                        |
+| patient.reference                         | reference to the mapped [patient](../patient/README.md)                                                                                              |
+| encounter.reference                       | reference to the associated [encounter](../encounters/README.md)                                                                                     |
+| date                                      | `ObservationStatement / effectiveTime / center` or else `ObservationStatement / effectiveTime / low` or else `ObservationStatement.availabilityTime` |
+| primarySource                             | fixed boolean value = `false`                                                                                                                        |
+| practitioner.actor.reference              | `ObservationStatement / Participant / typeCode / agentRef / id [@root]`                                                                              |
+| practitioner.role                         | `EP` type code or null                                                                                                                               |
+| note\[0].text                             | `ObservationStatement / pertiinentInformation / pertiantAnnotation / text` - Built from multiple                                                     |
+| note\[1].text\[1]                         | `ObservationStatement / effectiveTime / high` prepended with End Date:                                                                               |
 
 <details>
     <summary>Example JSON</summary>
@@ -67,7 +68,10 @@ An Immunization is mapped from a ObservationStatement.
          "primarySource": false,
          "practitioner": [
              {
-                 "actor": {
+               "role": {
+                 "text": "EP"
+               },
+               "actor": {
                      "reference": "Practitioner/9C1610C2-5E48-4ED5-882B-5A4A172AFA35"
                  }
              }
@@ -110,7 +114,6 @@ The following Immunization fields are not currently populated by the adaptor:
 - reported
 - doseStatusReason
 - route
-- practitioner.role
 
 
 ## XML HL7 > JSON FHIR
