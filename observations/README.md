@@ -172,7 +172,7 @@ known as a "blood pressure triple", where the SNOMED codes identify them as a bl
 | component\[index].referenceRange\[index].text       | `ObservationStatement / referenceRange[index] / referenceInterpretationRange / text`                                                                        |
 | component\[index].referenceRange\[index].high.value | `ObservationStatement / referenceRange\[index] / referenceInterpretationRange / value / high`                                                               |
 | component\[index].referenceRange\[index].low.value  | `ObservationStatement / referenceRange\[index] / referenceInterpretationRange / value / low`                                                                |
-| comment                                             | concatenated from each `ObservationStatement / pertinentInformation / pertinentAnnotation / text` <sup>6</sup> and `NarrativeStatement / text` <sup>7</sup> |
+| comment                                             | concatenated from each `ObservationStatement / pertinentInformation / pertinentAnnotation / text` <sup>6</sup> and `NarrativeStatement / text` <sup>7</sup><br>Qualifiers such as episodicity (SNOMED 288526004) may be added, wrapped in curly brackets. |
 
 <details>
 <summary>Example JSON</summary>
@@ -276,7 +276,8 @@ known as a "blood pressure triple", where the SNOMED codes identify them as a bl
           "unit": "mmHg"
         }
       }
-    ]
+    ],
+    "comment": "{Episodicity : code=255217005, displayName=First}"
   }
 }
 ```
