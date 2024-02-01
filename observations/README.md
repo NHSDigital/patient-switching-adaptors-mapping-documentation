@@ -424,7 +424,7 @@ the parent compound statements are deemed to from a [Diagnostic Report](../diagn
 | comment                                          | concatenated with newlines from child `NarrativeStatement / text` where the EDIFACT comment type is not `USER COMMENT`            |
 | specimen.reference                               | reference to the [Specimen](../diagnostic%20reports/README.md)                                                                    |
 | related\[index].type                             | fixed value = `"has-member"`                                                                                                      |
-| related\[index].target.reference                 | reference to component [Test Result](#test-result-xml-hl7--json-fhir) or [Filing Comment](#filing-comment-xml-hl7--json-fhir)     |
+| related\[index].target.reference                 | reference to component [Test Result](#test-result-xml-hl7--json-fhir)                                                             |
 
 <details>
 <summary>Example JSON</summary>
@@ -511,7 +511,7 @@ Except for the fields outlined below, Test Result observations are mapped identi
 |--------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------|
 | comment                                          | concatenated with newlines from child `NarrativeStatement / text` where the EDIFACT comment type is not `USER COMMENT`                           | 
 | related\[index].type                             | fixed value = `"derived-from"` or fixed value = `"has-member"`                                                                                   |
-| related\[index].target.reference                 | reference to the parent [Test Group Header](#test-group-header-xml-hl7--json-fhir) or child [Filing Comment](#filing-comment-xml-hl7--json-fhir) |
+| related\[index].target.reference                 | reference to the parent [Test Group Header](#test-group-header-xml-hl7--json-fhir)                                                               |
 | specimen.reference                               | reference to the [Specimen](../diagnostic%20reports/README.md)                                                                                   |
 | category\[0].coding\[0].code                     | fixed value = `"laboratory"`                                                                                                                     |
 | category\[0].coding\[0].system                   | fixed value = `"http://hl7.org/fhir/observation-category"`                                                                                       |
@@ -1388,8 +1388,7 @@ ReportStatus: Supplementary result
 
 ### Filing Comment (JSON FHIR > XML HL7)
 
-Where Test Result Headers or Test Results have Observations coded as `Comment Note` referenced in `Observation.related` 
-and `Observation.related.type` equals `has-member`, the referenced `Observation` is a Filing Comment. Filing Comments are mapped
+Where Test Result Headers or Test Results have Observations coded as `Comment Note`, the referenced `Observation` is a Filing Comment. Filing Comments are mapped
 to `NarrativeStatements` and inserted as components of the Test Group Header / Test Result `CompoundStatement`.
 
 | Mapped to (XML HL7 NarrativeStatement) | Mapped from (JSON FHIR / other source )                                                                          |
