@@ -607,7 +607,7 @@ Except for the fields outlined below, Test Result observations are mapped identi
 
 Filing Comment observations are mapped from `NarrativeStatements` where they are components of a 
 Test Group Header / Test Result `CompoundStatement` and the EDIFACT comment type is `USER COMMENT`.
-When the `NarrativeStatement` is a contained with a [Blood Pressure](#blood-pressure-json-fhir--xml-hl7) an additional 
+When the `NarrativeStatement` is contained with a [Blood Pressure](#blood-pressure-json-fhir--xml-hl7) an additional 
 Filing Comment is not created.
 
 | Mapped to (JSON FHIR Observation resource field) | Mapped from (XML HL7 / other)                                                                                                                               |
