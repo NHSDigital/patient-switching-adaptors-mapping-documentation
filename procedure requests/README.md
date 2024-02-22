@@ -4,23 +4,25 @@
 
 A Procedure Request is mapped primarily from a PlanStatement.
 
-| Mapped to (JSON FHIR Document Reference field) | Mapped from (XML HL7 / other source)                                                                                                             |
-|------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------|
-| meta.profile                                   | fixed value = `"https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-ProcedureRequest-1"`                                                |
-| identifier\[0].system                          | `"https://PSSAdaptor/{{losingOdsCode}}"` - where the `{{losingOdsCode}}` is the ODS code of the losing practice                                  |
-| identifier\[0].value                           | ` PlanStatement / id \[@root] `                                                                                                                  |
-| id                                             | ` PlanStatement / id \[@root] `                                                                                                                  |
-| status                                         | fixed value = `"active"`                                                                                                                         |
-| intent                                         | fixed value = `"plan"`                                                                                                                           |
-| authoredOn                                     | ` PlanStatement / availabilityTime \[@value] ` or ` EhrComposition / availabilityTime \[@value] ` or `EhrComposition / author / time \[@value]`  |
-| occurrenceDateTime                             | ` PlanStatement / effectiveTime / center \[@value] `                                                                                             |
-| subject                                        | reference to the mapped [Patient](../patient/README.md)                                                                                          |
-| note                                           | ` PlanStatement / text `                                                                                                                         |
-| requester.agent                                | ` PlanStatement / participant `                                                                                                                  |
-| code                                           | ` PlanStatement / code ` <sup>1</sup> as described in the XML > FHIR section of [Codeable Concept](../codeable%20concept/README.md)              |
-| context                                        | reference to the associated [Encounter](../encounters/README.md)                                                                                 |
+| Mapped to (JSON FHIR Document Reference field) | Mapped from (XML HL7 / other source)                                                                                                          |
+|------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------|
+| meta.profile                                   | fixed value = `"https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-ProcedureRequest-1"`                                             |
+| identifier\[0].system                          | `"https://PSSAdaptor/{{losingOdsCode}}"` - where the `{{losingOdsCode}}` is the ODS code of the losing practice                               |
+| identifier\[0].value                           | ` PlanStatement / id \[@root] `                                                                                                               |
+| id                                             | ` PlanStatement / id \[@root] `                                                                                                               |
+| status                                         | `PlanStatement / text` <sup>1</sup>                                                                                                           |
+| intent                                         | fixed value = `"plan"`                                                                                                                        |
+| authoredOn                                     | ` PlanStatement / availabilityTime \[@value] ` or ` EhrComposition / availabilityTime \[@value] ` or `EhrComposition / author / time \[@value]` |
+| occurrenceDateTime                             | ` PlanStatement / effectiveTime / center \[@value] `                                                                                          |
+| subject                                        | reference to the mapped [Patient](../patient/README.md)                                                                                       |
+| note                                           | ` PlanStatement / text `                                                                                                                      |
+| requester.agent                                | ` PlanStatement / participant `                                                                                                               |
+| code                                           | ` PlanStatement / code ` <sup>2</sup> as described in the XML > FHIR section of [Codeable Concept](../codeable%20concept/README.md)           |
+| context                                        | reference to the associated [Encounter](../encounters/README.md)                                                                              |
 
-1. If the PlanStatement code doesn't have a SNOMED code provided within either the main code, or a translation then the adaptor will use a SNOMED code of 196451000000104.
+1. When `PlanStatement / text` starts with `Status:` the value immediately following this will be mapped to either `active`, `cancelled` or `completed`.
+If `PlanStatement / text` does not start with `Status:` or is not present then the value `unknown` will be used.
+2. If the PlanStatement code doesn't have a SNOMED code provided within either the main code, or a translation then the adaptor will use a SNOMED code of 196451000000104.
 
 ### Unmapped fields
 
