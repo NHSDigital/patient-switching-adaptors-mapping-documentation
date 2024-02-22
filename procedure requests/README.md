@@ -20,7 +20,7 @@ A Procedure Request is mapped primarily from a PlanStatement.
 | code                                           | ` PlanStatement / code ` <sup>2</sup> as described in the XML > FHIR section of [Codeable Concept](../codeable%20concept/README.md)           |
 | context                                        | reference to the associated [Encounter](../encounters/README.md)                                                                              |
 
-1. When `PlanStatement / text` starts with `Status:` the value immediately following this will be mapped to either `active`, `cancelled` or completed.
+1. When `PlanStatement / text` starts with `Status:` the value immediately following this will be mapped to either `active`, `cancelled` or `completed`.
 If `PlanStatement / text` does not start with `Status:` or is not present then the value `unknown` will be used.
 2. If the PlanStatement code doesn't have a SNOMED code provided within either the main code, or a translation then the adaptor will use a SNOMED code of 196451000000104.
 
