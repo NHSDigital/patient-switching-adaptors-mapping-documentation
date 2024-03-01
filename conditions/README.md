@@ -22,7 +22,7 @@ The LinkSet will gather the codes/values/naming conventions from the Ehr Composi
 | context.reference                     | reference to the associated [Encounter](../encounters/README.md)                                                                                       |
 | onsetDateTime                         | `LinkSet / effectiveTime / low [@value]` or else `LinkSet / effectiveTime / center [@value]` or else `LinkSet / availabilitytime [@value]`             |
 | abatementDateTime                     | `LinkSet / effectiveTime / high [@value]`                                                                                                              |
-| assertedDate                          | `ehrComposition / author / time [@value]` or else `EhrExtract / availabilityTime [@value]`                                                             |
+| assertedDate                          | `ehrComposition / author / time [@value]`                                                                                                              |
 | asserter.reference                    | [Practitioner](../practioners/README.md) referenced by `ehrComposition / participant2[0] / agentRef / id [@root]`                                      |
 | note[]                                | Annotations are mapped as described in [Notes for Condition](#notes-for-condition)                                                                     |
 
