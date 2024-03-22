@@ -196,7 +196,8 @@ which is mapped to the annotation's `text` field.
 - `"Unspecified Significance: Defaulted to Minor"` if `LinkSet / code / qualifier / name [@code]` does not equal 
 `386134007` (Significant)
 - An annotation for each `ObservationStatement / pertinentInformation / pertinentAnnotation / text` value where the 
-`observationStatement` is referenced by `LinkSet / conditionNamed / namedStatementRef / id [@root]`
+`observationStatement` is referenced by `LinkSet / conditionNamed / namedStatementRef / id [@root]`. Where multiple annotations 
+with the same codes are found and one annotation ends with an ellipsis these two annotations will be merged into a single text value. 
 - The value of `LinkSet / code / originalText` (if present)
 
 ## JSON FHIR > XML HL7
