@@ -25,6 +25,7 @@ This is a top-level profile and represents the whole structured consultation
 | encounter                        | reference to mapped [Encounter](../practioners/README.md)                                                                                                                             |
 | entry[index].item.reference      | reference to one or more mapped [List (Topic)](./LIST_TOPIC_README.md)                                                                                                                |
 
+
 The following List fields are not currently populated by the adaptor:
 - identifier
 - source
