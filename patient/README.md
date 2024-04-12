@@ -62,39 +62,27 @@ A Patient resource is mapped from a HL7 Patient.
 
 ## JSON FHIR > XML HL7
 
-A Patient record is inserted into the EhrExtracts recordTarget.
+A Patient record is translated into the `recordTarget` element.
 
-| Mapped to (XML HL7)                                    | Mapped from (JSON FHIR / other source )                                      |
-|--------------------------------------------------------|------------------------------------------------------------------------------|
-| EhrExtract / recordTarget / patient / id \[@extension] | NHS number is taken from the initial EHR Request message (RCMR_IN010000UK05) |
+| Mapped to (XML HL7)                                           | Mapped from (JSON FHIR / other source )                                      |
+|---------------------------------------------------------------|------------------------------------------------------------------------------|
+| RCMR_IN030000UK06 / recordTarget / patient / id \[@extension] | NHS number is taken from the initial EHR Request message (RCMR_IN010000UK05) |
+| RCMR_IN030000UK06 / recordTarget / patient / id \[@root]      | fixed value = `2.16.840.1.113883.2.1.4.1`                                    |
 
 
 <details>
     <summary>Example XML</summary>
 
 ```XML
-<ControlActEvent classCode=\"CACT\" moodCode=\"EVN\">
-<author1 typeCode=\"AUT\">
-<AgentSystemSDS classCode=\"AGNT\">
-<agentSystemSDS classCode=\"DEV\" determinerCode=\"INSTANCE\">
-<id root=\"1.2.826.0.1285.0.2.0.107\" extension=\"200000000359\" />
-        </agentSystemSDS>
-        </AgentSystemSDS>
-        </author1>
-<subject typeCode=\"SUBJ\" contextConductionInd=\"false\">
-<EhrExtract classCode=\"EXTRACT\" moodCode=\"EVN\">
-<id root=\"4B3EC6C4-D9BD-4FFE-8C29-01A5EC41B9E9\" />
-<statusCode code=\"COMPLETE\" />
-<availabilityTime value=\"20230613105301\" />
-<recordTarget typeCode=\"RCT\">
-<patient classCode=\"PAT\">
-<id root=\"2.16.840.1.113883.2.1.4.1\" extension=\"9726908744\" />
+<RCMR_IN030000UK06 xmlns="urn:hl7-org:v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:hl7-org:v3 ..\Schemas\RCMR_IN030000UK06.xsd">
+...
+    <recordTarget typeCode="RCT">
+        <patient classCode="PAT">
+            <id root="2.16.840.1.113883.2.1.4.1" extension="9729734194" />
         </patient>
-        </recordTarget>
-    
-... 
-    
-</EhrExtract>
+    </recordTarget>
+...
+</RCMR_IN030000UK06>
 ```
 
 </details>
