@@ -47,7 +47,7 @@ and `CompoundStatement / code [@code]` equals `"16488004"` (laboratory reporting
     "value": "5A8B9936-B771-488E-9103-3331629690C4"
    },
    {
-    "system": "2.16.840.1.113883.2.1.4.5.5",
+    "system": "urn:oid:2.16.840.1.113883.2.1.4.5.5",
     "value": "1013/HA2101109A/200203301621"
    }
   ],
