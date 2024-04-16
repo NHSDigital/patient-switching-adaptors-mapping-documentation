@@ -13,7 +13,7 @@ and `CompoundStatement / code [@code]` equals `"16488004"` (laboratory reporting
 | meta.profile\[0]                             | fixed value = `"https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DiagnosticReport-1"`                                                                                                                                                                                                              |
 | identifier\[0].system                        | `"https://PSSAdaptor/{{odsCode}}` where `{{odsCode}}` is the ODS Code of the losing practice                                                                                                                                                                                                                   |
 | identifier\[0].value                         | `CompoundStatement / id[0] [@root]`                                                                                                                                                                                                                                                                            |
-| identifier\[1].system                        | fixed value = `"2.16.840.1.113883.2.1.4.5.5"` <sup>1</sup>                                                                                                                                                                                                                                                     |
+| identifier\[1].system                        | fixed value = `"urn:oid:2.16.840.1.113883.2.1.4.5.5"` <sup>1</sup>                                                                                                                                                                                                                                                     |
 | identifier\[1].value                         | `CompoundStatement / id[1] [@extension]` <sup>1</sup>                                                                                                                                                                                                                                                          |
 | status                                       | fixed value = `"unknown"`                                                                                                                                                                                                                                                                                      |
 | code.coding\[0].code                         | fixed value =  `"721981007"`                                                                                                                                                                                                                                                                                   |
@@ -47,7 +47,7 @@ and `CompoundStatement / code [@code]` equals `"16488004"` (laboratory reporting
     "value": "5A8B9936-B771-488E-9103-3331629690C4"
    },
    {
-    "system": "2.16.840.1.113883.2.1.4.5.5",
+    "system": "urn:oid:2.16.840.1.113883.2.1.4.5.5",
     "value": "1013/HA2101109A/200203301621"
    }
   ],

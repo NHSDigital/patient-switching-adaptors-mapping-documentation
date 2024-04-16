@@ -22,6 +22,8 @@ the following method of mapping has been used.
 
 1. If no codes are found then `code.coding` will not be populated.
 2. If this is a `Read V2`, `Read V3` or `SNOMED` code system then it will be mapped to its corresponding code system reference.
+If there is no corresponding code system reference, and this is an OID (i.e. `1.2.3.4.5.6`) then this will be presented as
+a URN and prefixed with `urn:oid:`.
 3. If this is a `SNOMED` code it is found by searching the adaptors SNOMED database for the appropriate description.
 4. If this is a not a 'SNOMED' code the `extension` will not be added
 
