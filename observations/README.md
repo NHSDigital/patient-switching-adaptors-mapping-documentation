@@ -405,26 +405,26 @@ For more information on how Investigations are represented in GP Connect see [In
 Test group headers are mapped from a nested `CompoundStatement` with a class code of `BATTERY` where
 the parent compound statements are deemed to from a [Diagnostic Report](../diagnostic%20reports/README.md).
 
-| Mapped to (JSON FHIR Observation resource field) | Mapped from (XML HL7 / other)                                                                                                    |
-|--------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------|
-| id                                               | `CompoundStatement / id [@root]`                                                                                                 |
-| meta.profile\[0]                                 | fixed value = `"https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"`                                     |
-| identifier\[0].system                            | `"https://PSSAdaptor/{{losingOdsCode}}"` - where the `{{losingOdsCode}}` is the ODS code of the losing practice                  |
-| identifier\[0].value                             | `CompoundStatement / id \[@root]`                                                                                                |
-| status                                           | fixed value = `"final"`                                                                                                          |
-| category\[0].coding\[0].code                     | fixed value = `"laboratory"`                                                                                                     |
-| category\[0].coding\[0].system                   | fixed value = `"http://hl7.org/fhir/observation-category"`                                                                       |
-| category\[0].coding\[0].display                  | fixed value = `"Laboratory"`                                                                                                     |
-| code                                             | `CompoundStatement / code` as described in the XML > FHIR section of [Codeable Concept](../codeable%20concept/README.md)         |
-| subject.reference                                | reference to the mapped [Patient](../patient/README.md)                                                                          |  
-| context.reference                                | reference to the associated [Encounter](../encounters/README.md) (if present)                                                    |
-| effective(x) <sup>2</sup>                        | `CompoundStatement / effectiveTime` <sup>2</sup> or else `CompoundStatement / availibiltyTime [@value]` <sup>2</sup>             |
-| issued                                           | `ehrCompostion / author / time [@value]` <sup>3</sup>                                                                            |
-| performer\[0].reference                          | [Practitioner](../practioners/README.md) referenced in `CompoundStatement / participant` or else `EhrComposition / Participant2` |
-| comment                                          | concatenated with newlines from child `NarrativeStatement / text` where the EDIFACT comment type is not `USER COMMENT`           |
-| specimen.reference                               | reference to the [Specimen](../diagnostic%20reports/README.md)                                                                   |
-| related\[index].type                             | fixed value = `"has-member"`                                                                                                     |
-| related\[index].target.reference                 | reference to component [Test Result](#test-result-xml-hl7--json-fhir)                                                            |
+| Mapped to (JSON FHIR Observation resource field) | Mapped from (XML HL7 / other)                                                                                                                                                                |
+|--------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| id                                               | `CompoundStatement / id [@root]`                                                                                                                                                             |
+| meta.profile\[0]                                 | fixed value = `"https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"`                                                                                                 |
+| identifier\[0].system                            | `"https://PSSAdaptor/{{losingOdsCode}}"` - where the `{{losingOdsCode}}` is the ODS code of the losing practice                                                                              |
+| identifier\[0].value                             | `CompoundStatement / id \[@root]`                                                                                                                                                            |
+| status                                           | fixed value = `"final"`                                                                                                                                                                      |
+| category\[0].coding\[0].code                     | fixed value = `"laboratory"`                                                                                                                                                                 |
+| category\[0].coding\[0].system                   | fixed value = `"http://hl7.org/fhir/observation-category"`                                                                                                                                   |
+| category\[0].coding\[0].display                  | fixed value = `"Laboratory"`                                                                                                                                                                 |
+| code                                             | `CompoundStatement / code` as described in the XML > FHIR section of [Codeable Concept](../codeable%20concept/README.md)                                                                     |
+| subject.reference                                | reference to the mapped [Patient](../patient/README.md)                                                                                                                                      |  
+| context.reference                                | reference to the associated [Encounter](../encounters/README.md) (if present)                                                                                                                |
+| effective(x) <sup>2</sup>                        | `CompoundStatement / effectiveTime` <sup>2</sup> or else `CompoundStatement / availibiltyTime [@value]` <sup>2</sup>                                                                         |
+| issued                                           | `ObservationStatement / availabilityTime [@value]`, or else `CompoundStatement / availibiltyTime [@value]` for `Filed Report`, or else `ehrCompostion / author / time [@value]` <sup>3</sup> |
+| performer\[0].reference                          | [Practitioner](../practioners/README.md) referenced in `CompoundStatement / participant` or else `EhrComposition / Participant2`                                                             |
+| comment                                          | concatenated with newlines from child `NarrativeStatement / text` where the EDIFACT comment type is not `USER COMMENT`                                                                       |
+| specimen.reference                               | reference to the [Specimen](../diagnostic%20reports/README.md)                                                                                                                               |
+| related\[index].type                             | fixed value = `"has-member"`                                                                                                                                                                 |
+| related\[index].target.reference                 | reference to component [Test Result](#test-result-xml-hl7--json-fhir)                                                                                                                        |
 
 <details>
 <summary>Example JSON</summary>
