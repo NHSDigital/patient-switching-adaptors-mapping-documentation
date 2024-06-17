@@ -206,15 +206,15 @@ For each of the `extension`, if the value required to set `extension.value` is n
 This is a list of extensions related to status changes which are included when mapping a `PLAN`</br>
 If `EhrSupplyDiscontinue` exists and `EhrSupplyDiscontinue / availabilityTime [@value]` not present then these extensions are not added
 
-| Mapped to (JSON FHIR MedicationRequest.extension.Extension field) | Mapped from (XML HL7 / other source)                                                                                                                                                                                    |
-|-------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| extension\[0].url                                                 | fixed value = `"statusChangeDate"`                                                                                                                                                                                      |
-| extension\[0].valueDateTime                                       | `EhrSupplyDiscontinue / availabilityTime [@value]`                                                                                                                                                                      |
-| extension\[1].url                                                 | fixed value = `"statusReason"`                                                                                                                                                                                          |
-| extension\[1].valueCodeableConcept.text                           | `"({{text}})"` where text = `ehrSupplyDiscontinue / code / originalText` when present, and all values `ehrSupplyDiscontinue / pertinentInformation / pertinentSupplyAnnotation / text` separated by `", "`<sup>17</sup> |
+| Mapped to (JSON FHIR MedicationRequest.extension.Extension field) | Mapped from (XML HL7 / other source)                                                                                                                                                                                                     |
+|-------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| extension\[0].url                                                 | fixed value = `"statusChangeDate"`                                                                                                                                                                                                       |
+| extension\[0].valueDateTime                                       | `EhrSupplyDiscontinue / availabilityTime [@value]`                                                                                                                                                                                       |
+| extension\[1].url                                                 | fixed value = `"statusReason"`                                                                                                                                                                                                           |
+| extension\[1].valueCodeableConcept.text                           | `"({{text}})"` where text = `ehrSupplyDiscontinue / code / originalText` when present, and all values of `ehrSupplyDiscontinue / pertinentInformation / pertinentSupplyAnnotation / text` separated by `", "`<sup>17</sup> <sup>18</sup> |
 
 17. When there are no `ehrSupplyDiscontinue / pertinentInformation / pertinentSupplyAnnotation / text` present then a value of `"No information available"` is added instead 
-
+18. When the text from `ehrSupplyDiscontinue / code / originalText` is duplicated in a `ehrSupplyDiscontinue / pertinentInformation / pertinentSupplyAnnotation / text` then the original text surround by braces is not used. 
 <details>
     <summary>Example JSON for Plan</summary>
 
