@@ -509,7 +509,8 @@ Except for the fields outlined below, Test Result observations are mapped identi
 
 | Mapped to (JSON FHIR Observation resource field) | Mapped from (XML HL7 / other)                                                                                                                    |
 |--------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------|
-| comment                                          | concatenated with newlines from child `NarrativeStatement / text` where the EDIFACT comment type is not `USER COMMENT`                           | 
+| comment                                          | concatenated with newlines from child `NarrativeStatement / text` where the EDIFACT comment type is not `USER COMMENT`                           |
+| issued                                           | `ObservationStatement / availabilityTime [@value]` if populated, otherwise the default Uncategorised Data issued mapping                         |
 | related\[index].type                             | fixed value = `"derived-from"` or fixed value = `"has-member"`                                                                                   |
 | related\[index].target.reference                 | reference to the parent [Test Group Header](#test-group-header-xml-hl7--json-fhir)                                                               |
 | specimen.reference                               | reference to the [Specimen](../diagnostic%20reports/README.md)                                                                                   |
@@ -623,7 +624,7 @@ Filing Comment is not created.
 | code.coding\[0].display                          | fixed value = `"Comment note"`                                                                                                                              |
 | subject.reference                                | reference to the mapped [Patient](../patient/README.md)                                                                                                     |
 | context.reference                                | reference to the associated [Encounter](../encounters/README.md) (if present)                                                                               |
-| issued                                           | `ehrCompostion / author / time [@value]` <sup>3</sup>                                                                                                       |
+| issued                                           | `ObservationStatement / availabilityTime [@value]`, or else `ehrCompostion / author / time [@value]` <sup>3</sup>                                           |
 | performer\[0].reference                          | Practitioner referenced in `NarrativeStatement / participant` <sup>4</sup>, or else `EhrComposition / Participant2`                                         |
 | effectiveTime                                    | `NarrativeStatement / availibilityTime` where the `NarrativeStatement` is a child component of a [Test Group Header](#test-group-header-xml-hl7--json-fhir) |
 | comment                                          | The body of the EDIFACT comment contained in `NarrativeStatement / text`                                                                                    |
