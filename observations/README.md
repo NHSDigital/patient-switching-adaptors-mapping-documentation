@@ -11,7 +11,7 @@ FHIR Observations are used throughout the Structured Record. As a result they ar
 as stated below, where the items in **bold** are the FHIR `Observation` resource types, the mapping of which is 
 described in the following sections:
 
-- Observation statements  map to **[Uncategorised Data](#uncategorised-data-xml-hl7--json-fhir)**, **[Test Result](#test-result-json-fhir--xml-hl7)** and **[Componentised Observation](#componentised-observation-xml-hl7--json-fhir)**
+- Observation statements  map to **[Uncategorised Data](#uncategorised-data-xml-hl7--json-fhir)**, **[Test Result](#test-result-xml-hl7--json-fhir)** and **[Componentised Observation](#componentised-observation-xml-hl7--json-fhir)**
 - Request statements map to **[Self Referral](#self-referral-xml-hl7--json-fhir)**
 - Compound statements map to **[Test Group Header](#test-group-header-xml-hl7--json-fhir)**, **[Blood Pressure](#blood-pressure-xml-hl7--json-fhir)** and **[Componentised Observation Header](#componentised-observation-header-xml-hl7--json-fhir)**
 - Narrative statements map to **[Filing Comment](#filing-comment-xml-hl7--json-fhir)**
