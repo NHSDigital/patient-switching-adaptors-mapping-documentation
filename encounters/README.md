@@ -8,8 +8,8 @@ An GP Connect FHIR `Encounter` is mapped from an GP2GP HL7v3 `EHR Composition`.
 |--------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | id                                                           | `ehrComposition / id \[@root]`                                                                                                                                                             |
 | meta.profile\[0]                                             | fixed value = `"https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Encounter-1"`                                                                                                 |
-| meta.security\[0].system                                     | `ehrComposition / confidentialityCode \[@code]`                                                                                                                                            |
-| meta.security\[0].code                                       | `ehrComposition / confidentialityCode \[@codeSystem]`                                                                                                                                      |
+| meta.security\[0].system                                     | `ehrComposition / confidentialityCode \[@codeSystem]`                                                                                                                                      |
+| meta.security\[0].code                                       | `ehrComposition / confidentialityCode \[@code]`                                                                                                                                            |
 | meta.security\[0].display                                    | `ehrComposition / confidentialityCode \[@displayName]`                                                                                                                                     |
 | identifier\[0].system                                        | `"https://PSSAdaptor/{{losingOdsCode}}"` - where the `{{losingOdsCode}}` is the ODS code of the losing practice                                                                            |
 | identifier\[0].value                                         | `ehrComposition / id \[@root]`                                                                                                                                                             |
@@ -124,8 +124,8 @@ An GP Connect FHIR `Encounter` is mapped from an GP2GP HL7v3 `EHR Composition`.
 1. If a SNOMED CT code cannot be found `type[0].coding` will not be populated.
 2. Where the participant is the Practitioner that recorded the consultation on the system, identified by `ehrComposition / author`.  
 3. Populated only where a `ehrComposition / participant2` is populated.
-4. If a `confidentialityCode` with code `NOPAT` cannot be found within the `ehrComposition` - the `meta.security` **SHALL NOT** be added.
-5. If a `confidentialityCode` with code `NOTPAT` can be found within the `ehrComposition` then the `meta.security` **SHALL** be added.
+4. If a `confidentialityCode` Coded Value (CV) containing code `NOPAT` **CAN** be found within the `ehrComposition` then the `meta.security` **SHALL** be added.
+5. If a `confidentialityCode` Coded Value (CV) containing code `NOPAT` **CANNOT** be found within the `ehrComposition` - the `meta.security` **SHALL NOT** be added.
 
 ### Unmapped fields
 
