@@ -125,7 +125,7 @@ An GP Connect FHIR `Encounter` is mapped from an GP2GP HL7v3 `EHR Composition`.
 2. Where the participant is the Practitioner that recorded the consultation on the system, identified by `ehrComposition / author`.  
 3. Populated only where a `ehrComposition / participant2` is populated.
 4. If a `confidentialityCode` Coded Value (CV) containing code `NOPAT` **CAN** be found within the `ehrComposition` then the `meta.security` **SHALL** be added.
-5. If a `confidentialityCode` Coded Value (CV) containing code `NOPAT` **CANNOT** be found within the `ehrComposition` - the `meta.security` **SHALL NOT** be added.
+5. If a `confidentialityCode` Coded Value (CV) containing code `NOPAT` **CANNOT** be found within the `ehrComposition` then the `meta.security` **SHALL NOT** be added.
 
 ### Unmapped fields
 
