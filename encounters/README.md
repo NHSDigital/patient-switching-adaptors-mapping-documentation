@@ -4,26 +4,29 @@
 
 An GP Connect FHIR `Encounter` is mapped from an GP2GP HL7v3 `EHR Composition`.
 
-| Mapped to (JSON FHIR Encounter field)                        | Mapped from (XML HL7 / other source)                                                                                                                                                        |
-|--------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| id                                                           | `ehrComposition / id \[@root]`                                                                                                                                                              |
-| meta.profile\[0]                                             | fixed value = `"https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Encounter-1"`                                                                                                  |
-| identifier\[0].system                                        | `"https://PSSAdaptor/{{losingOdsCode}}"` - where the `{{losingOdsCode}}` is the ODS code of the losing practice                                                                             |
-| identifier\[0].value                                         | `ehrComposition / id \[@root]`                                                                                                                                                              |
-| status                                                       | fixed value = `"finished"`                                                                                                                                                                  |
-| type\[0]                                                     | `ehrComposition / code [@code]` or `ehrCompostion / code / translation [@code]` <sup>1</sup> as described in the XML > FHIR section of [Codeable Concept](../codeable%20concept/README.md)  |
-| subject                                                      | reference to the mapped [Patient](../patient/README.md)                                                                                                                                     |
-| participant\[index].type\[0].coding\[0].system <sup>2</sup>  | fixed value = `"https://fhir.nhs.uk/STU3/CodeSystem/GPConnect-ParticipantType-1"`                                                                                                           |
-| participant\[index].type\[0].coding\[0].code <sup>2</sup>    | fixed value = `"REC"`                                                                                                                                                                       |
-| participant\[index].type\[0].coding\[0].display <sup>2</sup> | fixed value = `"recorder"`                                                                                                                                                                  |
-| participant\[index].individual <sup>2</sup>                  | `ehrComposition / author / agentRef / id [@root]`                                                                                                                                           |
-| participant\[index].type\[0].coding\[0].system <sup>3</sup>  | fixed value = `"http://hl7.org/fhir/v3/ParticipationType"`                                                                                                                                  |
-| participant\[index].type\[0].coding\[0].code <sup>3</sup>    | fixed value = `"PPRF"`                                                                                                                                                                      |
-| participant\[index].type\[0].coding\[0].display <sup>3</sup> | fixed value = `"primary performer"`                                                                                                                                                         |
-| participant\[index].individual <sup>3</sup>                  | `ehrComposition / participant2[0] / AgentRef / id [@root] `                                                                                                                                 |
-| period.start                                                 | `ehrComposition / effectiveTime / center` or else  `ehrComposition / effectiveTime / low` or else `ehrComposition / availibiltyTime`                                                        |
-| period.end                                                   | `ehrComposition / effectiveTime / high`                                                                                                                                                     |           
-| location                                                     | the associated [location](../locations/README.md) identified by `ehrComposition / location`                                                                                                 |
+| Mapped to (JSON FHIR Encounter field)                        | Mapped from (XML HL7 / other source)                                                                                                                                                       |
+|--------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| id                                                           | `ehrComposition / id \[@root]`                                                                                                                                                             |
+| meta.profile\[0]                                             | fixed value = `"https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Encounter-1"`                                                                                                 |
+| meta.security\[0].system                                     | `ehrComposition / confidentialityCode \[@code]`                                                                                                                                            |
+| meta.security\[0].code                                       | `ehrComposition / confidentialityCode \[@codeSystem]`                                                                                                                                      |
+| meta.security\[0].display                                    | `ehrComposition / confidentialityCode \[@displayName]`                                                                                                                                     |
+| identifier\[0].system                                        | `"https://PSSAdaptor/{{losingOdsCode}}"` - where the `{{losingOdsCode}}` is the ODS code of the losing practice                                                                            |
+| identifier\[0].value                                         | `ehrComposition / id \[@root]`                                                                                                                                                             |
+| status                                                       | fixed value = `"finished"`                                                                                                                                                                 |
+| type\[0]                                                     | `ehrComposition / code [@code]` or `ehrCompostion / code / translation [@code]` <sup>1</sup> as described in the XML > FHIR section of [Codeable Concept](../codeable%20concept/README.md) |
+| subject                                                      | reference to the mapped [Patient](../patient/README.md)                                                                                                                                    |
+| participant\[index].type\[0].coding\[0].system <sup>2</sup>  | fixed value = `"https://fhir.nhs.uk/STU3/CodeSystem/GPConnect-ParticipantType-1"`                                                                                                          |
+| participant\[index].type\[0].coding\[0].code <sup>2</sup>    | fixed value = `"REC"`                                                                                                                                                                      |
+| participant\[index].type\[0].coding\[0].display <sup>2</sup> | fixed value = `"recorder"`                                                                                                                                                                 |
+| participant\[index].individual <sup>2</sup>                  | `ehrComposition / author / agentRef / id [@root]`                                                                                                                                          |
+| participant\[index].type\[0].coding\[0].system <sup>3</sup>  | fixed value = `"http://hl7.org/fhir/v3/ParticipationType"`                                                                                                                                 |
+| participant\[index].type\[0].coding\[0].code <sup>3</sup>    | fixed value = `"PPRF"`                                                                                                                                                                     |
+| participant\[index].type\[0].coding\[0].display <sup>3</sup> | fixed value = `"primary performer"`                                                                                                                                                        |
+| participant\[index].individual <sup>3</sup>                  | `ehrComposition / participant2[0] / AgentRef / id [@root] `                                                                                                                                |
+| period.start                                                 | `ehrComposition / effectiveTime / center` or else  `ehrComposition / effectiveTime / low` or else `ehrComposition / availibiltyTime`                                                       |
+| period.end                                                   | `ehrComposition / effectiveTime / high`                                                                                                                                                    |           
+| location                                                     | the associated [location](../locations/README.md) identified by `ehrComposition / location`                                                                                                |
 
 <details>
     <summary>Example JSON</summary>
@@ -36,6 +39,13 @@ An GP Connect FHIR `Encounter` is mapped from an GP2GP HL7v3 `EHR Composition`.
         "meta": {
             "profile": [
                 "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Encounter-1"
+            ],
+            "security": [
+                {
+                    "system": "http://hl7.org/fhir/v3/ActCode",
+                    "code": "NOPAT",
+                    "display": "no disclosure to patient, family or caregivers without attending provider's authorization"
+                }
             ]
         },
         "identifier": [
@@ -114,6 +124,8 @@ An GP Connect FHIR `Encounter` is mapped from an GP2GP HL7v3 `EHR Composition`.
 1. If a SNOMED CT code cannot be found `type[0].coding` will not be populated.
 2. Where the participant is the Practitioner that recorded the consultation on the system, identified by `ehrComposition / author`.  
 3. Populated only where a `ehrComposition / participant2` is populated.
+4. If a `confidentialityCode` with code `NOPAT` cannot be found within the `ehrComposition` - the `meta.security` **SHALL NOT** be added.
+5. If a `confidentialityCode` with code `NOTPAT` can be found within the `ehrComposition` then the `meta.security` **SHALL** be added.
 
 ### Unmapped fields
 
@@ -190,7 +202,6 @@ then that code and display name is used. Otherwise, the SNOMED code `24591000000
 6. Where the List is the consultation [List](../list/README.md) resource that references the Encounter.
 
 ## Further documentation
-
+- [NHS Message Implementation Manual](https://digital.nhs.uk/developer/guides-and-documentation/message-implementation-manuals/)
 - [GP Connect Encounter](https://developer.nhs.uk/apis/gpconnect-1-6-0/accessrecord_structured_development_encounter.html)
-- [MIM 4.2.00](https://data.developer.nhs.uk/dms/mim/4.2.00/Index.htm)
 - [EHR Composition Name Vocabulary](https://data.developer.nhs.uk/dms/mim/6.3.01/Vocabulary/EhrCompositionName.htm)
