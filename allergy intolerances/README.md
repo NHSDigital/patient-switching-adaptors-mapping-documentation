@@ -6,9 +6,10 @@ An `AllergyIntolerance` is mapped from a `CompoundStatement` with an `Observatio
 the `compoundStatement` has a code of `SN53.00` or `14L..00` from Read Codes version 2 (`2.16.840.1.113883.2.1.6.2`).   
 
 | Mapped to (JSON FHIR Allergy Intolerance field) | Mapped from (XML HL7 / other source)                                                                                                                                                                                 |
-| ----------------------------------------------- |----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|-------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | id                                              | `ObservationStatement / id [@root] `                                                                                                                                                                                 |
 | meta.profile\[0]                                | fixed value = `"https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-AllergyIntolerance-1"`                                                                                                                  |
+| meta.security                                   | `ehrComposition / confidentialityCode` and `observationStatement / confidentialityCode` mapped as [confidentiality code](../confidentiality%20code/README.md)                                                        |
 | extension[0].url                                | fixed value = `http://hl7.org/fhir/StructureDefinition/encounter-associatedEncounter`                                                                                                                                |
 | extension[0].valueReference.reference           | reference to the associated [Encounter](../encounters/README.md)                                                                                                                                                     |
 | identifier\[0].system                           | `"https://PSSAdaptor/{{losingOdsCode}}"` - where the `{{losingOdsCode}}` is the ODS code of the losing practice                                                                                                      |
@@ -19,7 +20,7 @@ the `compoundStatement` has a code of `SN53.00` or `14L..00` from Read Codes ver
 | code                                            | Mapped from `ObservationStatement / value` or `ObservationStatement / code` <sup>1</sup> as described in the XML > FHIR section of [Codeable Concept](../codeable%20concept/README.md). <sup>2</sup>                 |
 | patient                                         | reference to the mapped [Patient](../patient/README.md)                                                                                                                                                              |
 | onsetDateTime                                   | `CompoundStatement / effectiveTime / low [@value]`                                                                                                                                                                   |
-| assertedDate                                    | `CompoundStatement / availabilityTime [@value]` or `EhrComposition / author / time [@value]` or `EhrExtract / author / time [@value]`                                                                                         |
+| assertedDate                                    | `CompoundStatement / availabilityTime [@value]` or `EhrComposition / author / time [@value]` or `EhrExtract / author / time [@value]`                                                                                |
 | recorder                                        | Mapped from 'ObservationStatement / Author' field otherwise (if 'Author' value is not provided) take it from Participant field, reference to the mapped [Practitioner](../practitioners/README.md)                   |
 | asserter                                        | reference to the mapped [Practitioner](../practitioners/README.md)                                                                                                                                                   |
 | note.text\[0]                                   | `ObservationStatement / pertinentInformation / pertinentAnnotation / text`                                                                                                                                           |
@@ -51,6 +52,13 @@ The following Allergy Intolerance fields are not currently populated by the adap
         "meta": {
             "profile": [
                 "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-AllergyIntolerance-1"
+            ],
+            "security": [
+                {
+                    "system": "http://hl7.org/fhir/v3/ActCode",
+                    "code": "NOPAT",
+                    "display": "no disclosure to patient, family or caregivers without attending provider's authorization"
+                }
             ]
         },
         "extension": [
