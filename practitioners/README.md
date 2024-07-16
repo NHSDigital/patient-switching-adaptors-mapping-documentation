@@ -83,7 +83,7 @@ A `PractionerRole` resource will only be added if the HL7 `AgentPerson` has an a
 | id                                                    | `Agent / id [@root]` appended with `-PR`                                                                      |
 | meta                                                  | fixed value = `"https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-PractitionerRole-1"`             |
 | practitioner.reference                                | Reference to the mapped Practitioner (see above)                                                              |
-| organization.reference                                | Reference to the [Organisation](../organisations/README.md) mapped from `Agent / representedOrganization`     |
+| organization.reference                                | Reference to the [Organisation](../organizations/README.md) mapped from `Agent / representedOrganization`     |
 | code                                                  | `Agent / code`  as described in the XML > FHIR section of [Codeable Concept](../codeable%20concept/README.md) |
 
 <details>
@@ -164,13 +164,13 @@ A Practitioner is mapped to an `Agent` with a role of `AgentPerson`.
 | Agent / AgentPerson / name / prefix | `Practitioner.name[0].prefix[0]`                                                                                     |
 | Agent / AgentPerson / name / given  | `Practitioner.name[0].given[0]`                                                                                      | 
 | Agent / AgentPerson / name / family | `Practitioner.name[0].family` or `"Unknown"` <sup>2</sup>                                                            |
-| Agent / representedOrganisation     | Mapped using the [Organisation](../organisations/README.md) referenced in `PractionerRole` (if present) <sup>3</sup> |  
+| Agent / representedOrganisation     | Mapped using the [Organisation](../organizations/README.md) referenced in `PractionerRole` (if present) <sup>3</sup> |  
 
 1. Where the `practitionerRole` references the practitioner 
 2. If `Practitioner.name[0].given` or `Practitioner.name[0].family` are empty and `Practitioner.name[0].text` has a string as a value, then 
 `Agent / AgentPerson / name` is populated with the unstructured string. In the case where all three JSON fields are missing / empty
 `Agent / AgentPerson / name / family` is set to `"Unknown"`.
-3. The mapping of `representedOrganisation` is outlined in the [Organisation](../organisations/README.md) mapping documentation.
+3. The mapping of `representedOrganisation` is outlined in the [Organisation](../organizations/README.md) mapping documentation.
 
 <details>
     <summary>Example XML</summary>
