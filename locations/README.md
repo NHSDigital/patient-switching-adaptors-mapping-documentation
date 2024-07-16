@@ -15,7 +15,7 @@ A Location is mapped from a locatedEntity.
 | name                                           | `Location / locatedEntity / locatedPlace / name `                                                                |
 | telecom\[0]                                    | `Location / locatedEntity / locatedPlace / telecom[0]`                                                           |
 
-1. The address is mapped using the same behaviour as the [Organisation](../organisations/README.md) address field.
+1. The address is mapped using the same behaviour as the [Organisation](../organizations/README.md) address field.
 
 ### Unmapped fields
 

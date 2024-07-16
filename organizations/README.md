@@ -1,12 +1,12 @@
-# Organisation Mapping
+# Organization Mapping
 
 ## XML HL7 > JSON FHIR
 
-Organisations are generated from the HL7v3 Agent Directory entries which represent either an `AgentOrganization`
+Organizations are generated from the HL7v3 Agent Directory entries which represent either an `AgentOrganization`
 or an `AgentPerson` with an associated `representedOrganization`.
 
-### AgentOrganisation
-| Mapped to (JSON FHIR Organisation resource field) | Mapped from (XML HL7 / other)                                                                                |
+### AgentOrganization
+| Mapped to (JSON FHIR Organization resource field) | Mapped from (XML HL7 / other)                                                                                |
 |---------------------------------------------------|--------------------------------------------------------------------------------------------------------------|
 | id                                                | `Agent / id [@root]`                                                                                         |
 | meta.profile\[0]                                  | fixed value = `https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Organization-1`                  |
@@ -48,7 +48,7 @@ or an `AgentPerson` with an associated `representedOrganization`.
                     {
                         "system": "http://snomed.info/sct",
                         "code": "394745000",
-                        "display": "General practice (organisation)"
+                        "display": "General practice (organization)"
                     }
                 ]
             }
@@ -80,8 +80,8 @@ or an `AgentPerson` with an associated `representedOrganization`.
 ```
 </details>
 
-### AgentPerson with representedOrganisation
-| Mapped to (JSON FHIR Organisation resource field) | Mapped from (XML HL7 / other)                                                               |
+### AgentPerson with representedOrganization
+| Mapped to (JSON FHIR Organization resource field) | Mapped from (XML HL7 / other)                                                               |
 |---------------------------------------------------|---------------------------------------------------------------------------------------------|
 | id                                                | `Agent / id [@root]` appended with `"-ORG"` <sup>2</sup>                                    |
 | meta.profile\[0]                                  | fixed value = `https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Organization-1` |
@@ -90,12 +90,12 @@ or an `AgentPerson` with an associated `representedOrganization`.
 | name                                              | `Agent / representedOrganization / name`                                                    |
 | address\[0].use                                   | fixed value = `"work"`                                                                      |
 | address\[0].type                                  | fixed value = `"physical"`                                                                  |
-| address\[0].line[]                                | `Agent / representedOrganisation / addr / streetAddressLine` <sup>1</sup>                   |
-| address\[0].postalCode                            | `Agent / representedOrganisation / addr / postalCode`                                       |
+| address\[0].line[]                                | `Agent / representedOrganization / addr / streetAddressLine` <sup>1</sup>                   |
+| address\[0].postalCode                            | `Agent / representedOrganization / addr / postalCode`                                       |
 | telecom\[0].system                                | fixed value = `"phone"`                                                                     |
 | telecom\[0].use                                   | fixed value = `"work"`                                                                      |
 | telecom\[0].rank                                  | fixed value = `1`                                                                           |
-| telecom\[0].value                                 | `Agent / representedOrganisation / telecom[0] [@value]`                                     |
+| telecom\[0].value                                 | `Agent / representedOrganization / telecom[0] [@value]`                                     |
 
 <details>
 <summary>Example JSON</summary>
@@ -143,12 +143,12 @@ or an `AgentPerson` with an associated `representedOrganization`.
 ```
 </details>
 
-If after generating the organisations above, the losing practice is not present in the Agent Directory and
-needs to be referenced as an author for a [Document Reference](../document%20references/README.md), an Organisation
+If after generating the organizations above, the losing practice is not present in the Agent Directory and
+needs to be referenced as an author for a [Document Reference](../document%20references/README.md), an Organization
 is generated with the losing practice ODS code.
 
-### Generated Organisation
-| Mapped to (JSON FHIR Organisation resource field) | Mapped from (XML HL7 / other)                                  |
+### Generated Organization
+| Mapped to (JSON FHIR Organization resource field) | Mapped from (XML HL7 / other)                                  |
 |---------------------------------------------------|----------------------------------------------------------------|
 | id                                                | A random UUID generated by the Adaptor                         |
 | identifier\[0].system                             | fixed value = `"https://fhir.nhs.uk/Id/ods-organization-code"` |
@@ -182,14 +182,14 @@ is generated with the losing practice ODS code.
 1. A String is added to the line array for each streetAddressLine element. The first occurrence of `addr` is mapped,
    additional occurrences are ignored.
 2. The first occurrence of `telecom` is mapped, additional occurrences are ignored.
-3. Multiple practitioners could represent the same organisation. Therefore, the adaptor maps the first instance of
-   a represented organisation, determined by ODS code, to an `Organization` and links the relevant
+3. Multiple practitioners could represent the same organization. Therefore, the adaptor maps the first instance of
+   a represented organization, determined by ODS code, to an `Organization` and links the relevant
    [Practitioners](../practioners/README.md) via `PractionerRole` resources. The `id` is appended with `"-ORG"` as the
    [Practitioner](../practioners/README.md) mapping also uses the value mapped from `Agent / id [@root]`.
 
 ### Unmapped fields
 
-The following Organisation fields are not currently populated by the adaptor: 
+The following Organization fields are not currently populated by the adaptor: 
 
 - implicitRules
 - language
@@ -219,13 +219,13 @@ The following Organisation fields are not currently populated by the adaptor:
 
 ## JSON FHIR > XML HL7
 
-GP Connect FHIR Organisations are mapped to the HL7v3 Agent Directory.  
+GP Connect FHIR Organizations are mapped to the HL7v3 Agent Directory.  
 
-Where an Organisation is not a mapped as a `representedOrganisation` of an `AgentPerson` ([Practitioner](../practioners/README.md)), the adaptor maps the 
-Organisation to an `AgentPerson` instead of `AgentOrganisation`. This is due to compatability issues where attribution 
-was given to the Organisation as a performer.
+Where an Organization is not a mapped as a `representedOrganization` of an `AgentPerson` ([Practitioner](../practioners/README.md)), the adaptor maps the 
+Organization to an `AgentPerson` instead of `AgentOrganization`. This is due to compatability issues where attribution 
+was given to the Organization as a performer.
 
-### Organisation as the Agent (AgentPerson)
+### Organization as the Agent (AgentPerson)
 | Mapped to (XML HL7)                 | Mapped from (JSON FHIR / other source)  |
 |-------------------------------------|-----------------------------------------|
 | Agent / id \[@root]                 | New UUID generated by the adaptor       |
@@ -251,14 +251,14 @@ was given to the Organisation as a performer.
 ```
 </details>
 
-### Represented Organisation where a practitioner is the Agent (AgentPerson) 
+### Represented Organization where a practitioner is the Agent (AgentPerson) 
 | Mapped to (XML HL7)                                        | Mapped from (JSON FHIR / other source)                            |
 |------------------------------------------------------------|-------------------------------------------------------------------|
-| Agent / representedOrganisation / name                     | `Organization.name`                                               | 
-| Agent / representedOrganisation / telecom \[@value]        | `Organization.telecom.value` <sup>3</sup>                         |
-| Agent / representedOrganisation / telecom \[@use]          | fixed value = `"WP"`                                              |
-| Agent / representedOrganisation / addr / streetAddressLine | `Organization.address[0].line` and `Organization.address[0].city` |
-| Agent / representedOrganisation / addr / postalCode        | `Organization.address[0].postalCode`                              |  
+| Agent / representedOrganization / name                     | `Organization.name`                                               | 
+| Agent / representedOrganization / telecom \[@value]        | `Organization.telecom.value` <sup>3</sup>                         |
+| Agent / representedOrganization / telecom \[@use]          | fixed value = `"WP"`                                              |
+| Agent / representedOrganization / addr / streetAddressLine | `Organization.address[0].line` and `Organization.address[0].city` |
+| Agent / representedOrganization / addr / postalCode        | `Organization.address[0].postalCode`                              |  
 
 <details>
     <summary>Example XML</summary>
@@ -296,5 +296,5 @@ was given to the Organisation as a performer.
 
 ## Further documentation
 
-- [GP Connect Organisation structure definition](https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Organization-1)
+- [GP Connect Organization structure definition](https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Organization-1)
 - [MIM 4.2.00](https://data.developer.nhs.uk/dms/mim/4.2.00/Index.htm)
