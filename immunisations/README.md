@@ -121,7 +121,7 @@ The following Immunization fields are not currently populated by the adaptor:
 - route
 
 
-## XML HL7 > JSON FHIR
+## JSON FHIR > XML HL7
 
 An Immunization is primarily mapped from an Observation Statement.
 
