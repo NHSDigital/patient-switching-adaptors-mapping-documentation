@@ -295,24 +295,24 @@ known as a "blood pressure triple", where the SNOMED codes identify them as a bl
 If a referral is deemed to be a self referral, the HL7 `RequestStatement` is mapped to an FHIR `Observation`. Self referrals 
 are identified by `RequestStatement / code / qualifier /value [@code]`, where it is equal to `"SelfReferral`.
 
-| Mapped to (JSON FHIR Observation resource field) | Mapped from (XML HL7 / other)                                                                                                                 |
-|--------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------|
-| id                                               | `RequestStatement / id [@root]`                                                                                                               |
-| meta.profile\[0]                                 | fixed value = `"https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"`                                                  |
-| identifier\[0].system                            | `"https://PSSAdaptor/{{losingOdsCode}}"` - where the `{{losingOdsCode}}` is the ODS code of the losing practice                               |
-| identifier\[0].value                             | `RequestStatement / id \[@root]`                                                                                                              |
-| status                                           | fixed value = `"final"`                                                                                                                       |
-| code                                             | `RequestStatement / code` as described in the XML > FHIR section of [Codeable Concept](../codeable%20concept/README.md)                       |
-| issued                                           | `ehrCompostion / author / time [@value]` <sup>3</sup>                                                                                         |
-| subject.reference                                | reference to the mapped [Patient](../patient/README.md)                                                                                       |  
-| context.reference                                | reference to the associated [Encounter](../encounters/README.md) (if present)                                                                 |
-| effective(x) <sup>2</sup>                        | `RequestStatement / effectiveTime` <sup>2</sup> or else `RequestStatement / availibiltyTime [@value]` <sup>2</sup>                            | 
-| performer\[0].reference                          | [Practitioner](../practioners/README.md) referenced in `RequestStatement / participant` <sup>8</sup>, or else `EhrComposition / Participant2` |      
-| comment                                          | fixed value = `"SelfRerreral"`                                                                                                                |
-| component\[0].code.text                          | fixed value = `"Urgency"`                                                                                                                     |
-| component\[0].valueString                        | `RequestStatement / priorityCode / originalText`                                                                                              |
-| component\[1].code.text                          | fixed value = `"Text"`                                                                                                                        |
-| component\[1].valueString                        | `RequestStatement / text`                                                                                                                     |
+| Mapped to (JSON FHIR Observation resource field) | Mapped from (XML HL7 / other)                                                                                                                   |
+|--------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------|
+| id                                               | `RequestStatement / id [@root]`                                                                                                                 |
+| meta.profile\[0]                                 | fixed value = `"https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"`                                                    |
+| identifier\[0].system                            | `"https://PSSAdaptor/{{losingOdsCode}}"` - where the `{{losingOdsCode}}` is the ODS code of the losing practice                                 |
+| identifier\[0].value                             | `RequestStatement / id \[@root]`                                                                                                                |
+| status                                           | fixed value = `"final"`                                                                                                                         |
+| code                                             | `RequestStatement / code` as described in the XML > FHIR section of [Codeable Concept](../codeable%20concept/README.md)                         |
+| issued                                           | `ehrCompostion / author / time [@value]` <sup>3</sup>                                                                                           |
+| subject.reference                                | reference to the mapped [Patient](../patient/README.md)                                                                                         |  
+| context.reference                                | reference to the associated [Encounter](../encounters/README.md) (if present)                                                                   |
+| effective(x) <sup>2</sup>                        | `RequestStatement / effectiveTime` <sup>2</sup> or else `RequestStatement / availibiltyTime [@value]` <sup>2</sup>                              | 
+| performer\[0].reference                          | [Practitioner](../practitioners/README.md) referenced in `RequestStatement / participant` <sup>8</sup>, or else `EhrComposition / Participant2` |      
+| comment                                          | fixed value = `"SelfRerreral"`                                                                                                                  |
+| component\[0].code.text                          | fixed value = `"Urgency"`                                                                                                                       |
+| component\[0].valueString                        | `RequestStatement / priorityCode / originalText`                                                                                                |
+| component\[1].code.text                          | fixed value = `"Text"`                                                                                                                          |
+| component\[1].valueString                        | `RequestStatement / text`                                                                                                                       |
 
 <details>
 <summary>Example JSON</summary>
@@ -420,7 +420,7 @@ the parent compound statements are deemed to from a [Diagnostic Report](../diagn
 | context.reference                                | reference to the associated [Encounter](../encounters/README.md) (if present)                                                                                                                |
 | effective(x) <sup>2</sup>                        | `CompoundStatement / effectiveTime` <sup>2</sup> or else `CompoundStatement / availibiltyTime [@value]` <sup>2</sup>                                                                         |
 | issued                                           | `ObservationStatement / availabilityTime [@value]`, or else `CompoundStatement / availibiltyTime [@value]` for `Filed Report`, or else `ehrCompostion / author / time [@value]` <sup>3</sup> |
-| performer\[0].reference                          | [Practitioner](../practioners/README.md) referenced in `CompoundStatement / participant` or else `EhrComposition / Participant2`                                                             |
+| performer\[0].reference                          | [Practitioner](../practitioners/README.md) referenced in `CompoundStatement / participant` or else `EhrComposition / Participant2`                                                           |
 | comment                                          | concatenated with newlines from child `NarrativeStatement / text` where the EDIFACT comment type is not `USER COMMENT`                                                                       |
 | specimen.reference                               | reference to the [Specimen](../diagnostic%20reports/README.md)                                                                                                                               |
 | related\[index].type                             | fixed value = `"has-member"`                                                                                                                                                                 |
@@ -978,7 +978,7 @@ Uncategorised data is mapped from an FHIR `Observation` to a HL7 `ObservationSta
       <center value="20100323133700"/>
    </effectiveTime>
    <availabilityTime value="20100323133700"/>
-   <value unit="1" value="12.000" xsi:type="PQ">
+   <value xsi:type="PQ" unit="1" value="12.000">
       <translation value="12.000">
          <originalText>U/L</originalText>
       </translation>
@@ -1005,6 +1005,85 @@ Uncategorised data is mapped from an FHIR `Observation` to a HL7 `ObservationSta
 </ObservationStatement>
 ```
 </details>
+
+#### Mapping for Uncategorised Data's Value
+
+The `value` is mapped from either  `Observation.valueQuantity` or `Observation.valueString`
+
+In the case of a `valueString` the resulting `observationStatement / value` will be produced with 
+`<value xsi:type="ST">{{valueString}}</value>`
+
+In the case of a `valueQuantity`, the resulting `observationStatement / value` will be produced with an `xsi:type` set 
+to either a `PQ` (physical quantity) or an `IVL_PQ` (interval physical quantity), both of which are detailed below.
+
+In the event that a `valueQuantity` contains an extension with a `valueQuantity.extension[].url` set to
+"https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-ValueApproximation-1", then an 
+`observationStatement.uncertaintyCode` will be produced with static values as below:
+```xml
+<uncertaintyCode code="U" codeSystem="2.16.840.1.113883.5.1053" displayName="Recorded as uncertain" />
+```
+
+###### Physical Quantity
+
+When a `valueQuantity.comparator` is not provided then the result value will be `xsi:type='PQ"`.
+
+When `valueQuantity.system` is provided with a value of `http://unitsofmeasure.org` then the result value will be
+```xml
+<value xsi:type="PQ" value="{valueQuantity.value}" unit="{valueQuantity.code}" />
+```
+When `valueQuantity.system` is provided with a value of `http://unitsofmeasure.org` but no `valueQuantity.code` is 
+provided then a nested translation, with a nested `originalText` element will be produced
+```xml
+<value xsi:type="PQ" value="{valueQuantity.value}" unit="1">
+                <translation value="{valueQuantity.value}">
+                    <originalText>{valueQuantity.unit}</originalText>
+                </translation>
+</value>
+```
+If `valueQuantity.system` is other than `http://unitsofmeasure.org` then a nested `translation` is produced.
+```xml
+<translation value="{valueQuantity.value}" 
+             code="{valueQuantity.code}" 
+             codeSystem="{valueQuantity.system}" 
+             displayName="{valueQuantity.unit}" />
+```
+If `valueQuantity.system` is not present then `translation / displayName` will not be produced.
+In the event that `valueQuantity.system` is not present or is other than `http://unitsofmeasure.org`
+and `valueSystem.code` is not present then an additional `value / translation / originalText` will be added with the
+content set to `valueQuantity.unit` and `value \[@unit]` will be set to `1`.
+
+In all other cases where `valueQuantity.code` and `valueQuantity.unit` are not present then the following will be
+produced:
+```xml
+<value xsi:type="PQ" value="{valueQuantity.value}" unit="1" />
+```
+
+If `valueQuantity.value` is not provided an `observationStatement / value` will not be produced.
+
+###### Interval Physical Quantity
+
+When a `valueQuantity.comparator` is not provided then the result value will be an interval PQ with `xsi:type='IVL_PQ"`.
+
+The same rules apply to intervals as to standard physical quantities, but with an additional element named either `high`
+or `low` wrapped in the original value element with a property of `inclusive`.
+
+The additional element will be `high` when `valueQuantity.comparator` is either `<` or `<=` and conversely will be `low`
+when `valueQuantity.comparitor` is either `>` or `>=`.
+
+The `inclusive` property or of either a `value / high` or `value / low` is set with `true` if `valueQuantity.compartor`
+is either `<=` or `>=` indicating that the value should be included in comparisons.
+
+An example is provided below:
+```xml
+<value xsi:type="IVL_PQ">
+    <high value="37.1" unit="1" inclusive="true">
+        <translation value="37.1">
+            <originalText>C</originalText>
+        </translation>
+    </high>
+</value>
+```
+
 
 #### Mapping for Uncategorised Data's Pertinent Information
 
