@@ -1025,7 +1025,7 @@ In the event that a `valueQuantity` contains an extension with a `valueQuantity.
 
 ###### Physical Quantity
 
-When a `valueQuantity.comparator` is not provided then the result value will be `xsi:type='PQ"`.
+When a `valueQuantity.comparator` is not provided then the result will be a value with `xsi:type='PQ"`.
 
 When `valueQuantity.system` is provided with a value of `http://unitsofmeasure.org` then the result value will be
 ```xml
