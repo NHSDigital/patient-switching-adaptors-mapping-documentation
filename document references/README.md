@@ -4,25 +4,26 @@
 
 A Document Reference is primarily mapped from a Narrative Statement. Where the EHR Composition is used, it is the parent of the Narrative Statement.
 
-| Mapped to (JSON FHIR Document Reference field) | Mapped from (XML HL7 / other source)                                                                                                                               |
-|------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| meta.profile                                   | fixed value = `"https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"`                                                                 |
-| id                                             | `NarrativeStatement / id [@root]`                                                                                                                                  |
-| identifier\[0].system                          | `"https://PSSAdaptor/{{losingOdsCode}}"` - where the `{{losingOdsCode}}` is the ODS code of the losing practice                                                    |
-| identifier\[0].value                           | `NarrativeStatement / id [@root]`                                                                                                                                  |
-| status                                         | fixed value = `"current"`                                                                                                                                          |
-| type                                           | `NarrativeStatement / reference / referredToExternalDocument / code` as described in the XML > FHIR section of [Codeable Concept](../codeable%20concept/README.md) |
-| subject                                        | reference to the mapped [Patient](../patient/README.md)                                                                                                            |
-| created                                        | `EhrComposition / AvailabilityTime`                                                                                                                                |
-| indexed                                        | `EhrComposition / author / time [@value]`                                                                                                                          |
-| author\[0]                                     | `NarrativeStatement / participant / agentRef[0] / id [@root]` or else `ehrComposition / Participant2 / id \[@root]`                                                |
-| custodian                                      | reference to the losing [Organisation](../organizations/README.md)                                                                                                 |
-| description                                    | `NarrativeStatement / text`                                                                                                                                        |
-| content.attachment.url                         | The URL of the attachment in the Adaptors file storage area (S3 / Blob Storage) <sup>1</sup>                                                                       |
-| content.attachment.size                        | The size of the file in the Adaptors file storage area (S3 / Blob Storage)                                                                                         |
-| content.attachment.title                       | fixed value = `"GP2GP generated placeholder. Original document not available. See notes for details"` <sup>2</sup>                                                 |
-| content.attachment.contentType                 | `NarrativeStatement / referredToExternalDocument / text [@mediaType]`                                                                                              |                                                       
-| context.encounter                              | reference to the associated [Encounter](../encounters/README.md) <sup>3</sup>                                                                                      |                                                       
+| Mapped to (JSON FHIR Document Reference field) | Mapped from (XML HL7 / other source)                                                                                                                                             |
+|------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| meta.profile                                   | fixed value = `"https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"`                                                                               |
+| meta.security                                  | When `ExternalDocument / confidentialityCode [@code]` is present and has a value of `NOPAT`. See [Confidentiality Codes](../confidentiality code/README.md) for mapping details. |
+| id                                             | `NarrativeStatement / id [@root]`                                                                                                                                                |
+| identifier\[0].system                          | `"https://PSSAdaptor/{{losingOdsCode}}"` - where the `{{losingOdsCode}}` is the ODS code of the losing practice                                                                  |
+| identifier\[0].value                           | `NarrativeStatement / id [@root]`                                                                                                                                                |
+| status                                         | fixed value = `"current"`                                                                                                                                                        |
+| type                                           | `NarrativeStatement / reference / referredToExternalDocument / code` as described in the XML > FHIR section of [Codeable Concept](../codeable%20concept/README.md)               |
+| subject                                        | reference to the mapped [Patient](../patient/README.md)                                                                                                                          |
+| created                                        | `EhrComposition / AvailabilityTime`                                                                                                                                              |
+| indexed                                        | `EhrComposition / author / time [@value]`                                                                                                                                        |
+| author\[0]                                     | `NarrativeStatement / participant / agentRef[0] / id [@root]` or else `ehrComposition / Participant2 / id \[@root]`                                                              |
+| custodian                                      | reference to the losing [Organisation](../organizations/README.md)                                                                                                               |
+| description                                    | `NarrativeStatement / text`                                                                                                                                                      |
+| content.attachment.url                         | The URL of the attachment in the Adaptors file storage area (S3 / Blob Storage) <sup>1</sup>                                                                                     |
+| content.attachment.size                        | The size of the file in the Adaptors file storage area (S3 / Blob Storage)                                                                                                       |
+| content.attachment.title                       | fixed value = `"GP2GP generated placeholder. Original document not available. See notes for details"` <sup>2</sup>                                                               |
+| content.attachment.contentType                 | `NarrativeStatement / referredToExternalDocument / text [@mediaType]`                                                                                                            |                                                       
+| context.encounter                              | reference to the associated [Encounter](../encounters/README.md) <sup>3</sup>                                                                                                    |                                                       
 
 <details>
     <summary>Example JSON</summary>
