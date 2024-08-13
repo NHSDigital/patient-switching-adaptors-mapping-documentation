@@ -7,24 +7,25 @@
 FHIR Diagnostic Reports are mapped from HL7 Compound Statements where `CompoundStatement [@classCode]` equals `"CLUSTER"`
 and `CompoundStatement / code [@code]` equals `"16488004"` (laboratory reporting).  
 
-| Mapped to (JSON FHIR DiagnosticReport field) | Mapped from (XML HL7 / other source)                                                                                                                                                                                                                                                                           |
-|----------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| id                                           | `CompoundStatement / id[0] [@root]`                                                                                                                                                                                                                                                                            |
-| meta.profile\[0]                             | fixed value = `"https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DiagnosticReport-1"`                                                                                                                                                                                                              |
-| identifier\[0].system                        | `"https://PSSAdaptor/{{odsCode}}` where `{{odsCode}}` is the ODS Code of the losing practice                                                                                                                                                                                                                   |
-| identifier\[0].value                         | `CompoundStatement / id[0] [@root]`                                                                                                                                                                                                                                                                            |
-| identifier\[1].system                        | fixed value = `"urn:oid:2.16.840.1.113883.2.1.4.5.5"` <sup>1</sup>                                                                                                                                                                                                                                                     |
-| identifier\[1].value                         | `CompoundStatement / id[1] [@extension]` <sup>1</sup>                                                                                                                                                                                                                                                          |
-| status                                       | fixed value = `"unknown"`                                                                                                                                                                                                                                                                                      |
-| code.coding\[0].code                         | fixed value =  `"721981007"`                                                                                                                                                                                                                                                                                   |
-| code.coding\[0].system                       | fixed value = `"http://snomed.info/sct"`                                                                                                                                                                                                                                                                       |
-| code.coding\[0].display                      | fixed value = `"Diagnostic studies report"`                                                                                                                                                                                                                                                                    |
-| subject.reference                            | reference to the mapped [Patient](../patient/README.md)                                                                                                                                                                                                                                                        | 
-| context.reference                            | reference to the associated [Encounter](../encounters/README.md)                                                                                                                                                                                                                                               |
-| issued                                       | `CompoundStatement /availabilityTime [@value]` or else `ehrComposition / author / time [@value]`                                                                                                                                                                                                               |
-| specimen.reference                           | reference to the [Specimen(s)](#Specimen-(XML->-JSON)) the results are based on                                                                                                                                                                                                                                |
-| result\[index].reference                     | ordered references to the associated Observations, either [Test Result Header](../observations/README.md#Test-Group-Header-(XML-HL7->-JSON-FHIR)), [Test Result](../observations/README.md#Test-Result-(XML-HL7->-JSON-FHIR)) or [Test Report Filing](../observations/README.md#Filing-Comment-(XML-HL7->-JSON-FHIR))   |
-| conclusion                                   | `CompoundStatement / component / NarrativeStatement / text` <sup>2</sup>                                                                                                                                                                                                                                       |
+| Mapped to (JSON FHIR DiagnosticReport field) | Mapped from (XML HL7 / other source)                                                                                                                                                                                                                                                                                  |
+|----------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| id                                           | `CompoundStatement / id[0] [@root]`                                                                                                                                                                                                                                                                                   |
+| meta.profile\[0]                             | fixed value = `"https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DiagnosticReport-1"`                                                                                                                                                                                                                     |
+| meta.security                                | When `CompoundStatement / confidentialityCode [@code]` or `EhrComposition / confidentialityCode [@code]` is present and has a value of `NOPAT`. See [Confidentiality Codes](../confidentiality code/README.md) for mapping details.                                                                                   |
+| identifier\[0].system                        | `"https://PSSAdaptor/{{odsCode}}` where `{{odsCode}}` is the ODS Code of the losing practice                                                                                                                                                                                                                          |
+| identifier\[0].value                         | `CompoundStatement / id[0] [@root]`                                                                                                                                                                                                                                                                                   |
+| identifier\[1].system                        | fixed value = `"urn:oid:2.16.840.1.113883.2.1.4.5.5"` <sup>1</sup>                                                                                                                                                                                                                                                    |
+| identifier\[1].value                         | `CompoundStatement / id[1] [@extension]` <sup>1</sup>                                                                                                                                                                                                                                                                 |
+| status                                       | fixed value = `"unknown"`                                                                                                                                                                                                                                                                                             |
+| code.coding\[0].code                         | fixed value =  `"721981007"`                                                                                                                                                                                                                                                                                          |
+| code.coding\[0].system                       | fixed value = `"http://snomed.info/sct"`                                                                                                                                                                                                                                                                              |
+| code.coding\[0].display                      | fixed value = `"Diagnostic studies report"`                                                                                                                                                                                                                                                                           |
+| subject.reference                            | reference to the mapped [Patient](../patient/README.md)                                                                                                                                                                                                                                                               | 
+| context.reference                            | reference to the associated [Encounter](../encounters/README.md)                                                                                                                                                                                                                                                      |
+| issued                                       | `CompoundStatement /availabilityTime [@value]` or else `ehrComposition / author / time [@value]`                                                                                                                                                                                                                      |
+| specimen.reference                           | reference to the [Specimen(s)](#Specimen-(XML->-JSON)) the results are based on                                                                                                                                                                                                                                       |
+| result\[index].reference                     | ordered references to the associated Observations, either [Test Result Header](../observations/README.md#Test-Group-Header-(XML-HL7->-JSON-FHIR)), [Test Result](../observations/README.md#Test-Result-(XML-HL7->-JSON-FHIR)) or [Test Report Filing](../observations/README.md#Filing-Comment-(XML-HL7->-JSON-FHIR)) |
+| conclusion                                   | `CompoundStatement / component / NarrativeStatement / text` <sup>2</sup>                                                                                                                                                                                                                                              |
 
 
 <details>
@@ -38,7 +39,14 @@ and `CompoundStatement / code [@code]` equals `"16488004"` (laboratory reporting
   "id": "5A8B9936-B771-488E-9103-3331629690C4",
   "meta": {
    "profile": [
-    "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DiagnosticReport-1"
+    "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"
+   ],
+   "security":[
+    {
+     "system":"http://hl7.org/fhir/v3/ActCode",
+     "code":"NOPAT",
+     "display":"no disclosure to patient, family or caregivers without attending provider's authorization"
+    }
    ]
   },
   "identifier": [
@@ -102,17 +110,18 @@ The adaptor is not currently mapping the following Diagnostic Report fields:
 A Specimen is mapped from HL7 `CompoundStatement` with code `123038009` (specimen (specimen)) where it is a 
 **child component** of a `CompoundStatement`with code `16488004` (laboratory reporting).    
 
-| Mapped to (JSON FHIR Specimen field) | Mapped from (XML HL7 / other source)                                                          |
-|--------------------------------------|-----------------------------------------------------------------------------------------------|
-| id                                   | `CompoundStatement / id [@root]`                                                              |
-| meta.profile[0]                      | fixed value = `"https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Specimen-1"`     |
-| identifier[0].system                 | `"https://PSSAdaptor/{{odsCode}}"` - where {{odsCode}} is the ODS code of the losing practice |
-| identifier[0].value                  | `CompoundStatement / id [@root]`                                                              |
-| accessionIdentifier.value            | `CompoundStatement / specimen[0] / specimenRole / id[1] [@extension]`                         |
-| type.text                            | `CompoundStatement / specimen[0] / specimenRole / specimenSpecimenMaterial / desc`            | 
-| subject.reference                    | reference to the mapped [Patient](../patient/README.md)                                       |
-| collection.collectedDateTime         | `CompoundStatement / specimen[0] / specimenRole / effectiveTime / center [@value]`            |
-| note[0].text                         | `CompoundStatement / component / NarrativeStatement / text` <sup>3</sup>                      |
+| Mapped to (JSON FHIR Specimen field) | Mapped from (XML HL7 / other source)                                                                                                                                                                                                  |
+|--------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| id                                   | `CompoundStatement / id [@root]`                                                                                                                                                                                                      |
+| meta.profile[0]                      | fixed value = `"https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Specimen-1"`                                                                                                                                             |
+| meta.security                        | When `CompoundStatement / confidentialityCode [@code]` or `EhrComposition / confidentialityCode [@code]` is present and has a value of `NOPAT`. See [Confidentiality Codes](../confidentiality code/README.md) for mapping details.   |
+| identifier[0].system                 | `"https://PSSAdaptor/{{odsCode}}"` - where {{odsCode}} is the ODS code of the losing practice                                                                                                                                         |
+| identifier[0].value                  | `CompoundStatement / id [@root]`                                                                                                                                                                                                      |
+| accessionIdentifier.value            | `CompoundStatement / specimen[0] / specimenRole / id[1] [@extension]`                                                                                                                                                                 |
+| type.text                            | `CompoundStatement / specimen[0] / specimenRole / specimenSpecimenMaterial / desc`                                                                                                                                                    | 
+| subject.reference                    | reference to the mapped [Patient](../patient/README.md)                                                                                                                                                                               |
+| collection.collectedDateTime         | `CompoundStatement / specimen[0] / specimenRole / effectiveTime / center [@value]`                                                                                                                                                    |
+| note[0].text                         | `CompoundStatement / component / NarrativeStatement / text` <sup>3</sup>                                                                                                                                                              |
 
 
 <details>
@@ -124,11 +133,18 @@ A Specimen is mapped from HL7 `CompoundStatement` with code `123038009` (specime
   "resource": {
     "resourceType": "Specimen",
     "id": "73A3DD99-861F-45E3-B7BB-30F71A74AE85",
-    "meta": {
-      "profile": [
-        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Specimen-1"
-      ]
-    },
+   "meta": {
+    "profile": [
+     "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"
+    ],
+    "security":[
+     {
+      "system":"http://hl7.org/fhir/v3/ActCode",
+      "code":"NOPAT",
+      "display":"no disclosure to patient, family or caregivers without attending provider's authorization"
+     }
+    ]
+   },
     "identifier": [
       {
         "system": "https://PSSAdaptor/D5445",
