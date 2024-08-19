@@ -27,6 +27,7 @@ or [Immunization](../immunisations/README.md).
 |--------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | id                                               | `ObservationStatement / id \[@root]`                                                                                                                                                                                                                          |
 | meta.profile\[0]                                 | fixed value = `"https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"`                                                                                                                                                                  |
+| meta.security                                    | When `ObservationStatement / confidentialityCode [@code]`, `EhrComposition / confidentialityCode [@code]`, or any `CompoundStatement / ObservationStatement[] / confidentialityCode [@code]` is present and has a value of `NOPAT`. See [Confidentiality Codes](../confidentiality code/README.md) for mapping details. |       
 | identifier\[0].system                            | `"https://PSSAdaptor/{{losingOdsCode}}"` - where the `{{losingOdsCode}}` is the ODS code of the losing practice                                                                                                                                               |
 | identifier\[0].value                             | `ObservationStatement / id \[@root]`                                                                                                                                                                                                                          |
 | status                                           | fixed value = `"final"`                                                                                                                                                                                                                                       |
@@ -62,6 +63,13 @@ or [Immunization](../immunisations/README.md).
       "meta": {
          "profile": [
             "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"
+         ],
+         "security":[
+          {
+            "system":"http://hl7.org/fhir/v3/ActCode",
+            "code":"NOPAT",
+            "display":"no disclosure to patient, family or caregivers without attending provider's authorization"
+          }
          ]
       },
       "identifier": [
@@ -69,7 +77,7 @@ or [Immunization](../immunisations/README.md).
             "system": "https://PSSAdaptor/D5445",
             "value": "CF0BAFD7-9E92-4DB5-B7EE-B37DBD30AD93"
          }
-      ],
+      ],      
       "status": "final",
       "code": {
          "coding": [
@@ -149,31 +157,31 @@ known as a "blood pressure triple", where the SNOMED codes identify them as a bl
 [GP Connect documentation](https://developer.nhs.uk/apis/gpconnect-1-6-0/accessrecord_structured_development_uncategorisedData_guidance.html#representing-blood-pressure-readings-from-gp-systems)
 .
 
-| Mapped to (JSON FHIR Observation resource field)    | Mapped from (XML HL7 / other)                                                                                                                                                                                                                                                                                        |
-|-----------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| id                                                  | `CompoundStatement / id [@root]`                                                                                                                                                                                                                                                                                     |
-| meta.profile\[0]                                    | fixed value = `"https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"`                                                                                                                                                                                                                         |
-| meta.security                                       | When `CompoundStatement / confidentialityCode [@code]`, `EhrComposition / confidentialityCode [@code]`, or any `CompoundStatement / ObservationStatement[] / confidentialityCode [@code]` is present and has a value of `NOPAT`. See [Confidentiality Codes](../confidentiality code/README.md) for mapping details. |
-| identifier\[0].system                               | `"https://PSSAdaptor/{{losingOdsCode}}"` - where the `{{losingOdsCode}}` is the ODS code of the losing practice                                                                                                                                                                                                      |
-| identifier\[0].value                                | `CompoundStatement / id \[@root]`                                                                                                                                                                                                                                                                                    |
-| status                                              | fixed value = `"final"`                                                                                                                                                                                                                                                                                              |
-| code                                                | `CompoundStatement / code` as described in the XML > FHIR section of [Codeable Concept](../codeable%20concept/README.md)                                                                                                                                                                                             | 
-| subject.reference                                   | reference to the mapped [Patient](../patient/README.md)                                                                                                                                                                                                                                                              |
-| context.reference                                   | reference to the associated [Encounter](../encounters/README.md) (if present)                                                                                                                                                                                                                                        |
-| effective(x) <sup>2</sup>                           | `CompoundStatement / effectiveTime` <sup>2</sup> or else `CompoundStatement / availibiltyTime [@value]` <sup>2</sup>                                                                                                                                                                                                 |
-| issued                                              | `ehrCompostion / author / time [@value]` <sup>3</sup>                                                                                                                                                                                                                                                                | 
-| performer\[0].reference                             | Practitioner referenced in `CompoundStatement / participant` <sup>4</sup>, or else `EhrComposition / Participant2`                                                                                                                                                                                                   |
-| component\[index].code                              | `ObservationStatement.code` <sup>5</sup>   as described in the XML > FHIR section of [Codeable Concept](../codeable%20concept/README.md)                                                                                                                                                                             |
-| component\[index].valueQuantity                     | `ObservationStatement / value` where `ObservationStatement / value [@type]` is `"PQ"` or `"IVLPQ"` <sup>5</sup>                                                                                                                                                                                                      |
-| component\[index].valueQuantity.extension\[0].url   | fixed value = `"https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-ValueApproximation-1"` <sup>1</sup>                                                                                                                                                                                           |
-| component\[index].valueQuantity.extension\[0].value | fixed value = `true` <sup>1</sup>                                                                                                                                                                                                                                                                                    |
-| component\[index].interpretation.coding\[0].code    | `ObservationStatement / interpretationCode [@code]`                                                                                                                                                                                                                                                                  |
-| component\[index].interpretation.coding\[0].display | `ObservationStatement / interpretationCode [@code]` - human readable translation i.e. `"High"`, `"Low"`, `"Abnormal"`                                                                                                                                                                                                |
-| component\[index].interpretation.coding\[0].system  | fixed value = `"http://hl7.org/fhir/v2/0078"`                                                                                                                                                                                                                                                                        |
-| component\[index].referenceRange\[index].text       | `ObservationStatement / referenceRange[index] / referenceInterpretationRange / text`                                                                                                                                                                                                                                 |
-| component\[index].referenceRange\[index].high.value | `ObservationStatement / referenceRange\[index] / referenceInterpretationRange / value / high`                                                                                                                                                                                                                        |
-| component\[index].referenceRange\[index].low.value  | `ObservationStatement / referenceRange\[index] / referenceInterpretationRange / value / low`                                                                                                                                                                                                                         |
-| comment                                             | concatenated from each `ObservationStatement / pertinentInformation / pertinentAnnotation / text` <sup>6</sup> and `NarrativeStatement / text` <sup>7</sup><br>Qualifiers such as episodicity (SNOMED 288526004) may be added, wrapped in curly brackets.                                                            |
+| Mapped to (JSON FHIR Observation resource field)    | Mapped from (XML HL7 / other)                                                                                                                                                                                                                                                                                          |
+|-----------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| id                                                  | `CompoundStatement / id [@root]`                                                                                                                                                                                                                                                                                       |
+| meta.profile\[0]                                    | fixed value = `"https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"`                                                                                                                                                                                                                           |
+| meta.security                                       | When `CompoundStatement / confidentialityCode [@code]`, `EhrComposition / confidentialityCode [@code]`, or any `CompoundStatement / ObservationStatement[] / confidentialityCode [@code]` is present and has a value of `NOPAT`. See [Confidentiality Codes](../confidentiality code/README.md) for mapping details.   |
+| identifier\[0].system                               | `"https://PSSAdaptor/{{losingOdsCode}}"` - where the `{{losingOdsCode}}` is the ODS code of the losing practice                                                                                                                                                                                                        |
+| identifier\[0].value                                | `CompoundStatement / id \[@root]`                                                                                                                                                                                                                                                                                      |
+| status                                              | fixed value = `"final"`                                                                                                                                                                                                                                                                                                |
+| code                                                | `CompoundStatement / code` as described in the XML > FHIR section of [Codeable Concept](../codeable%20concept/README.md)                                                                                                                                                                                               | 
+| subject.reference                                   | reference to the mapped [Patient](../patient/README.md)                                                                                                                                                                                                                                                                |
+| context.reference                                   | reference to the associated [Encounter](../encounters/README.md) (if present)                                                                                                                                                                                                                                          |
+| effective(x) <sup>2</sup>                           | `CompoundStatement / effectiveTime` <sup>2</sup> or else `CompoundStatement / availibiltyTime [@value]` <sup>2</sup>                                                                                                                                                                                                   |
+| issued                                              | `ehrCompostion / author / time [@value]` <sup>3</sup>                                                                                                                                                                                                                                                                  | 
+| performer\[0].reference                             | Practitioner referenced in `CompoundStatement / participant` <sup>4</sup>, or else `EhrComposition / Participant2`                                                                                                                                                                                                     |
+| component\[index].code                              | `ObservationStatement.code` <sup>5</sup>   as described in the XML > FHIR section of [Codeable Concept](../codeable%20concept/README.md)                                                                                                                                                                               |
+| component\[index].valueQuantity                     | `ObservationStatement / value` where `ObservationStatement / value [@type]` is `"PQ"` or `"IVLPQ"` <sup>5</sup>                                                                                                                                                                                                        |
+| component\[index].valueQuantity.extension\[0].url   | fixed value = `"https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-ValueApproximation-1"` <sup>1</sup>                                                                                                                                                                                             |
+| component\[index].valueQuantity.extension\[0].value | fixed value = `true` <sup>1</sup>                                                                                                                                                                                                                                                                                      |
+| component\[index].interpretation.coding\[0].code    | `ObservationStatement / interpretationCode [@code]`                                                                                                                                                                                                                                                                    |
+| component\[index].interpretation.coding\[0].display | `ObservationStatement / interpretationCode [@code]` - human readable translation i.e. `"High"`, `"Low"`, `"Abnormal"`                                                                                                                                                                                                  |
+| component\[index].interpretation.coding\[0].system  | fixed value = `"http://hl7.org/fhir/v2/0078"`                                                                                                                                                                                                                                                                          |
+| component\[index].referenceRange\[index].text       | `ObservationStatement / referenceRange[index] / referenceInterpretationRange / text`                                                                                                                                                                                                                                   |
+| component\[index].referenceRange\[index].high.value | `ObservationStatement / referenceRange\[index] / referenceInterpretationRange / value / high`                                                                                                                                                                                                                          |
+| component\[index].referenceRange\[index].low.value  | `ObservationStatement / referenceRange\[index] / referenceInterpretationRange / value / low`                                                                                                                                                                                                                           |
+| comment                                             | concatenated from each `ObservationStatement / pertinentInformation / pertinentAnnotation / text` <sup>6</sup> and `NarrativeStatement / text` <sup>7</sup><br>Qualifiers such as episodicity (SNOMED 288526004) may be added, wrapped in curly brackets.                                                              |
 
 <details>
 <summary>Example JSON</summary>
@@ -200,7 +208,7 @@ known as a "blood pressure triple", where the SNOMED codes identify them as a bl
         "system": "https://PSSAdaptor/D5445",
         "value": "F25C1328-B6D2-412F-9C56-A8F21182F100"
       }
-    ],
+    ],    
     "status": "final",
     "code": {
       "coding": [
@@ -303,24 +311,25 @@ known as a "blood pressure triple", where the SNOMED codes identify them as a bl
 If a referral is deemed to be a self referral, the HL7 `RequestStatement` is mapped to an FHIR `Observation`. Self referrals 
 are identified by `RequestStatement / code / qualifier /value [@code]`, where it is equal to `"SelfReferral`.
 
-| Mapped to (JSON FHIR Observation resource field) | Mapped from (XML HL7 / other)                                                                                                                   |
-|--------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------|
-| id                                               | `RequestStatement / id [@root]`                                                                                                                 |
-| meta.profile\[0]                                 | fixed value = `"https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"`                                                    |
-| identifier\[0].system                            | `"https://PSSAdaptor/{{losingOdsCode}}"` - where the `{{losingOdsCode}}` is the ODS code of the losing practice                                 |
-| identifier\[0].value                             | `RequestStatement / id \[@root]`                                                                                                                |
-| status                                           | fixed value = `"final"`                                                                                                                         |
-| code                                             | `RequestStatement / code` as described in the XML > FHIR section of [Codeable Concept](../codeable%20concept/README.md)                         |
-| issued                                           | `ehrCompostion / author / time [@value]` <sup>3</sup>                                                                                           |
-| subject.reference                                | reference to the mapped [Patient](../patient/README.md)                                                                                         |  
-| context.reference                                | reference to the associated [Encounter](../encounters/README.md) (if present)                                                                   |
-| effective(x) <sup>2</sup>                        | `RequestStatement / effectiveTime` <sup>2</sup> or else `RequestStatement / availibiltyTime [@value]` <sup>2</sup>                              | 
-| performer\[0].reference                          | [Practitioner](../practitioners/README.md) referenced in `RequestStatement / participant` <sup>8</sup>, or else `EhrComposition / Participant2` |      
-| comment                                          | fixed value = `"SelfRerreral"`                                                                                                                  |
-| component\[0].code.text                          | fixed value = `"Urgency"`                                                                                                                       |
-| component\[0].valueString                        | `RequestStatement / priorityCode / originalText`                                                                                                |
-| component\[1].code.text                          | fixed value = `"Text"`                                                                                                                          |
-| component\[1].valueString                        | `RequestStatement / text`                                                                                                                       |
+| Mapped to (JSON FHIR Observation resource field)  | Mapped from (XML HL7 / other)                                                                                                                   |
+|---------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------|
+| id                                                | `RequestStatement / id [@root]`                                                                                                                 |
+| meta.profile\[0]                                  | fixed value = `"https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"`                                                    |
+| meta.security                                     | When `RequestStatement / confidentialityCode [@code]` is present and has a value of `NOPAT`. See [Confidentiality Codes](../confidentiality code/README.md) for mapping details. |
+| identifier\[0].system                             | `"https://PSSAdaptor/{{losingOdsCode}}"` - where the `{{losingOdsCode}}` is the ODS code of the losing practice                                 |
+| identifier\[0].value                              | `RequestStatement / id \[@root]`                                                                                                                |
+| status                                            | fixed value = `"final"`                                                                                                                         |
+| code                                              | `RequestStatement / code` as described in the XML > FHIR section of [Codeable Concept](../codeable%20concept/README.md)                         |
+| issued                                            | `ehrCompostion / author / time [@value]` <sup>3</sup>                                                                                           |
+| subject.reference                                 | reference to the mapped [Patient](../patient/README.md)                                                                                         |  
+| context.reference                                 | reference to the associated [Encounter](../encounters/README.md) (if present)                                                                   |
+| effective(x) <sup>2</sup>                         | `RequestStatement / effectiveTime` <sup>2</sup> or else `RequestStatement / availibiltyTime [@value]` <sup>2</sup>                              | 
+| performer\[0].reference                           | [Practitioner](../practitioners/README.md) referenced in `RequestStatement / participant` <sup>8</sup>, or else `EhrComposition / Participant2` |      
+| comment                                           | fixed value = `"SelfRerreral"`                                                                                                                  |
+| component\[0].code.text                           | fixed value = `"Urgency"`                                                                                                                       |
+| component\[0].valueString                         | `RequestStatement / priorityCode / originalText`                                                                                                |
+| component\[1].code.text                           | fixed value = `"Text"`                                                                                                                          |
+| component\[1].valueString                         | `RequestStatement / text`                                                                                                                       |
 
 <details>
 <summary>Example JSON</summary>
@@ -333,6 +342,13 @@ are identified by `RequestStatement / code / qualifier /value [@code]`, where it
     "meta": {
       "profile": [
         "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"
+      ],
+      "security": [
+        {
+          "system":"http://hl7.org/fhir/v3/ActCode",
+          "code":"NOPAT",
+          "display":"no disclosure to patient, family or caregivers without attending provider's authorization"
+        }
       ]
     },
     "identifier": [
@@ -340,7 +356,7 @@ are identified by `RequestStatement / code / qualifier /value [@code]`, where it
         "system": "https://PSSAdaptor/D5445",
         "value": "8D61D723-D51D-44FB-B814-0EB69DB1D6F4"
       }
-    ],
+    ],    
     "status": "final",
     "code": {
       "coding": [
@@ -413,26 +429,27 @@ For more information on how Investigations are represented in GP Connect see [In
 Test group headers are mapped from a nested `CompoundStatement` with a class code of `BATTERY` where
 the parent compound statements are deemed to from a [Diagnostic Report](../diagnostic%20reports/README.md).
 
-| Mapped to (JSON FHIR Observation resource field) | Mapped from (XML HL7 / other)                                                                                                                                                                |
-|--------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| id                                               | `CompoundStatement / id [@root]`                                                                                                                                                             |
-| meta.profile\[0]                                 | fixed value = `"https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"`                                                                                                 |
-| identifier\[0].system                            | `"https://PSSAdaptor/{{losingOdsCode}}"` - where the `{{losingOdsCode}}` is the ODS code of the losing practice                                                                              |
-| identifier\[0].value                             | `CompoundStatement / id \[@root]`                                                                                                                                                            |
-| status                                           | fixed value = `"final"`                                                                                                                                                                      |
-| category\[0].coding\[0].code                     | fixed value = `"laboratory"`                                                                                                                                                                 |
-| category\[0].coding\[0].system                   | fixed value = `"http://hl7.org/fhir/observation-category"`                                                                                                                                   |
-| category\[0].coding\[0].display                  | fixed value = `"Laboratory"`                                                                                                                                                                 |
-| code                                             | `CompoundStatement / code` as described in the XML > FHIR section of [Codeable Concept](../codeable%20concept/README.md)                                                                     |
-| subject.reference                                | reference to the mapped [Patient](../patient/README.md)                                                                                                                                      |  
-| context.reference                                | reference to the associated [Encounter](../encounters/README.md) (if present)                                                                                                                |
-| effective(x) <sup>2</sup>                        | `CompoundStatement / effectiveTime` <sup>2</sup> or else `CompoundStatement / availibiltyTime [@value]` <sup>2</sup>                                                                         |
-| issued                                           | `ObservationStatement / availabilityTime [@value]`, or else `CompoundStatement / availibiltyTime [@value]` for `Filed Report`, or else `ehrCompostion / author / time [@value]` <sup>3</sup> |
-| performer\[0].reference                          | [Practitioner](../practitioners/README.md) referenced in `CompoundStatement / participant` or else `EhrComposition / Participant2`                                                           |
-| comment                                          | concatenated with newlines from child `NarrativeStatement / text` where the EDIFACT comment type is not `USER COMMENT`                                                                       |
-| specimen.reference                               | reference to the [Specimen](../diagnostic%20reports/README.md)                                                                                                                               |
-| related\[index].type                             | fixed value = `"has-member"`                                                                                                                                                                 |
-| related\[index].target.reference                 | reference to component [Test Result](#test-result-xml-hl7--json-fhir)                                                                                                                        |
+| Mapped to (JSON FHIR Observation resource field)   | Mapped from (XML HL7 / other)                                                                                                                                                                |
+|----------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| id                                                 | `CompoundStatement / id [@root]`                                                                                                                                                             |
+| meta.profile\[0]                                   | fixed value = `"https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"`                                                                                                 |
+| meta.security                                      | When `CompoundStatement / confidentialityCode [@code]` is present and has a value of `NOPAT`. See [Confidentiality Codes](../confidentiality code/README.md) for mapping details. |
+| identifier\[0].system                              | `"https://PSSAdaptor/{{losingOdsCode}}"` - where the `{{losingOdsCode}}` is the ODS code of the losing practice                                                                              |
+| identifier\[0].value                               | `CompoundStatement / id \[@root]`                                                                                                                                                            |
+| status                                             | fixed value = `"final"`                                                                                                                                                                      |
+| category\[0].coding\[0].code                       | fixed value = `"laboratory"`                                                                                                                                                                 |
+| category\[0].coding\[0].system                     | fixed value = `"http://hl7.org/fhir/observation-category"`                                                                                                                                   |
+| category\[0].coding\[0].display                    | fixed value = `"Laboratory"`                                                                                                                                                                 |
+| code                                               | `CompoundStatement / code` as described in the XML > FHIR section of [Codeable Concept](../codeable%20concept/README.md)                                                                     |
+| subject.reference                                  | reference to the mapped [Patient](../patient/README.md)                                                                                                                                      |  
+| context.reference                                  | reference to the associated [Encounter](../encounters/README.md) (if present)                                                                                                                |
+| effective(x) <sup>2</sup>                          | `CompoundStatement / effectiveTime` <sup>2</sup> or else `CompoundStatement / availibiltyTime [@value]` <sup>2</sup>                                                                         |
+| issued                                             | `ObservationStatement / availabilityTime [@value]`, or else `CompoundStatement / availibiltyTime [@value]` for `Filed Report`, or else `ehrCompostion / author / time [@value]` <sup>3</sup> |
+| performer\[0].reference                            | [Practitioner](../practitioners/README.md) referenced in `CompoundStatement / participant` or else `EhrComposition / Participant2`                                                           |
+| comment                                            | concatenated with newlines from child `NarrativeStatement / text` where the EDIFACT comment type is not `USER COMMENT`                                                                       |
+| specimen.reference                                 | reference to the [Specimen](../diagnostic%20reports/README.md)                                                                                                                               |
+| related\[index].type                               | fixed value = `"has-member"`                                                                                                                                                                 |
+| related\[index].target.reference                   | reference to component [Test Result](#test-result-xml-hl7--json-fhir)                                                                                                                        |
 
 <details>
 <summary>Example JSON</summary>
@@ -445,7 +462,14 @@ the parent compound statements are deemed to from a [Diagnostic Report](../diagn
     "meta": {
       "profile": [
         "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"
-      ]
+      ],
+    "security":[
+       {
+          "system":"http://hl7.org/fhir/v3/ActCode",
+          "code":"NOPAT",
+          "display":"no disclosure to patient, family or caregivers without attending provider's authorization"
+       }
+    ]
     },
     "identifier": [
       {
@@ -624,6 +648,7 @@ Filing Comment is not created.
 |--------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | id                                               | `NarrativeStatement / id [@root]`                                                                                                                           |
 | meta.profile\[0]                                 | fixed value = `"https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"`                                                                |
+| meta.security                                    | When `NarrativeStatement / confidentialityCode [@code]` is present and has a value of `NOPAT`. See [Confidentiality Codes](../confidentiality code/README.md) for mapping details.        |
 | identifier\[0].system                            | `"https://PSSAdaptor/{{losingOdsCode}}"` - where the `{{losingOdsCode}}` is the ODS code of the losing practice                                             |
 | identifier\[0].value                             | `NarrativeStatement / id \[@root]`                                                                                                                          |
 | status                                           | fixed value = `"final"`                                                                                                                                     |
@@ -651,6 +676,13 @@ Filing Comment is not created.
     "meta": {
       "profile": [
         "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"
+      ],
+      "security":[
+        {
+          "system":"http://hl7.org/fhir/v3/ActCode",
+          "code":"NOPAT",
+          "display":"no disclosure to patient, family or caregivers without attending provider's authorization"
+        }
       ]
     },
     "identifier": [
@@ -705,21 +737,22 @@ Additionally, any `ObservationStatement` component will be mapped to a separate 
 
 ### Componentised observation header (XML HL7 > JSON FHIR)
 
-| Mapped to (JSON FHIR Observation resource field) | Mapped from (XML HL7 / other)                                                                                            |
-|--------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------|
-| id                                               | `CompoundStatement / id [@root]`                                                                                         |
-| meta.profile\[0]                                 | fixed value = `"https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"`                             |
-| identifier\[0].system                            | `"https://PSSAdaptor/{{losingOdsCode}}"` - where the `{{losingOdsCode}}` is the ODS code of the losing practice          |
-| identifier\[0].value                             | `CompoundStatement / id \[@root]`                                                                                        |
-| status                                           | fixed value = `"final"`                                                                                                  |
-| code                                             | `CompoundStatement / code` as described in the XML > FHIR section of [Codeable Concept](../codeable%20concept/README.md) |
-| subject.reference                                | reference to the mapped [Patient](../patient/README.md)                                                                  |
-| context.reference                                | reference to the associated [Encounter](../encounters/README.md) (if present)                                            |
-| effective(x) <sup>2</sup>                        | `CompoundStatement / effectiveTime` <sup>2</sup> or else `CompoundStatement / availibiltyTime [@value]` <sup>2</sup>     |
-| issued                                           | `ehrCompostion / author / time [@value]` <sup>3</sup>                                                                    |
-| performer\[0].reference                          | Practitioner referenced in `ObservationStatement / participant` <sup>4</sup>, or else `EhrComposition / Participant2`    |
-| related\[index].type                             | fixed value = `"has-member"`                                                                                             |
-| related\[index].target                           | reference to the child Observation - [Test Result](#test-result-xml-hl7--json-fhir)                                      |
+| Mapped to (JSON FHIR Observation resource field) | Mapped from (XML HL7 / other)                                                                                                                                                                   |
+|--------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| id                                               | `CompoundStatement / id [@root]`                                                                                                                                                                |
+| meta.profile\[0]                                 | fixed value = `"https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"`                                                                                                    |
+| meta.security                                    | When `CompoundStatement / confidentialityCode [@code]` is present and has a value of `NOPAT`. See [Confidentiality Codes](../confidentiality code/README.md) for mapping details.               |
+| identifier\[0].system                            | `"https://PSSAdaptor/{{losingOdsCode}}"` - where the `{{losingOdsCode}}` is the ODS code of the losing practice                                                                                 |
+| identifier\[0].value                             | `CompoundStatement / id \[@root]`                                                                                                                                                               |
+| status                                           | fixed value = `"final"`                                                                                                                                                                         |
+| code                                             | `CompoundStatement / code` as described in the XML > FHIR section of [Codeable Concept](../codeable%20concept/README.md)                                                                        |
+| subject.reference                                | reference to the mapped [Patient](../patient/README.md)                                                                                                                                         |
+| context.reference                                | reference to the associated [Encounter](../encounters/README.md) (if present)                                                                                                                   |
+| effective(x) <sup>2</sup>                        | `CompoundStatement / effectiveTime` <sup>2</sup> or else `CompoundStatement / availibiltyTime [@value]` <sup>2</sup>                                                                            |
+| issued                                           | `ehrCompostion / author / time [@value]` <sup>3</sup>                                                                                                                                           |
+| performer\[0].reference                          | Practitioner referenced in `ObservationStatement / participant` <sup>4</sup>, or else `EhrComposition / Participant2`                                                                           |
+| related\[index].type                             | fixed value = `"has-member"`                                                                                                                                                                    |
+| related\[index].target                           | reference to the child Observation - [Test Result](#test-result-xml-hl7--json-fhir)                                                                                                             |
 
 <details>
 <summary>Example JSON</summary>
@@ -733,6 +766,13 @@ Additionally, any `ObservationStatement` component will be mapped to a separate 
       "meta": {
          "profile": [
             "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"
+         ],
+         "security":[
+          {
+            "system":"http://hl7.org/fhir/v3/ActCode",
+            "code":"NOPAT",
+            "display":"no disclosure to patient, family or caregivers without attending provider's authorization"
+          }
          ]
       },
       "identifier": [
