@@ -68,6 +68,13 @@ The following Medication Statement fields are not currently populated by the ada
     "meta": {
       "profile": [
         "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1"
+      ],
+      "security": [
+        {
+          "system": "http://hl7.org/fhir/v3/ActCode",
+          "code": "NOPAT",
+          "display": "no disclosure to patient, family or caregivers without attending provider's authorization"
+        }
       ]
     },
     "extension": [
@@ -130,6 +137,7 @@ An XML HL7 `MedicationStatement` is mapped from a FHIR `medicationRequest` and a
 | statusCode \[@code]                                                                      | Mapped from `medicationRequest.status` - either `ACTIVE` or `COMPLETE`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
 | effectiveTime                                                                            | Mapped from `medicationRequest.dispenseRequest.validityPeriod` - will either have Start (low)  & End (high) or only Start                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
 | availabilityTime \[@value]                                                               | Mapped from `medicationRequest.dispenseRequest.validityPeriod.start`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| confidentialityCode                                                                      | When `medicationRequest.meta.security` is present and has a value of `NOPAT`. See [Confidentiality Codes](../confidentiality code/README.md) for mapping details.                                                                                                                                                                                                                                                                                                                                                                                                                    |
 | consumable \ manufacturedProduct / manufacturedMaterial \[@determinerCode]               | fixed value = `"KIND"`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
 | consumable / manufacturedProduct / manufacturedMaterial / code                           | Mapping for this code section detailed in the section below: [Medication Code Mapping](#medication-code-mapping)                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
 | component / ehrSupplyPrescribe / id \[@root]                                             | `medicationRequest.id`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               | 
@@ -164,6 +172,11 @@ An XML HL7 `MedicationStatement` is mapped from a FHIR `medicationRequest` and a
       <low value="20130103"/><high value="20130602"/>
    </effectiveTime>
    <availabilityTime value="20130103"/>
+   <confidentialityCode 
+       code="NOPAT" 
+       codeSystem="2.16.840.1.113883.4.642.3.47" 
+       displayName="no disclosure to patient, family or caregivers without attending provider's authorization"
+   />
    <consumable typeCode="CSM">
       <manufacturedProduct classCode="MANU">
          <manufacturedMaterial determinerCode="KIND" classCode="MMAT">
@@ -211,22 +224,23 @@ An XML HL7 `MedicationStatement` is mapped from a FHIR `medicationRequest` and a
 
 ### Plan
 
-| Mapped to (XML HL7)                                                                                               | Mapped from (JSON FHIR / other source )                                                                                            |
-|-------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------|
-| MedicationStatement \[@moodCode]                                                                                  | fixed value = `"INT"`                                                                                                              |
-| MedicationStatement / id \[@root]                                                                                 | Fetched from resource ID or, if not valid UUID, generated by the Adaptor                                                           |
-| MedicationStatement / statusCode                                                                                  | `medicationRequest.status` when `"active"` = `"ACTIVE"` otherwise is `"COMPLETE"`                                                  |
-| MedicationStatement / effectiveTime / low \[@value]                                                               | `medicationRequest.dispenseRequest.validityPeriod.start`                                                                           |
-| MedicationStatement / effectiveTime / high \[@value]                                                              | `medicationRequest.dispenseRequest.validityPeriod.end` <sup>1</sup>                                                                |
-| MedicationStatement / availabilityTime  \[@value]                                                                 | `medicationRequest.dispenseRequest.validityPeriod.start`                                                                           |
-| MedicationStatement / consumable / manufacturedProduct / manufacturedMaterial \[@determinerCode]                  | fixed value = `"KIND"`                                                                                                             |
-| MedicationStatement / consumable / manufacturedProduct / manufacturedMaterial / code                              | Mapping for this code section detailed in the section below: [Medication Code Mapping](#medication-code-mapping)                   |
-| MedicationStatement / component \[@typeCode="COMP"] / ehrSupplyAuthorise                                          | Mapping for `ehrSupplyAuthorise` is detailed in the section below: [EhrSupplyAuthorise Mapping](#ehrsupplyauthorise-mapping)       |
-| MedicationStatement / component \[@typeCode="COMP"] / ehrSupplyDiscontinue \[@classCode="SPY"] \[@moodCode="PRQ"] | Mapping for `ehrSupplyDiscontinue` is detailed in the section below: [EhrSupplyDiscontinue Mapping](#ehrsupplydiscontinue-mapping) |
-| MedicationStatement / pertinentInformation / pertinentMedicationDosage \[@moodCode]                               | fixed value `"RMD"`                                                                                                                |
-| MedicationStatement / pertinentInformation / pertinentMedicationDosage / text                                     | `medicationRequest.dosageInstruction[0].text`                                                                                      |
-| MedicationStatement / participant \[@typeCode] \[@contextControlCode]                                             | fixed value = `@typeCode="AUT"`, fixed value = `@tcontextControlCode="OP"`. There may be zero, one or many participants            |
-| MedicationStatement / participant / agentRef / id \[@root]                                                        | See <sup>3</sup>                                                                                                                   |
+| Mapped to (XML HL7)                                                                                               | Mapped from (JSON FHIR / other source )                                                                                                                           |
+|-------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| MedicationStatement \[@moodCode]                                                                                  | fixed value = `"INT"`                                                                                                                                             |
+| MedicationStatement / id \[@root]                                                                                 | Fetched from resource ID or, if not valid UUID, generated by the Adaptor                                                                                          |
+| MedicationStatement / statusCode                                                                                  | `medicationRequest.status` when `"active"` = `"ACTIVE"` otherwise is `"COMPLETE"`                                                                                 |
+| MedicationStatement / effectiveTime / low \[@value]                                                               | `medicationRequest.dispenseRequest.validityPeriod.start`                                                                                                          |
+| MedicationStatement / effectiveTime / high \[@value]                                                              | `medicationRequest.dispenseRequest.validityPeriod.end` <sup>1</sup>                                                                                               |
+| MedicationStatement / availabilityTime  \[@value]                                                                 | `medicationRequest.dispenseRequest.validityPeriod.start`                                                                                                          |
+| confidentialityCode                                                                                               | When `medicationRequest.meta.security` is present and has a value of `NOPAT`. See [Confidentiality Codes](../confidentiality code/README.md) for mapping details. |
+| MedicationStatement / consumable / manufacturedProduct / manufacturedMaterial \[@determinerCode]                  | fixed value = `"KIND"`                                                                                                                                            |
+| MedicationStatement / consumable / manufacturedProduct / manufacturedMaterial / code                              | Mapping for this code section detailed in the section below: [Medication Code Mapping](#medication-code-mapping)                                                  |
+| MedicationStatement / component \[@typeCode="COMP"] / ehrSupplyAuthorise                                          | Mapping for `ehrSupplyAuthorise` is detailed in the section below: [EhrSupplyAuthorise Mapping](#ehrsupplyauthorise-mapping)                                      |
+| MedicationStatement / component \[@typeCode="COMP"] / ehrSupplyDiscontinue \[@classCode="SPY"] \[@moodCode="PRQ"] | Mapping for `ehrSupplyDiscontinue` is detailed in the section below: [EhrSupplyDiscontinue Mapping](#ehrsupplydiscontinue-mapping)                                |
+| MedicationStatement / pertinentInformation / pertinentMedicationDosage \[@moodCode]                               | fixed value `"RMD"`                                                                                                                                               |
+| MedicationStatement / pertinentInformation / pertinentMedicationDosage / text                                     | `medicationRequest.dosageInstruction[0].text`                                                                                                                     |
+| MedicationStatement / participant \[@typeCode] \[@contextControlCode]                                             | fixed value = `@typeCode="AUT"`, fixed value = `@tcontextControlCode="OP"`. There may be zero, one or many participants                                           |
+| MedicationStatement / participant / agentRef / id \[@root]                                                        | See <sup>3</sup>                                                                                                                                                  |
 
 1. If `medicationRequest.dispenseRequest.validityPeriod.end` does not exist then this value is not populated
 2. When `medicationRequest.requester.agent.referenceElement.resourceType` = `"Practitioner"` and `medicationRequest.requester.onBehalfOf` is populated then value is set from the reference to the `medicationRequest.requester.agent` or `medicationRequest.requester.onBehalfOf`</br> Otherwise, when only `medicationRequest.requester.agent` exists then value is set from the reference to `medicationRequest.requester.agent.reference` (when `resourceType` = `Practicioner`) or is the reference to the organisation (when `resourceType` = `Organisation`)</br>  If there are no matches for the previous options and `medicationRequest.recorder.reference` exists and the reference is either a `Practitioner`,`PractitionerRole` or `Organisation` then the reference is set from the reference to `medicationRequest.recorder.reference` 
@@ -300,6 +314,11 @@ When `statusReasonExtension` is used, it refers to the `medicationRequest.extens
                                 <center nullFlavor="NI" />
                             </effectiveTime>
                             <availabilityTime value="20100115" />
+                            <confidentialityCode 
+                                code="NOPAT" 
+                                codeSystem="2.16.840.1.113883.4.642.3.47" 
+                                displayName="no disclosure to patient, family or caregivers without attending provider's authorization"
+                            />
                             <consumable typeCode="CSM">
                                 <manufacturedProduct classCode="MANU">
                                     <manufacturedMaterial classCode="MMAT" determinerCode="KIND">
