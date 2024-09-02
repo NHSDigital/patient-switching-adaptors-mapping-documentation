@@ -141,7 +141,7 @@ An Immunization is primarily mapped from an Observation Statement.
 | statusCode                                        | fixed value = `"COMPLETE"`                                                                                                                                |
 | effectiveTime                                     | `date`                                                                                                                                                    |
 | availabilityTime                                  | `date`                                                                                                                                                    |
-| confidentialityCode                               | When `Condition.meta.security` is present and has a value of `NOPAT`. See [Confidentiality Codes](../confidentiality code/README.md) for mapping details. |
+| confidentialityCode                               | When `Immunization.meta.security` is present and has a value of `NOPAT`. See [Confidentiality Codes](../confidentiality code/README.md) for mapping details. |
 | pertinentInformation / pertinentAnnotation / text | `note.text`                                                                                                                                               |
 | Participant [@typecode] / agentRef / id [@root]   | fixed value = `PRF`                                                                                                                                       |
 
