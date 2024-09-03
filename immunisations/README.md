@@ -37,7 +37,14 @@ An Immunization is mapped from a ObservationStatement.
          "meta": {
              "profile": [
                  "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Immunization-1"
-             ]
+             ],
+             "security": [
+                {
+                  "system": "http://hl7.org/fhir/v3/ActCode",
+                  "code": "NOPAT",
+                  "display": "no disclosure to patient, family or caregivers without attending provider's authorization"
+                }
+            ]
          },
          "extension": [
              {
@@ -126,16 +133,17 @@ The following Immunization fields are not currently populated by the adaptor:
 
 An Immunization is primarily mapped from an Observation Statement.
 
-| Mapped to (XML HL7)                               | Mapped from (JSON FHIR / other source ) |
-|---------------------------------------------------|-----------------------------------------|
-| id [@root]                                        | `id`                                    |
-| code / display                                    | `extension.valueCodeableConcept.text`   |
-| Participant / agentRef / id [@root]               | practitioner.role = `AP`                |
-| statusCode                                        | fixed value = `"COMPLETE"`              |
-| effectiveTime                                     | `date`                                  |
-| availabilityTime                                  | `date`                                  |
-| pertiinentInformation / pertiantAnnotation / text | `note.text`                             |
-| Participant [@typecode] / agentRef / id [@root]   | fixed value = `PRF`                     |
+| Mapped to (XML HL7)                               | Mapped from (JSON FHIR / other source )                                                                                                                   |
+|---------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
+| id [@root]                                        | `id`                                                                                                                                                      |
+| code / display                                    | `extension.valueCodeableConcept.text`                                                                                                                     |
+| Participant / agentRef / id [@root]               | practitioner.role = `AP`                                                                                                                                  |
+| statusCode                                        | fixed value = `"COMPLETE"`                                                                                                                                |
+| effectiveTime                                     | `date`                                                                                                                                                    |
+| availabilityTime                                  | `date`                                                                                                                                                    |
+| confidentialityCode                               | When `Immunization.meta.security` is present and has a value of `NOPAT`. See [Confidentiality Codes](../confidentiality code/README.md) for mapping details. |
+| pertinentInformation / pertinentAnnotation / text | `note.text`                                                                                                                                               |
+| Participant [@typecode] / agentRef / id [@root]   | fixed value = `PRF`                                                                                                                                       |
 
 
 <details><summary>Example XML</summary>
@@ -150,6 +158,11 @@ An Immunization is primarily mapped from an Observation Statement.
         <center value="20100630055900"/>
     </effectiveTime>
     <availabilityTime value="20100630055900"/>
+    <confidentialityCode
+            code="NOPAT"
+            codeSystem="2.16.840.1.113883.4.642.3.47"
+            displayName="no disclosure to patient, family or caregivers without attending provider's authorization" 
+    />
     <pertinentInformation typeCode="PERT">
         <sequenceNumber value="+1"/>
         <pertinentAnnotation classCode="OBS" moodCode="EVN">
