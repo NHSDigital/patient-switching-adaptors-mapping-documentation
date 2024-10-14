@@ -154,20 +154,20 @@ An GP Connect FHIR `Encounter` is mapped to a GP2GP HL7v3 `ehrComposition`.
     <summary>Example XML</summary>
 
 ```
-<ehrComposition classCode=\"COMPOSITION\" moodCode=\"EVN\">
-    <id root=\"4BBABD06-93E2-4E87-9345-9B1171AC576F\" />
-    <code code=\"24591000000103\" displayName=\"Other report\" codeSystem=\"2.16.840.1.113883.2.1.3.2.4.15\">
+<ehrComposition classCode="COMPOSITION" moodCode="EVN">
+    <id root="4BBABD06-93E2-4E87-9345-9B1171AC576F" />
+    <code code="24591000000103" displayName="Other report" codeSystem="2.16.840.1.113883.2.1.3.2.4.15">
         <originalText>Surgery Consultation</originalText>
     </code>
-    <statusCode code=\"COMPLETE\" />
+    <statusCode code="COMPLETE" />
     <effectiveTime>
-        <low value=\"20190328103000\"/><high value=\"20190328103800\"/>
+        <low value="20190328103000"/><high value="20190328103800"/>
     </effectiveTime>
-    <availabilityTime value=\"20190328103000\"/>
-    <author typeCode=\"AUT\" contextControlCode=\"OP\">
-        <time value=\"20190328103000\" />
-        <agentRef classCode=\"AGNT\">
-            <id root=\"4ED3292E-EC9E-400D-84D2-758CCDEA40A4\" />
+    <availabilityTime value="20190328103000"/>
+    <author typeCode="AUT" contextControlCode="OP">
+        <time value="20190328103000" />
+        <agentRef classCode="AGNT">
+            <id root="4ED3292E-EC9E-400D-84D2-758CCDEA40A4" />
         </agentRef>
     </author>
     <location typeCode="LOC">
@@ -178,12 +178,12 @@ An GP Connect FHIR `Encounter` is mapped to a GP2GP HL7v3 `ehrComposition`.
             </locatedPlace>
         </locatedEntity>
     </location>
-    <Participant2 typeCode=\"PRF\" contextControlCode=\"OP\">
-        <agentRef classCode=\"AGNT\">
-            <id root=\"4ED3292E-EC9E-400D-84D2-758CCDEA40A4\"/>
+    <Participant2 typeCode="PRF" contextControlCode="OP">
+        <agentRef classCode="AGNT">
+            <id root="4ED3292E-EC9E-400D-84D2-758CCDEA40A4"/>
         </agentRef>
     </Participant2>
-    <component typeCode=\"COMP\">
+    <component typeCode="COMP">
 
     ...
 
