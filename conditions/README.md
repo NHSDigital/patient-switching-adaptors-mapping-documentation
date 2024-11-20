@@ -4,7 +4,14 @@
 
 A FHIR Condition is mapped from a LinkSet, a LinkSet references different resources that are mapped from an Observation statement and an EHR Composition.
 
-The LinkSet will gather the codes/values/naming conventions from the Ehr Composition. Therefore, the LinkSet will then map out the fields below if certain conditions are met, otherwise it will add in a default value. 
+The LinkSet will gather the codes/values/naming conventions from the Ehr Composition. Therefore, the LinkSet will then map out the fields below if certain conditions are met, otherwise it will add in a default value.
+
+If the LinkSet fulfills the following requirements (which is a linkage between a ReferralRequest and one or more DocumentReferences),
+ then the LinkSet will not be mapped:
+- It has a `code` with a `value` of `394776006` and a `system` of `2.16.840.1.113883.2.1.3.2.4.15` and no `qualifier` and no `originalText`
+- The `conditionNamed / namedStatementRef / id[root]` is a `RequestStatement`
+- It has at least 1 `component`
+- All the `component / statementRef / id[root]` are references to GP2GP document/attachments.
 
 | Mapped to (JSON FHIR Condition field) | Mapped from (XML HL7 / other source)                                                                                                                                                                                                                                                      |
 |---------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
