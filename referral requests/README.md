@@ -20,8 +20,11 @@ A Referral Request is mapped from a `RequestStatement`
 | recipient                                    | reference to mapped [Practitioner](../practitioners/README.md) or [Organization](../organizations/README.md) from `RequestStatement / responsibleParty / agentRef`                                                                 |
 | reasonCode                                   | mapped CodeableConcept from `RequestStatement / code` <sup>1</sup> as described in the XML > FHIR section of [Codeable Concept](../codeable%20concept/README.md)                                                                   |
 | note                                         | mapped Annotation from `RequestStatement / text` & `RequestStatement / priorityCode` & `RequestStatement / priorityCode`                                                                                                           |
+| supportingInfo                               | one or more `DocumentReferences` mapped a `LinkSet / component / statementRef / id [@root]` where `LinkSet / conditionNamed / namedStatementRef / id [@root]` references `RequestStatement / id [@root]`<sup>2</sup>               |
 
 1.  If the SNOMED code is not found then a `Transfer-degraded referral` code is inserted instead (96431000000106)
+2.  Only populated when the `RequestStatement` is referenced by a `LinkSet` which is a linkage between a 
+    `ReferralRequest` and one or more `DocumentReferences`.
 
 The following Allergy Intolerance fields are not currently populated by the adaptor:
 - basedOn
@@ -29,7 +32,6 @@ The following Allergy Intolerance fields are not currently populated by the adap
 - requester.onBehalfOf
 - speciality
 - description
-- supportingInfo
 
 
 <details>
@@ -91,6 +93,14 @@ The following Allergy Intolerance fields are not currently populated by the adap
                 }
             ],
             "text": "Reason Code 1"
+        }
+    ],
+    "supportingInfo": [
+        {
+            "reference": "DocumentReference/BFBF038A-F142-4C67-B05B-D155E2C89990"
+        },
+        {
+            "reference": "DocumentReference/6DC83A17-4DFD-4C1C-A452-45F8F8A8FBA1"
         }
     ],
     "note": [
