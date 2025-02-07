@@ -24,7 +24,8 @@ An GP Connect FHIR `Encounter` is mapped from an GP2GP HL7v3 `EHR Composition`.
 | participant\[index].individual <sup>3</sup>                  | `ehrComposition / participant2[0] / AgentRef / id [@root] `                                                                                                                                |
 | period.start                                                 | `ehrComposition / effectiveTime / center` or else  `ehrComposition / effectiveTime / low` or else `ehrComposition / availibiltyTime`                                                       |
 | period.end                                                   | `ehrComposition / effectiveTime / high`                                                                                                                                                    |           
-| location                                                     | the associated [location](../locations/README.md) identified by `ehrComposition / location`                                                                                                |
+| location                                                     | the associated [location](../locations/README.md) identified by `ehrComposition / location`                                                                                                |          
+| extension\extension\valueReference\reference                 | `ehrComposition / component / LinkSet or ObservationStatement  or NarrativeStatement / id [@root] `                                                                                        |
 
 <details>
     <summary>Example JSON</summary>
@@ -38,6 +39,15 @@ An GP Connect FHIR `Encounter` is mapped from an GP2GP HL7v3 `EHR Composition`.
             "profile": [
                 "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Encounter-1"
             ],
+            "extension": [ {
+                "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-RelatedProblemHeader-1",
+                "extension": [ {
+                  "url": "target",
+                  "valueReference": {
+                    "reference": "Condition/31EA7C21-BE35-4837-91A5-D66D8C375338"
+                  }
+                } ]
+            } ],
             "security": [
                 {
                     "system": "http://hl7.org/fhir/v3/ActCode",
