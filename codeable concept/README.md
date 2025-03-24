@@ -29,18 +29,21 @@ a URN and prefixed with `urn:oid:`.
 
 ## JSON FHIR > XML HL7
 
-| Mapped to (XML HL7 CD)             | Mapped from (JSON FHIR / other source )                                                                                                          |
-|------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------|
-| code \[@code] <sup>5</sup>         | `coding.extension\[index].value` where `coding.extension[index].url` equals `"descriptionId"` or else `coding.code`                              |
-| code \[@codeSystem] <sup>5</sup>   | fixed value = `"2.16.840.1.113883.2.1.3.2.4.15"`                                                                                                 |
-| code \[@displayName] <sup>5</sup>  | `coding.extension[index].value` where `coding.extension[index].url` equals `"descriptionDisplay"` or else `coding.display`                       |
-| code / originalText                | `coding.text` or else `coding.display` or else `coding.extension[index].value` where `coding.extension[index].url` equals `"descriptionDisplay"` |
-| code / translation                 | populated for any `coding` where `coding.system` is not `http://snomed.info/sct`. There may be 0, 1 or many of these elements <sup>6</sup>       |
-| code / translation \[@code]        | `coding.code` from non-SNOMED coding                                                                                                             |
-| code / translation \[@system]      | `coding.system` from non-SNOMED coding <sup>7</sup>                                                                                              |
-| code / translation \[@displayName] | `coding.display` from non-SNOMED coding                                                                                                          |
+| Mapped to (XML HL7 CD)             | Mapped from (JSON FHIR / other source )                                                                                                                                                   |
+|------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| code \[@code] <sup>5</sup>         | `coding.extension\[index].value` where `coding.extension[index].url` equals `"descriptionId"` or else `coding.code`                                                                       |
+| code \[@codeSystem] <sup>5</sup>   | fixed value = `"2.16.840.1.113883.2.1.3.2.4.15"`                                                                                                                                          |
+| code \[@displayName] <sup>5</sup>  | `coding.extension[index].value` where `coding.extension[index].url` equals `"descriptionDisplay"` or else `coding.display`                                                                |
+| code / originalText                | `coding.text` or else `coding.display` or else `coding.extension[index].value` where `coding.extension[index].url` equals `"descriptionDisplay"`                                          |
+| code / translation                 | populated for any `coding` where `coding.system` is not `http://snomed.info/sct` and is a known  code system.<sup>6</sup> <br/> There may be 0, 1 or many of these elements. <sup>7</sup> |
+| code / translation \[@code]        | `coding.code` from non-SNOMED coding                                                                                                                                                      |
+| code / translation \[@system]      | `coding.system` from non-SNOMED coding, mapped to its associated OID value.                                                                                                               |
+| code / translation \[@displayName] | `coding.display` from non-SNOMED coding                                                                                                                                                   |
 
 5. If no SNOMED code is present, the code element will only have the attribute `nullFlavor="UNK"` i.e. unknown.
-6. `code / translation` is only populated when a SNOMED code is also for this `code` element.
-7. Where `coding.system` is a url from a known code system (ReadV2, Egton, ReadCTV3) then this will be replaced with the
-   associated OID for this code system. Where it is unknown, the provided URL will be preserved.
+6. If the legacy code system is not one of the URLs listed below, then the translation block will not be populated:
+* https://fhir.hl7.org.uk/Id/egton-codes
+* http://read.info/readv2
+* http://read.info/ctv3
+* https://fhir.hl7.org.uk/Id/emis-drug-codes
+7. `code / translation` is only populated when a SNOMED code is also present for this `code` element.
