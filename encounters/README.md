@@ -151,6 +151,7 @@ An GP Connect FHIR `Encounter` is mapped to a GP2GP HL7v3 `ehrComposition`.
 | statusCode                                       | fixed value =`"COMPLETE"`                                                                                                                                                                                            |
 | effectiveTime                                    | `Enounter.period.start` and `Encounter.period.end` (if present)                                                                                                                                                      |
 | availabilityTime \[@value]                       | `Encounter.period.start`                                                                                                                                                                                             |
+| confidentialityCode                              | `Encounters.meta.security[@code]` is present and has a value of `NOPAT`                                                                                                                                              |
 | author / agentRef / id \[@root]                  | `Encounter.participant[index].individual` where `Encounter.participant[index].type` contains a `coding.code` of `"REC"`                                                                                              | 
 | author / time \[@value]                          | `List.date` <sup>6</sup>                                                                                                                                                                                             |
 | location / locatedEntity / code \[@code]         | fixed value = `"394730007"`                                                                                                                                                                                          |
@@ -173,6 +174,10 @@ An GP Connect FHIR `Encounter` is mapped to a GP2GP HL7v3 `ehrComposition`.
         <low value="20190328103000"/><high value="20190328103800"/>
     </effectiveTime>
     <availabilityTime value="20190328103000"/>
+    <confidentialityCode
+          code="NOPAT"
+          codeSystem="2.16.840.1.113883.4.642.3.47"
+          displayName="no disclosure to patient, family or caregivers without attending provider's authorization" />
     <author typeCode="AUT" contextControlCode="OP">
         <time value="20190328103000" />
         <agentRef classCode="AGNT">
