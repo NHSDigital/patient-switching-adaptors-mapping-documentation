@@ -998,6 +998,7 @@ Uncategorised data is mapped from an FHIR `Observation` to a HL7 `ObservationSta
 | code                                                  | `Observation.code.coding` as described in the FHIR > XML section of [Codeable Concept](../codeable%20concept/README.md)                         |
 | statusCode                                            | fixed value = `"COMPLETE"`                                                                                                                      |
 | effectiveTime                                         | `Observation.effectiveDateTime` or else `Observation.effectivePeriod`                                                                           |
+| confidentialityCode                                   | `Observation.meta.security[@code]` is present and has a value of `NOPAT`                                                                        |
 | availabilityTime                                      | `Observation.effectiveDateTime` or else `Observation.effectivePeriod.start`                                                                     | 
 | value                                                 | `Observation.valueQuantity` or `Observation.valueString`                                                                                        |
 | pertinentInformation / sequenceNumber \[@value]       | fixed value = `"+1"`                                                                                                                            |
@@ -1023,6 +1024,7 @@ Uncategorised data is mapped from an FHIR `Observation` to a HL7 `ObservationSta
    <effectiveTime>
       <center value="20100323133700"/>
    </effectiveTime>
+   <confidentialityCode code="NOPAT" codeSystem="2.16.840.1.113883.4.642.3.47" displayName="no disclosure to patient, family or caregivers without attending provider's authorization" />
    <availabilityTime value="20100323133700"/>
    <value xsi:type="PQ" unit="1" value="12.000">
       <translation value="12.000">
