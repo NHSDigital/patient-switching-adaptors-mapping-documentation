@@ -6,16 +6,26 @@ The FHIR `Practitioner` and `PractitionerRole` resources are mapped from the HL7
 
 ### Practitioner
 
-| Mapped to (JSON FHIR Practitioner resource field) | Mapped from (XML HL7 / other)                                                                 |
-|---------------------------------------------------|-----------------------------------------------------------------------------------------------|
-| id                                                | `Agent / id [@root]`                                                                          |
-| identifier\[0].value                              | `Agent / id [@extension] `                                                                    |
-| identifier\[0].system                             | `https://fhir.hl7.org.uk/Id/gmp-number`                                                       |
-| meta.profile\[0]                                  | fixed value = `"https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Practitioner-1"` |
-| name\[0].use                                      | fixed value = `official`                                                                      |
-| name\[0].family                                   | `Agent / AgentPerson / name / family` or else `"unknown"`                                     |
-| name\[0].given\[0]                                | `Agent / AgentPerson / name / given`                                                          |
-| name\[0].prefix\[0]                               | `Agent / AgentPerson / name / prefix`                                                         |
+| Mapped to (JSON FHIR Practitioner resource field) | Mapped from (XML HL7 / other)                                                                          |
+|---------------------------------------------------|--------------------------------------------------------------------------------------------------------|
+| id                                                | `Agent / id [@root]`                                                                                   |
+| identifier\[0].value                              | `Agent / id [@extension] `                                                                             |
+| identifier\[0].system                             | `https://fhir.hl7.org.uk/Id/gmp-number`                                                                |
+| meta.profile\[0]                                  | fixed value = `"https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Practitioner-1"`          |
+| name\[0].use                                      | fixed value = `official`                                                                               |
+| name\[0].family                                   | `Agent / AgentPerson / name / family` <sup>1</sup>                                                     |
+| name\[0].given\[0]                                | `Agent / AgentPerson / name / given` <sup>1</sup>                                                      |
+| name\[0].prefix\[0]                               | `Agent / AgentPerson / name / prefix` <sup>1</sup>                                                     |
+| name\[0].text                                     | `Agent / AgentPerson / name / prefix` + `Agent / AgentPerson / name / given` <sup>2</sup> <sup>3</sup> |
+
+1. These values are only populated if `Agent / AgentPerson / name / family` is populated.
+2. This value is only populated when `name\[0].family` is not provided. 
+   It is populated with a concatenation of the values for `Agent / AgentPerson / name / prefix` and 
+   `Agent / AgentPerson / name / given`.
+3. If there are no values provided for any of `Agent / AgentPerson / name / family`,
+   `Agent / AgentPerson / name / prefix` and `Agent / AgentPerson / name / given`, then this will be populated with 
+   `Unknown`.
+
 
 <details>
     <summary>Example JSON</summary>
@@ -40,6 +50,30 @@ The FHIR `Practitioner` and `PractitionerRole` resources are mapped from the HL7
                 "prefix": [
                     "Dr"
                 ]
+            }
+        ],
+        "identifier": [ {
+          "system": "https://fhir.hl7.org.uk/Id/gmp-number",
+          "value": "112233"
+        } ]
+    }
+}
+```
+
+```
+{
+    "resource": {
+        "resourceType": "Practitioner",
+        "id": "C5DEFBF3-0174-BC6F-182C-B777B9C6FF43",
+        "meta": {
+            "profile": [
+                "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Practitioner-1"
+            ]
+        },
+        "name": [
+            {
+                "use": "official",
+                "text": "Dr John"
             }
         ],
         "identifier": [ {
