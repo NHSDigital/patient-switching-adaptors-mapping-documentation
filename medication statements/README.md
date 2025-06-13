@@ -435,17 +435,18 @@ When `statusReasonExtension` is used, it refers to the `medicationRequest.extens
 
 ### Medication Code mapping
 
-This is mapped from `Medication.code` where `Medication` is the resource to referenced from `medicationRequest.medicationReference.reference`
+This is mapped from either `Medication.code` where `Medication` is the resource referenced by 
+`medicationRequest.medicationReference.reference`, or directly from `medicationRequest.medicationCodeableConcept`.
 
-| Mapped to (MedicationRequest / Code XML HL7) | Mapped from (JSON FHIR / other source )                                                                                                                                                     |
-|----------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| code \[@nullFlavor]                          | fixed value = `"UNK"` when `Medication.code.coding.system` is not `"http://snomed.info/sct"`                                                                                                |
-| code \[@code]                                | when `Medication.code.coding.system` is `"http://snomed.info/sct"` then `Medication.code.coding.code` if present                                                                            |
-| code \[@codeSystem]                          | when `Medication.code.coding.system` is `"http://snomed.info/sct"` then fixed value `[@code="2.16.840.1.113883.2.1.3.2.4.15"]`                                                              |
-| code \[@displayName]                         | `Medication.code.coding.extension[0].value` or `Medication.code.coding.display` <sup>1</sup>                                                                                                |
-| code / originalText                          | `Medication.code.text` or `Medication.code.coding.display` or `Mediciation.code.coding.extension.value` when `Medication.code.coding.extension[0].url` = `"descriptionDisplay"`<sup>2</sup> |
+| Mapped to (MedicationRequest / Code XML HL7) | Mapped from (JSON FHIR / other source )                                                                                                        |
+|----------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------|
+| code \[@nullFlavor]                          | fixed value = `"UNK"` when `code.coding.system` is not `"http://snomed.info/sct"`                                                              |
+| code \[@code]                                | when `code.coding.system` is `"http://snomed.info/sct"` then `code.coding.code` if present                                                     |
+| code \[@codeSystem]                          | when `code.coding.system` is `"http://snomed.info/sct"` then fixed value `[@code="2.16.840.1.113883.2.1.3.2.4.15"]`                            |
+| code \[@displayName]                         | `code.coding.extension[0].value` or `Medication.code.coding.display` <sup>1</sup>                                                              |
+| code / originalText                          | `code.text` or `code.coding.display` or `code.coding.extension.value` when `code.coding.extension[0].url` = `"descriptionDisplay"`<sup>2</sup> |
 
-1. if `Medication.code.coding.extension[0].url` = `"descriptionDisplay"` then `Medication.code.coding.extension[0].value` is used. Otherwise `Medication.code.coding.display` is used
+1. if `code.coding.extension[0].url` = `"descriptionDisplay"` then `code.coding.extension[0].value` is used. Otherwise `code.coding.display` is used
 2. if no value for `originalText` can be found then this section is omitted.
 
 ## Further documentation
