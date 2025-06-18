@@ -1181,6 +1181,9 @@ The following values will be grouped and appended with `"Component(s): ` and enc
 - `Observation.component.interpretation.text` (prepended with `Interpretation Text: `)
 - `Observation.component.referenceRange` (prepended with `Range: `)
 
+If there is no data to display in the <text> field, the whole `pertinentInformation` element won't be included.
+
+
 ## Blood Pressure (JSON FHIR > XML HL7)
 
 An Observation is identified as a Blood Pressure if `Observation.code`, `Observation.component[0].code` and 
