@@ -133,7 +133,7 @@ If the LinkSet fulfills the following requirements (which is a linkage between a
     },
     "note": [
       {
-        "text": "Unspecified Significance: Defaulted to Minor"
+        "text": "Defaulted to Minor"
       },
       {
         "text": "Drug Allergy - Apsrin"
@@ -201,7 +201,7 @@ which is mapped to the annotation's `text` field.
 
 - `"Defaulted status to active : Unknown status at source"` if `linkSet / code [@code]` does not equal `394774009` 
 (active) or `394775005` (inactive)
-- `"Unspecified Significance: Defaulted to Minor"` if `LinkSet / code / qualifier / name [@code]` does not equal 
+- `"Defaulted to Minor"` if `LinkSet / code / qualifier / name [@code]` does not equal 
 `386134007` (Significant)
 - An annotation for each `ObservationStatement / pertinentInformation / pertinentAnnotation / text` value where the 
 `observationStatement` is referenced by `LinkSet / conditionNamed / namedStatementRef / id [@root]`. Where multiple annotations 
