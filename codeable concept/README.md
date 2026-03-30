@@ -8,17 +8,17 @@ the following method of mapping has been used.
 
 `coding` contains an array of provided `code` and `code / translation` elements.
 
-| Mapped to (JSON FHIR CodeableConcept)              | Mapped from (XML HL7 CD / other)                                                                       |                                                                                                                            
-|----------------------------------------------------|--------------------------------------------------------------------------------------------------------|
-| coding\[].code                                    | `code [@code]` or `code / translation [@code]`  <sup>1</sup>                                           |
-| coding\[].system                                  | `code [@codeSystem] <sup>1,2</sup>                                               | 
-| coding\[].display                                 | `code [@displayName] <sup>1,3</sup>          |
+| Mapped to (JSON FHIR CodeableConcept)             | Mapped from (XML HL7 CD / other)                                                                         |                                                                                                                            
+|---------------------------------------------------|----------------------------------------------------------------------------------------------------------|
+| coding\[].code                                    | `code [@code]` or `code / translation [@code]`  <sup>1</sup>                                             |
+| coding\[].system                                  | `code [@codeSystem] <sup>1,2</sup>                                                                       | 
+| coding\[].display                                 | `code [@displayName] <sup>1,3</sup>                                                                      |
 | coding\[].extension\[0].url                       | fixed value = `"https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid"` <sup>1,4</sup> |
-| coding\[].extension\[0].extension\[0].url         | fixed value = `"decriptionId"` <sup>1,4</sup>                                                           |
+| coding\[].extension\[0].extension\[0].url         | fixed value = `"decriptionId"` <sup>1,4</sup>                                                            |
 | coding\[].extension\[0].extension\[0].valueId     | found by searching the adaptors SNOMED database for the preferred description ID <sup>1,4</sup>          |
-| coding\[].extension\[0].extension\[1].url         | fixed value = `"descriptionDisplay"` <sup>1,4</sup>                                                   |
-| coding\[].extension\[0].extension\[1].valueString | found by searching the adaptors SNOMED database for the preferred description <sup>1,4</sup>            |
-| text                                               | `code [@displayName]` or else `code / originalText`                                                    |
+| coding\[].extension\[0].extension\[1].url         | fixed value = `"descriptionDisplay"` <sup>1,4</sup>                                                      |
+| coding\[].extension\[0].extension\[1].valueString | found by searching the adaptors SNOMED database for the preferred description <sup>1,4</sup>             |
+| text                                              | `code [@displayName]` or else `code / originalText`                                                      |
 
 1. If no codes are found then `code.coding` will not be populated.
 2. If this is a `Read V2`, `Read V3` or `SNOMED` code system then it will be mapped to its corresponding code system reference.
