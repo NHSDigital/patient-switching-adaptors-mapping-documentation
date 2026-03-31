@@ -1,6 +1,6 @@
 # List Mapping
 
-A `List` structure is used to represent structured consulations and can be mapped into 3 different list types:
+A `List` structure is used to represent structured consultations and can be mapped into 3 different list types:
 
 1. [List (Consultation)](./LIST_CONSULTATION_README.md)
 2. [List (Topic)](./LIST_TOPIC_README.md)
@@ -8,6 +8,6 @@ A `List` structure is used to represent structured consulations and can be mappe
 
 ## Further documentation
 
-- [GP Connect List](https://developer.nhs.uk/apis/gpconnect-1-6-0/accessrecord_structured_development_list_consultation.html)
-- [MIM 4.2.00](https://data.developer.nhs.uk/dms/mim/4.2.00/Index.htm) 
+- [GP Connect List](https://gpc-structured-1-6-0.netlify.app/accessrecord_structured_development_list_consultation.html)
+- [MIM 4.2.00](https://digital.nhs.uk/developer/guides-and-documentation/message-implementation-manuals) 
 
