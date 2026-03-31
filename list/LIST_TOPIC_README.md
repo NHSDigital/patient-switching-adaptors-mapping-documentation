@@ -21,7 +21,7 @@ This represents Topic / Problem groupings within consultations
 | orderedBy.coding\[0].code        | fixed value = `system`                                                                        |
 | orderedBy.coding\[0].display     | fixed value = `Sorted by System`                                                              |
 | encounter                        | this a reference to mapped [Encounter](../encounters/README.md) from `Consultation.encounter` |
-| entry[index].item.reference      | reference to one or more mapped [List (Heading)](./LIST_TOPIC_README.md) <sup>1</sup>         |
+| entry[index].item.reference      | reference to one or more mapped [List (Heading)](./LIST_HEADING_README.md) <sup>1</sup>       |
 
 1. Where information within the Topic is organised as subheadings, `entry.list` will reference instances of the `List(Heading)` level.</br>
 For consultations which have a flat structure (for example, clinical record entries made outside the Topic and heading structure), an artificial Topic List is generated, and entries will reference resource representing those record entries (such as, Allergies, Medications, Tests, ...).
@@ -122,7 +122,7 @@ Mapped from a `resource` with a type of `list` where `list.code.coding[0].code` 
 * [AllergyIntolerance](../allergy%20intolerances/README.md)
 * [Condition](../conditions/README.md)
 * [DocumentReference](../document%20references/README.md)
-* [Immunization](../immunisations/README.md)
+* [Immunization](../immunizations/README.md)
 * [MedicationRequest](../medication%20requests/README.md)
 * [Observation](../observations/README.md)
 * [ProcedureRequest](../procedure%20requests/README.md)
@@ -261,5 +261,5 @@ Mapped from a `resource` with a type of `list` where `list.code.coding[0].code` 
 
 ## Further documentation
 
-- [GP Connect List](https://developer.nhs.uk/apis/gpconnect-1-6-0/accessrecord_structured_development_list_consultation.html#list-topic)
-- [MIM 4.2.00](https://data.developer.nhs.uk/dms/mim/4.2.00/Index.htm) 
+- [GP Connect List](https://gpc-structured-1-6-0.netlify.app/accessrecord_structured_development_list_consultation.html#list-topic)
+- [MIM 4.2.00](https://digital.nhs.uk/developer/guides-and-documentation/message-implementation-manuals) 
