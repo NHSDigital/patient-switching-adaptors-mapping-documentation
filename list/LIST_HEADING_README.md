@@ -159,5 +159,5 @@ Mapped from a `resource` with a type of `list` where `list.code.coding[0].code` 
 
 ## Further documentation
 
-- [GP Connect List](https://developer.nhs.uk/apis/gpconnect-1-6-0/accessrecord_structured_development_list_consultation.html#list-heading)
-- [MIM 4.2.00](https://data.developer.nhs.uk/dms/mim/4.2.00/Index.htm) 
+- [GP Connect List](https://gpc-structured-1-6-0.netlify.app/accessrecord_structured_development_list_consultation.html#list-heading)
+- [MIM 4.2.00](https://digital.nhs.uk/developer/guides-and-documentation/message-implementation-manuals) 
