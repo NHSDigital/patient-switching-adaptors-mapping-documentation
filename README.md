@@ -19,7 +19,7 @@ This repository contains documentation explaining how the [GP2GP Sending Adaptor
 * [Observations](https://github.com/NHSDigital/patient-switching-adaptors-mapping-documentation/tree/main/observations)
 * [Conditions](https://github.com/NHSDigital/patient-switching-adaptors-mapping-documentation/tree/main/conditions)
 * [Allergy Intolerances](https://github.com/NHSDigital/patient-switching-adaptors-mapping-documentation/tree/main/allergy%20intolerances)
-* [Immunisations](https://github.com/NHSDigital/patient-switching-adaptors-mapping-documentation/tree/main/immunisations)
+* [Immunizations](https://github.com/NHSDigital/patient-switching-adaptors-mapping-documentation/tree/main/immunizations)
 * [Procedure Requests](https://github.com/NHSDigital/patient-switching-adaptors-mapping-documentation/tree/main/procedure%20requests)
 * [Medications](https://github.com/NHSDigital/patient-switching-adaptors-mapping-documentation/tree/main/medications)
 * [Medication Statements](https://github.com/NHSDigital/patient-switching-adaptors-mapping-documentation/tree/main/medication%20statements)
