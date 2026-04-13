@@ -184,8 +184,8 @@ is generated with the losing practice ODS code.
 2. The first occurrence of `telecom` is mapped, additional occurrences are ignored.
 3. Multiple practitioners could represent the same organization. Therefore, the adaptor maps the first instance of
    a represented organization, determined by ODS code, to an `Organization` and links the relevant
-   [Practitioners](../practioners/README.md) via `PractionerRole` resources. The `id` is appended with `"-ORG"` as the
-   [Practitioner](../practioners/README.md) mapping also uses the value mapped from `Agent / id [@root]`.
+   [Practitioners](../practitioners/README.md) via `PractionerRole` resources. The `id` is appended with `"-ORG"` as the
+   [Practitioner](../practitioners/README.md) mapping also uses the value mapped from `Agent / id [@root]`.
 
 ### Unmapped fields
 
@@ -221,7 +221,7 @@ The following Organization fields are not currently populated by the adaptor:
 
 GP Connect FHIR Organizations are mapped to the HL7v3 Agent Directory.  
 
-Where an Organization is not a mapped as a `representedOrganization` of an `AgentPerson` ([Practitioner](../practioners/README.md)), the adaptor maps the 
+Where an Organization is not a mapped as a `representedOrganization` of an `AgentPerson` ([Practitioner](../practitioners/README.md)), the adaptor maps the 
 Organization to an `AgentPerson` instead of `AgentOrganization`. This is due to compatability issues where attribution 
 was given to the Organization as a performer.
 
@@ -296,5 +296,5 @@ was given to the Organization as a performer.
 
 ## Further documentation
 
-- [GP Connect Organization structure definition](https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Organization-1)
-- [MIM 4.2.00](https://data.developer.nhs.uk/dms/mim/4.2.00/Index.htm)
+- [GP Connect Organization structure definition](https://simplifier.net/STU3-FHIR-Assets/CareConnect-GPC-Organization-1)
+- [MIM 4.2.00](https://digital.nhs.uk/developer/guides-and-documentation/message-implementation-manuals)
