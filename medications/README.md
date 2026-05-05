@@ -42,7 +42,7 @@ A GP Connect FHIR `Medication` is mapped from an GP2GP HL7v3 `MedicationStatemen
 ### Unmapped fields
 
 `Medication` is a subset of mappings from `MedicationStatement` in the XML and as such doesn't include every field, see here for details:
-[https://developer.nhs.uk/apis/gpconnect-1-6-0/accessrecord_structured_development_medication.html](https://developer.nhs.uk/apis/gpconnect-1-6-0/accessrecord_structured_development_medication.html)
+[Medications](https://gpc-structured-1-6-0.netlify.app/accessrecord_structured_development_medication.html)
 
 ## JSON FHIR > XML HL7
 
@@ -51,5 +51,5 @@ This is covered and detailed in the mapping for [MedicationStatement](../medicat
 
 ## Further documentation
 
-- [GP Connect Medication](https://developer.nhs.uk/apis/gpconnect-1-6-0/accessrecord_structured_development_medication.html)
-- [MIM 4.2.00](https://data.developer.nhs.uk/dms/mim/4.2.00/Index.htm)
+- [GP Connect Medication](https://gpc-structured-1-6-0.netlify.app/accessrecord_structured_development_medication.html)
+- [MIM 4.2.00](https://digital.nhs.uk/developer/guides-and-documentation/message-implementation-manuals)
