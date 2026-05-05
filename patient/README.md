@@ -32,7 +32,7 @@ A Patient resource is mapped from a HL7 Patient.
                 "system": "https://fhir.nhs.uk/Id/nhs-number",
                 "value": "5538824210"
             }
-        ],
+        ]
     }
 }
 ```
@@ -89,5 +89,5 @@ A Patient record is translated into the `recordTarget` element.
 
 ## Further documentation
 
-- [FHIR Patient](https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Patient-1)
-- [MIM 4.2.00](https://data.developer.nhs.uk/dms/mim/4.2.00/Index.htm)
+- [FHIR Patient](http://simplifier.net/stu3-fhir-assets/careconnect-gpc-patient-1)
+- [MIM 4.2.00](https://digital.nhs.uk/developer/guides-and-documentation/message-implementation-manuals)
