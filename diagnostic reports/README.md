@@ -205,7 +205,7 @@ The FHIR Diagnostic Report resource is mapped to a HL7 Compound Statement with a
 | component / NarrativeStatement                | the mapped [diagnostic report level Narrative Statements](#diagnostic-report-level-narrative-statements)                                                                       |
 | component / CompoundStatement                 | the mapped [Specimens](#specimen-json--hl7)) referenced by the `DiagnosticReport.specimen` array <sup>4</sup>                                                                  |
 | Participant [@typeCode]                       | fixed value = `"AUT"`                                                                                                                                                          |
-| Participant / agentRef / id [@root]           | The mapped [Practitioner](../practitioners/README.md) or [Organisation](../organizations/README.md) referenced by `DiagnosticReport.performer[0].actor`                        |
+| Participant / agentRef / id [@root]           | The mapped [Practitioner](../practitioners/README.md) or [Organization](../organizations/README.md) referenced by `DiagnosticReport.performer[0].actor`                        |
 
 <details>
     <summary>Example XML</summary>
