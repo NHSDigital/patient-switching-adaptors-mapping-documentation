@@ -1,6 +1,6 @@
 # GP2GP Sending and Receiving adaptor mappings
 
-This repository contains documentation explaining how the [GP2GP Sending Adaptor][sending_adaptor] and [GP2GP Request Adaptor][request_adaptor] map data resources between [HL7 GP2GP representation][mim] to [FHIR GP Connect representation][gpconnect] and vice versa.
+This repository contains documentationnn explaining how the [GP2GP Sending Adaptor][sending_adaptor] and [GP2GP Request Adaptor][request_adaptor] map data resources between [HL7 GP2GP representation][mim] to [FHIR GP Connect representation][gpconnect] and vice versa.
 
 [sending_adaptor]: https://github.com/nhsconnect/integration-adaptor-gp2gp
 [request_adaptor]: https://github.com/NHSDigital/nia-patient-switching-standard-adaptor
