@@ -110,6 +110,7 @@ Mapped from a `resource` with a type of `list` where `list.code.coding[0].code` 
 | `CompoundStatement / statusCode [@code]`                                                         | fixed value = `COMPLETE`                                                                                                                                                                                                                                                                                                        |
 | `CompoundStatement / effectiveTime`                                                              | from mapped [Encounter](../encounters/README.md) referenced in `list.encounter` <sup>1</sup><sup>2</sup><sup>3</sup>                                                                                                                                                                                                            |
 | `CompoundStatement / availabiltyTime [@value]`                                                   | `list.date` or from mapped [Encounter](../encounters/README.md) referenced in `list.encounter` <sup>4</sup><sup>5</sup>                                                                                                                                                                                                         |
+| `CompoundStatement / confidentialityCode`                                                        | `List.meta.security[@code]` is present and has a value of `NOPAT`                                                                                                                                                                                                                                                               |
 | `CompoundStatement / components`                                                                 | contains one or more `CompoundStatements` mapped from 'list.entry' <sup>6</sup>                                                                                                                                                                                                                                                 |
 
 1. When `Encounter` has `encounter.period.start` and `encounter.period.end` then values are set `effectiveTime / lowValue` & `effectiveTime / highValue` using `encounter.period.start` and `encounter.period.end` respectively 
@@ -145,7 +146,11 @@ Mapped from a `resource` with a type of `list` where `list.code.coding[0].code` 
             <high value="20100113162000" />
         </effectiveTime>
         <availabilityTime value="20100123140354" />
-
+        <confidentialityCode
+              code="NOPAT"
+              codeSystem="2.16.840.1.113883.4.642.3.47"
+              displayName="no disclosure to patient, family or caregivers without attending provider's authorization" />
+              
         <component typeCode="COMP" contextConductionInd="true">
             <CompoundStatement classCode="CATEGORY" moodCode="EVN">
                 <id root="394559384658936" />
